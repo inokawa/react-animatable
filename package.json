@@ -1,0 +1,62 @@
+{
+  "name": "react-animatable",
+  "version": "0.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "module": "lib/index.mjs",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup -c",
+    "tsc": "tsc -p . --noEmit",
+    "storybook": "start-storybook -p 6006",
+    "storybook:build": "build-storybook",
+    "prepublishOnly": "rimraf lib && npm run build"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "7.18.0",
+    "@babel/plugin-transform-react-pure-annotations": "7.18.0",
+    "@rollup/plugin-babel": "5.3.1",
+    "@rollup/plugin-typescript": "8.3.2",
+    "@storybook/addon-essentials": "6.5.3",
+    "@storybook/react": "6.5.3",
+    "@types/react": "18.0.9",
+    "@types/react-dom": "18.0.4",
+    "babel-loader": "8.2.5",
+    "react": "18.1.0",
+    "react-dom": "18.1.0",
+    "rimraf": "3.0.2",
+    "rollup": "2.74.1",
+    "rollup-plugin-terser": "7.0.2",
+    "typescript": "4.6.4"
+  },
+  "peerDependencies": {
+    "react": ">= 16.14.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/inokawa/react-animatable.git"
+  },
+  "keywords": [
+    "react",
+    "hooks",
+    "animation",
+    "tween",
+    "transition",
+    "visualization",
+    "svg",
+    "css",
+    "d3",
+    "web-animations"
+  ],
+  "author": "inokawa <stratoooo-taster@yahoo.co.jp> (https://github.com/inokawa/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/inokawa/react-animatable/issues"
+  },
+  "homepage": "https://github.com/inokawa/react-animatable#readme"
+}
