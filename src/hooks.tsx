@@ -2,9 +2,11 @@ import {
   forwardRef,
   useEffect,
   useLayoutEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
+import mergeRefs from "react-merge-refs";
 
 export type AnimationHandle = {
   play: () => Promise<AnimationHandle>;
@@ -12,12 +14,12 @@ export type AnimationHandle = {
   cancel: () => void;
   finish: () => void;
   pause: () => void;
-  setCurrentTime: (arg: number) => void;
-  setPlaybackRate: (arg: number | ((prev: number) => number)) => void;
+  setTime: (time: number) => void;
+  setPlaybackRate: (rate: number | ((prevRate: number) => number)) => void;
 };
 
 export type TypedKeyframe = Pick<Keyframe, "composite" | "easing" | "offset"> &
-  React.CSSProperties;
+  React.CSSProperties & { d?: string };
 
 export interface AnimationOptions
   extends Omit<KeyframeEffectOptions, "easing"> {
@@ -47,9 +49,8 @@ const createComponent = <T extends Elements>(
 ) => {
   type P = AnimatableProps<React.ComponentProps<T>>;
 
-  type Target = P["ref"];
-  return forwardRef<Target, P>(({ findId, ...props }, propRef) => {
-    const ref = useRef<Target>(null);
+  return forwardRef<HTMLElement, P>(({ findId, ...props }, propRef) => {
+    const ref = useRef<HTMLElement>(null);
 
     useLayoutEffect(() => {
       const el = ref.current;
@@ -60,7 +61,12 @@ const createComponent = <T extends Elements>(
       };
     }, [findId]);
 
-    return <Element ref={ref} {...props} />;
+    return (
+      <Element
+        ref={useMemo(() => mergeRefs([ref, propRef]), [ref, propRef])}
+        {...(props as any)}
+      />
+    );
   });
 };
 
@@ -73,7 +79,7 @@ export type AnimationAllSelection = {
 
 export type AnimationSelection = {
   (
-    keyframes: TypedKeyframe | TypedKeyframe[] | ((time: number) => void),
+    keyframes: TypedKeyframe | TypedKeyframe[],
     options?: AnimationOptions
   ): AnimationHandle;
   findById: (findId: string) => AnimationSelection;
@@ -86,56 +92,42 @@ type TargetCache = Map<
 >;
 
 const animate = (
-  targets: TargetCache,
-  keyframesOrFunction:
-    | TypedKeyframe
-    | TypedKeyframe[]
-    | ((time: number) => void),
+  getTargets: () => HTMLElement[],
+  keyframesOrFunction: TypedKeyframe | TypedKeyframe[],
   options?: AnimationOptions
 ): AnimationHandle => {
-  const initAnimations = (): Animation[] => {
-    if (typeof keyframesOrFunction === "function") {
-      const effect = new KeyframeEffect(null, null, options);
-      const animation = new Animation(effect);
-      const update = () => {
-        const progress = animation.effect!.getComputedTiming().progress;
-        if (progress != null) {
-          keyframesOrFunction(progress);
-        }
-        if (animation.playState == "running") {
-          requestAnimationFrame(update);
-        }
-      };
-      animation.ready.then(update);
-      return [animation];
-    } else {
-      const keyframes = (
-        Array.isArray(keyframesOrFunction)
-          ? keyframesOrFunction
-          : [keyframesOrFunction]
-      ) as Keyframe[];
+  const cache = new WeakMap<HTMLElement, Animation>();
 
-      const anims: Animation[] = [];
-      targets.forEach((v, el) => {
-        const effect = new KeyframeEffect(el, keyframes, options);
-        const animation = new Animation(effect);
-        anims.push(animation);
+  const initAnimations = (): Animation[] => {
+    const keyframes = (
+      Array.isArray(keyframesOrFunction)
+        ? keyframesOrFunction
+        : [keyframesOrFunction]
+    ) as Keyframe[];
+
+    return getTargets().map((el) => {
+      if (cache.has(el)) {
+        return cache.get(el)!;
+      }
+      const effect = new KeyframeEffect(el, keyframes, {
+        fill: "forwards",
+        ...options,
       });
-      return anims;
-    }
+      const animation = new Animation(effect);
+      cache.set(el, animation);
+      return animation;
+    });
   };
 
   let animations: Animation[] = [];
 
   const handle: AnimationHandle = {
     play: () => {
-      animations = initAnimations();
-      animations.forEach((a) => a.play());
+      (animations = initAnimations()).forEach((a) => a.play());
       return Promise.all(animations.map((a) => a.finished)).then(() => handle);
     },
     reverse: () => {
-      animations = initAnimations();
-      animations.forEach((a) => a.reverse());
+      (animations = initAnimations()).forEach((a) => a.reverse());
       return Promise.all(animations.map((a) => a.finished)).then(() => handle);
     },
     cancel: () => {
@@ -147,55 +139,70 @@ const animate = (
     pause: () => {
       animations.forEach((a) => a.pause());
     },
-    setCurrentTime: (arg: number) => {
+    setTime: (arg) => {
       animations.forEach((a) => (a.currentTime = arg));
     },
-    setPlaybackRate: (arg: number | ((prev: number) => number)) => {
+    setPlaybackRate: (arg) => {
       animations.forEach((a) => {
-        if (typeof arg === "function") {
-          a.updatePlaybackRate(arg(a.playbackRate));
-        } else {
-          a.updatePlaybackRate(arg);
-        }
+        a.updatePlaybackRate(
+          typeof arg === "function" ? arg(a.playbackRate) : arg
+        );
       });
     },
   };
   return handle;
 };
 
-const createSelection = (targets: TargetCache): AnimationSelection => {
+const createSelection = (
+  getTargets: () => TargetCache,
+  animationCache: Map<string, AnimationHandle>
+): AnimationSelection => {
   const fn: AnimationSelection = (...args) => {
-    return animate(targets, ...args);
+    const key = JSON.stringify(args[0]) + "_" + JSON.stringify(args[1]);
+    if (animationCache.has(key)) {
+      return animationCache.get(key)!;
+    }
+    const handle = animate(() => Array.from(getTargets().keys()), ...args);
+    animationCache.set(key, handle);
+    return handle;
   };
   fn.findById = (target) => {
     return createSelection(
-      new Map(Array.from(targets).filter(([, { id }]) => id === target))
+      () =>
+        new Map(Array.from(getTargets()).filter(([, { id }]) => id === target)),
+      animationCache
     );
   };
   fn.findByElement = (target) => {
     return createSelection(
-      new Map(Array.from(targets).filter(([, { el }]) => el === target))
+      () =>
+        new Map(Array.from(getTargets()).filter(([, { el }]) => el === target)),
+      animationCache
     );
   };
   return fn;
 };
 
 const createHandle = (targets: TargetCache): AnimationAllSelection => {
-  const cache = new Map<Elements, any>();
+  const elementCache = new Map<Elements, any>();
+  const animationCache = new Map<string, AnimationHandle>();
 
-  const handle = new Proxy(createSelection(targets), {
-    get(target, prop: keyof JSX.IntrinsicElements) {
-      if ((target as any)[prop]) {
-        return (target as any)[prop];
-      }
-      if (cache.has(prop)) {
-        return cache.get(prop);
-      }
-      const component = createComponent(prop, targets);
-      cache.set(prop, component);
-      return component;
-    },
-  }) as AnimationAllSelection;
+  const handle = new Proxy(
+    createSelection(() => targets, animationCache),
+    {
+      get(target, prop: keyof JSX.IntrinsicElements) {
+        if ((target as any)[prop]) {
+          return (target as any)[prop];
+        }
+        if (elementCache.has(prop)) {
+          return elementCache.get(prop);
+        }
+        const component = createComponent(prop, targets);
+        elementCache.set(prop, component);
+        return component;
+      },
+    }
+  ) as AnimationAllSelection;
   return handle;
 };
 
