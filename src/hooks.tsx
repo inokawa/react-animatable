@@ -45,7 +45,7 @@ type AnimatableElement<P extends object> = (
 
 const createComponent = <T extends Elements>(
   Element: T,
-  targets: TargetCache
+  targets: Map<HTMLElement, AnimationTarget>
 ) => {
   type P = AnimatableProps<React.ComponentProps<T>>;
 
@@ -86,25 +86,19 @@ export type AnimationSelection = {
   findByElement: (element: keyof JSX.IntrinsicElements) => AnimationSelection;
 };
 
-type TargetCache = Map<
-  HTMLElement,
-  { el: keyof JSX.IntrinsicElements; id: FindId | undefined }
->;
+type AnimationTarget = {
+  el: keyof JSX.IntrinsicElements;
+  id: FindId | undefined;
+};
 
 const animate = (
   getTargets: () => HTMLElement[],
-  keyframesOrFunction: TypedKeyframe | TypedKeyframe[],
+  keyframes: Keyframe[],
   options?: AnimationOptions
 ): AnimationHandle => {
   const cache = new WeakMap<HTMLElement, Animation>();
 
   const initAnimations = (): Animation[] => {
-    const keyframes = (
-      Array.isArray(keyframesOrFunction)
-        ? keyframesOrFunction
-        : [keyframesOrFunction]
-    ) as Keyframe[];
-
     return getTargets().map((el) => {
       if (cache.has(el)) {
         return cache.get(el)!;
@@ -153,42 +147,61 @@ const animate = (
   return handle;
 };
 
+const stringifyObject = (o: object): string => {
+  return JSON.stringify(
+    Object.keys(o)
+      .sort()
+      .reduce((acc, k) => {
+        (acc as any)[k] = (o as any)[k];
+        return acc;
+      }, {})
+  );
+};
+
 const createSelection = (
-  getTargets: () => TargetCache,
+  getTargets: () => [HTMLElement, AnimationTarget][],
   animationCache: Map<string, AnimationHandle>
 ): AnimationSelection => {
-  const fn: AnimationSelection = (...args) => {
-    const key = JSON.stringify(args[0]) + "_" + JSON.stringify(args[1]);
+  const fn: AnimationSelection = (kf, opts) => {
+    const keyframes = (Array.isArray(kf) ? kf : [kf]) as Keyframe[];
+    let key = keyframes.map((o) => stringifyObject(o)).join("-");
+    if (opts) {
+      key += "_" + stringifyObject(opts);
+    }
     if (animationCache.has(key)) {
       return animationCache.get(key)!;
     }
-    const handle = animate(() => Array.from(getTargets().keys()), ...args);
+    const handle = animate(
+      () => getTargets().map(([el]) => el),
+      keyframes,
+      opts
+    );
     animationCache.set(key, handle);
     return handle;
   };
   fn.findById = (target) => {
     return createSelection(
-      () =>
-        new Map(Array.from(getTargets()).filter(([, { id }]) => id === target)),
+      () => getTargets().filter(([, { id }]) => id === target),
       animationCache
     );
   };
   fn.findByElement = (target) => {
     return createSelection(
-      () =>
-        new Map(Array.from(getTargets()).filter(([, { el }]) => el === target)),
+      () => getTargets().filter(([, { el }]) => el === target),
       animationCache
     );
   };
   return fn;
 };
 
-const createHandle = (targets: TargetCache): AnimationAllSelection => {
+const createHandle = (
+  targets: Map<HTMLElement, AnimationTarget>
+): AnimationAllSelection => {
   const elementCache = new Map<Elements, any>();
   const animationCache = new Map<string, AnimationHandle>();
 
   const handle = new Proxy(
-    createSelection(() => targets, animationCache),
+    createSelection(() => Array.from(targets), animationCache),
     {
       get(target, prop: keyof JSX.IntrinsicElements) {
         if ((target as any)[prop]) {
@@ -209,7 +222,7 @@ const createHandle = (targets: TargetCache): AnimationAllSelection => {
 const createMap = () => new Map();
 
 export const useAnimation = (): AnimationAllSelection => {
-  const targets = useState<TargetCache>(createMap)[0];
+  const targets = useState<Map<HTMLElement, AnimationTarget>>(createMap)[0];
 
   const animation = useState(() => {
     return createHandle(targets);
