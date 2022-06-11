@@ -1,6 +1,2 @@
 export { useAnimation } from "./hooks";
-export type {
-  AnimationAllSelection,
-  AnimationSelection,
-  AnimationHandle,
-} from "./hooks";
+export type { AnimationHandleWithElements, AnimationHandle } from "./hooks";
