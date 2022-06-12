@@ -75,12 +75,12 @@ const createComponent = <T extends Elements>(
   });
 };
 
-export type AnimationHandleWithElements = {
+export type WithElements<T> = {
   [K in keyof JSX.IntrinsicElements]: AnimatableElement<
     React.ComponentProps<K>
   >;
 } &
-  AnimationHandle;
+  T;
 
 type AnimationTarget = {
   el: keyof JSX.IntrinsicElements;
@@ -193,13 +193,13 @@ const createHandle = (
   return handle;
 };
 
-const createProxy = (
-  animationHandle: AnimationHandle,
+const createProxy = <T extends object>(
+  obj: T,
   targets: Map<HTMLElement, AnimationTarget>
-): AnimationHandleWithElements => {
+): WithElements<T> => {
   const elementCache = new Map<Elements, any>();
 
-  return new Proxy(animationHandle, {
+  return new Proxy(obj, {
     get(target, prop: keyof JSX.IntrinsicElements) {
       if ((target as any)[prop]) {
         return (target as any)[prop];
@@ -211,18 +211,18 @@ const createProxy = (
       elementCache.set(prop, component);
       return component;
     },
-  }) as AnimationHandleWithElements;
+  }) as WithElements<T>;
 };
 
 export const useAnimation = (
   keyframe: TypedKeyframe | TypedKeyframe[],
   options?: AnimationOptions
-): AnimationHandleWithElements => {
+): WithElements<AnimationHandle> => {
   const keyframeRef = useRef(keyframe);
   const optionsRef = useRef(options);
 
   const [animation, cleanup] = useState<
-    [AnimationHandleWithElements, () => void]
+    [WithElements<AnimationHandle>, () => void]
   >(() => {
     const targets = new Map<HTMLElement, AnimationTarget>();
     const getKeyframes = () => {
