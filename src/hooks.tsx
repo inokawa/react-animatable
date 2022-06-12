@@ -108,9 +108,9 @@ const buildAnimationInitializer = (
   >();
 
   return (): Animation[] => {
+    const keyframes = getKeyframes();
+    const options = getOptions();
     return getTargets().map((el) => {
-      const keyframes = getKeyframes();
-      const options = getOptions();
       if (cache.has(el)) {
         const [prevAnimation, prevKeyframes, prevOptions] = cache.get(el)!;
         if (
@@ -132,17 +132,8 @@ const buildAnimationInitializer = (
   };
 };
 
-const createHandle = (
-  getTargets: () => HTMLElement[],
-  getKeyframes: () => TypedKeyframe[],
-  getOptions: () => AnimationOptions | undefined
-): AnimationHandle => {
-  const initAnimations = buildAnimationInitializer(
-    getTargets,
-    getKeyframes,
-    getOptions
-  );
 
+const createHandle = (initAnimations: () => Animation[]): AnimationHandle => {
   let animations: Animation[] = [];
 
   const handle: AnimationHandle = {
@@ -215,12 +206,14 @@ export const useAnimation = (
     const targets = new Map<HTMLElement, AnimationTarget>();
 
     const handle = createHandle(
-      () => Array.from(targets).map(([el]) => el),
-      () => {
-        const kf = keyframeRef.current || [];
-        return Array.isArray(kf) ? kf : [kf];
-      },
-      () => optionsRef.current
+      buildAnimationInitializer(
+        () => Array.from(targets).map(([el]) => el),
+        () => {
+          const kf = keyframeRef.current || [];
+          return Array.isArray(kf) ? kf : [kf];
+        },
+        () => optionsRef.current
+      )
     );
     return [
       createProxy(handle, targets),
