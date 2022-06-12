@@ -10,6 +10,7 @@ import mergeRefs from "react-merge-refs";
 
 export type AnimationHandle = {
   play: () => Promise<AnimationHandle>;
+  replay: () => Promise<AnimationHandle>;
   reverse: () => Promise<AnimationHandle>;
   cancel: () => void;
   finish: () => void;
@@ -98,18 +99,17 @@ const isSameObjectArray = (target: object[], prev: object[]): boolean => {
 };
 
 const buildAnimationInitializer = (
-  getTargets: () => HTMLElement[],
-  getKeyframes: () => TypedKeyframe[],
-  getOptions: () => AnimationOptions | undefined
-): (() => Animation[]) => {
+  getTargets: () => HTMLElement[]
+): ((
+  keyframes: TypedKeyframe[],
+  options: AnimationOptions | undefined
+) => Animation[]) => {
   const cache = new WeakMap<
     HTMLElement,
     [Animation, TypedKeyframe[], AnimationOptions | undefined]
   >();
 
-  return (): Animation[] => {
-    const keyframes = getKeyframes();
-    const options = getOptions();
+  return (keyframes, options) => {
     return getTargets().map((el) => {
       if (cache.has(el)) {
         const [prevAnimation, prevKeyframes, prevOptions] = cache.get(el)!;
@@ -132,18 +132,41 @@ const buildAnimationInitializer = (
   };
 };
 
-
-const createHandle = (initAnimations: () => Animation[]): AnimationHandle => {
+const createHandle = (
+  initAnimations: (
+    keyframes: TypedKeyframe[],
+    options: AnimationOptions | undefined
+  ) => Animation[]
+) => {
   let animations: Animation[] = [];
 
-  const handle: AnimationHandle = {
-    play: () => {
-      (animations = initAnimations()).forEach((a) => a.play());
-      return Promise.all(animations.map((a) => a.finished)).then(() => handle);
+  const handle = {
+    play: (
+      keyframes: TypedKeyframe[],
+      options: AnimationOptions | undefined
+    ) => {
+      animations = initAnimations(keyframes, options);
+      animations.forEach((a) => a.play());
+      return Promise.all(animations.map((a) => a.finished));
     },
-    reverse: () => {
-      (animations = initAnimations()).forEach((a) => a.reverse());
-      return Promise.all(animations.map((a) => a.finished)).then(() => handle);
+    replay: (
+      keyframes: TypedKeyframe[],
+      options: AnimationOptions | undefined
+    ) => {
+      animations = initAnimations(keyframes, options);
+      animations.forEach((a) => {
+        a.currentTime = 0;
+        a.play();
+      });
+      return Promise.all(animations.map((a) => a.finished));
+    },
+    reverse: (
+      keyframes: TypedKeyframe[],
+      options: AnimationOptions | undefined
+    ) => {
+      animations = initAnimations(keyframes, options);
+      animations.forEach((a) => a.reverse());
+      return Promise.all(animations.map((a) => a.finished));
     },
     cancel: () => {
       animations.forEach((a) => a.cancel());
@@ -154,12 +177,12 @@ const createHandle = (initAnimations: () => Animation[]): AnimationHandle => {
     pause: () => {
       animations.forEach((a) => a.pause());
     },
-    setTime: (arg) => {
+    setTime: (time: number) => {
       animations.forEach((a) => {
-        a.currentTime = arg;
+        a.currentTime = time;
       });
     },
-    setPlaybackRate: (arg) => {
+    setPlaybackRate: (arg: number | ((prevRate: number) => number)) => {
       animations.forEach((a) => {
         a.updatePlaybackRate(
           typeof arg === "function" ? arg(a.playbackRate) : arg
@@ -169,8 +192,6 @@ const createHandle = (initAnimations: () => Animation[]): AnimationHandle => {
   };
   return handle;
 };
-
-
 
 const createProxy = (
   animationHandle: AnimationHandle,
@@ -204,19 +225,39 @@ export const useAnimation = (
     [AnimationHandleWithElements, () => void]
   >(() => {
     const targets = new Map<HTMLElement, AnimationTarget>();
+    const getKeyframes = () => {
+      const kf = keyframeRef.current || [];
+      return Array.isArray(kf) ? kf : [kf];
+    };
+    const getOptions = () => optionsRef.current;
 
     const handle = createHandle(
-      buildAnimationInitializer(
-        () => Array.from(targets).map(([el]) => el),
-        () => {
-          const kf = keyframeRef.current || [];
-          return Array.isArray(kf) ? kf : [kf];
-        },
-        () => optionsRef.current
-      )
+      buildAnimationInitializer(() => Array.from(targets).map(([el]) => el))
     );
+    const externalHandle: AnimationHandle = {
+      play: () => {
+        return handle
+          .play(getKeyframes(), getOptions())
+          .then(() => externalHandle);
+      },
+      replay: () => {
+        return handle
+          .replay(getKeyframes(), getOptions())
+          .then(() => externalHandle);
+      },
+      reverse: () => {
+        return handle
+          .reverse(getKeyframes(), getOptions())
+          .then(() => externalHandle);
+      },
+      cancel: handle.cancel,
+      finish: handle.finish,
+      pause: handle.pause,
+      setTime: handle.setTime,
+      setPlaybackRate: handle.setPlaybackRate,
+    };
     return [
-      createProxy(handle, targets),
+      createProxy(externalHandle, targets),
       () => {
         targets.clear();
       },
