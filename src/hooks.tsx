@@ -97,17 +97,17 @@ const isSameObjectArray = (target: object[], prev: object[]): boolean => {
   return target.every((t, i) => isSameObject(t, prev[i]));
 };
 
-const createHandle = (
+const buildAnimationInitializer = (
   getTargets: () => HTMLElement[],
   getKeyframes: () => TypedKeyframe[],
   getOptions: () => AnimationOptions | undefined
-): AnimationHandle => {
+): (() => Animation[]) => {
   const cache = new WeakMap<
     HTMLElement,
     [Animation, TypedKeyframe[], AnimationOptions | undefined]
   >();
 
-  const initAnimations = (): Animation[] => {
+  return (): Animation[] => {
     return getTargets().map((el) => {
       const keyframes = getKeyframes();
       const options = getOptions();
@@ -130,6 +130,18 @@ const createHandle = (
       return animation;
     });
   };
+};
+
+const createHandle = (
+  getTargets: () => HTMLElement[],
+  getKeyframes: () => TypedKeyframe[],
+  getOptions: () => AnimationOptions | undefined
+): AnimationHandle => {
+  const initAnimations = buildAnimationInitializer(
+    getTargets,
+    getKeyframes,
+    getOptions
+  );
 
   let animations: Animation[] = [];
 
@@ -197,7 +209,9 @@ export const useAnimation = (
   const keyframeRef = useRef(keyframe);
   const optionsRef = useRef(options);
 
-  const [animation, cleanup] = useState(() => {
+  const [animation, cleanup] = useState<
+    [AnimationHandleWithElements, () => void]
+  >(() => {
     const targets = new Map<HTMLElement, AnimationTarget>();
 
     const handle = createHandle(
@@ -208,11 +222,12 @@ export const useAnimation = (
       },
       () => optionsRef.current
     );
-    const proxy = createProxy(handle, targets);
-    const cleanup = () => {
-      targets.clear();
-    };
-    return [proxy, cleanup] as [typeof proxy, typeof cleanup];
+    return [
+      createProxy(handle, targets),
+      () => {
+        targets.clear();
+      },
+    ];
   })[0];
 
   useLayoutEffect(() => {
