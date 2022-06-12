@@ -50,32 +50,28 @@ export interface AnimationOptions
 
 type Elements = keyof JSX.IntrinsicElements | React.ComponentType<any>;
 
-type FindId = string | number;
-
-type AnimatableProps<P extends object> = P & {
-  findId?: FindId;
-};
+type AnimatableProps<P extends object> = P;
 type AnimatableElement<P extends object> = (
   props: AnimatableProps<P>
 ) => React.ReactElement | null;
 
 const createComponent = <T extends Elements>(
   Element: T,
-  targets: Map<HTMLElement, AnimationTarget>
+  targets: Set<HTMLElement>
 ) => {
   type P = AnimatableProps<React.ComponentProps<T>>;
 
-  return forwardRef<HTMLElement, P>(({ findId, ...props }, propRef) => {
+  return forwardRef<HTMLElement, P>((props, propRef) => {
     const ref = useRef<HTMLElement>(null);
 
     useLayoutEffect(() => {
       const el = ref.current;
       if (!el) return;
-      targets.set(el, findId);
+      targets.add(el);
       return () => {
         targets.delete(el);
       };
-    }, [findId]);
+    }, []);
 
     return (
       <Element
@@ -92,11 +88,6 @@ export type WithElements<T> = {
   >;
 } &
   T;
-
-type AnimationTarget = {
-  el: keyof JSX.IntrinsicElements;
-  id: FindId | undefined;
-};
 
 const isSameObject = (target: object = {}, prev: object = {}): boolean => {
   const keys = Object.keys(target);
@@ -206,7 +197,7 @@ const createHandle = (
 
 const createProxy = <T extends object>(
   obj: T,
-  targets: Map<HTMLElement, AnimationTarget>
+  targets: Set<HTMLElement>
 ): WithElements<T> => {
   const elementCache = new Map<Elements, any>();
 
@@ -235,7 +226,7 @@ export const useAnimation = (
   const [animation, cleanup] = useState<
     [WithElements<AnimationHandle>, () => void]
   >(() => {
-    const targets = new Map<HTMLElement, AnimationTarget>();
+    const targets = new Set<HTMLElement>();
     const getKeyframes = () => {
       const kf = keyframeRef.current || [];
       return Array.isArray(kf) ? kf : [kf];
@@ -243,7 +234,7 @@ export const useAnimation = (
     const getOptions = () => optionsRef.current;
 
     const handle = createHandle(
-      buildAnimationInitializer(() => Array.from(targets).map(([el]) => el))
+      buildAnimationInitializer(() => Array.from(targets))
     );
     const externalHandle: AnimationHandle = {
       play: () => {
@@ -295,7 +286,7 @@ export const useAnimations = <ID extends string>(
   const [animation, cleanup] = useState<
     [WithElements<AnimationsHandle<ID>>, () => void]
   >(() => {
-    const targets = new Map<HTMLElement, AnimationTarget>();
+    const targets = new Set<HTMLElement>();
 
     const getKeyframesAndOptions = (
       name: ID
@@ -305,7 +296,7 @@ export const useAnimations = <ID extends string>(
     };
 
     const handle = createHandle(
-      buildAnimationInitializer(() => Array.from(targets).map(([el]) => el))
+      buildAnimationInitializer(() => Array.from(targets))
     );
     const externalHandle: AnimationsHandle<ID> = {
       play: (name) => {
