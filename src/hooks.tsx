@@ -18,8 +18,12 @@ export type AnimationHandle = {
   setPlaybackRate: (rate: number | ((prevRate: number) => number)) => void;
 };
 
+type WithoutNumber<P extends object> = {
+  [K in keyof P]: Exclude<P[K], number>;
+};
+
 export type TypedKeyframe = Pick<Keyframe, "composite" | "easing" | "offset"> &
-  React.CSSProperties & { d?: string };
+  WithoutNumber<React.CSSProperties> & { d?: string };
 
 export interface AnimationOptions
   extends Omit<KeyframeEffectOptions, "easing"> {
@@ -186,17 +190,16 @@ const createProxy = (
   }) as AnimationHandleWithElements;
 };
 
-const createMap = () => new Map();
-
 export const useAnimation = (
   keyframe: TypedKeyframe | TypedKeyframe[],
   options?: AnimationOptions
 ): AnimationHandleWithElements => {
-  const targets = useState<Map<HTMLElement, AnimationTarget>>(createMap)[0];
   const keyframeRef = useRef(keyframe);
   const optionsRef = useRef(options);
 
-  const animation = useState(() => {
+  const [animation, cleanup] = useState(() => {
+    const targets = new Map<HTMLElement, AnimationTarget>();
+
     const handle = createHandle(
       () => Array.from(targets).map(([el]) => el),
       () => {
@@ -205,7 +208,11 @@ export const useAnimation = (
       },
       () => optionsRef.current
     );
-    return createProxy(handle, targets);
+    const proxy = createProxy(handle, targets);
+    const cleanup = () => {
+      targets.clear();
+    };
+    return [proxy, cleanup] as [typeof proxy, typeof cleanup];
   })[0];
 
   useLayoutEffect(() => {
@@ -213,11 +220,7 @@ export const useAnimation = (
     optionsRef.current = options;
   });
 
-  useEffect(() => {
-    return () => {
-      targets.clear();
-    };
-  }, []);
+  useEffect(() => cleanup, []);
 
   return animation;
 };
