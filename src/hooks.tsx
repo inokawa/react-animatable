@@ -19,6 +19,17 @@ export type AnimationHandle = {
   setPlaybackRate: (rate: number | ((prevRate: number) => number)) => void;
 };
 
+export type AnimationsHandle<ID extends string> = {
+  play: (name: ID) => Promise<AnimationsHandle<ID>>;
+  replay: (name: ID) => Promise<AnimationsHandle<ID>>;
+  reverse: (name: ID) => Promise<AnimationsHandle<ID>>;
+  cancel: () => void;
+  finish: () => void;
+  pause: () => void;
+  setTime: (time: number) => void;
+  setPlaybackRate: (rate: number | ((prevRate: number) => number)) => void;
+};
+
 type WithoutNumber<P extends object> = {
   [K in keyof P]: Exclude<P[K], number>;
 };
@@ -267,6 +278,64 @@ export const useAnimation = (
   useLayoutEffect(() => {
     keyframeRef.current = keyframe;
     optionsRef.current = options;
+  });
+
+  useEffect(() => cleanup, []);
+
+  return animation;
+};
+
+export const useAnimations = <ID extends string>(
+  definitions: {
+    [key in ID]: [TypedKeyframe | TypedKeyframe[], AnimationOptions?];
+  }
+): WithElements<AnimationsHandle<ID>> => {
+  const definitionsRef = useRef(definitions);
+
+  const [animation, cleanup] = useState<
+    [WithElements<AnimationsHandle<ID>>, () => void]
+  >(() => {
+    const targets = new Map<HTMLElement, AnimationTarget>();
+
+    const getKeyframesAndOptions = (
+      name: ID
+    ): [TypedKeyframe[], AnimationOptions | undefined] => {
+      const [kf, opts] = definitionsRef.current[name] || [];
+      return [Array.isArray(kf) ? kf : [kf], opts];
+    };
+
+    const handle = createHandle(
+      buildAnimationInitializer(() => Array.from(targets).map(([el]) => el))
+    );
+    const externalHandle: AnimationsHandle<ID> = {
+      play: (name) => {
+        const [kf, opts] = getKeyframesAndOptions(name);
+        return handle.play(kf, opts).then(() => externalHandle);
+      },
+      replay: (name) => {
+        const [kf, opts] = getKeyframesAndOptions(name);
+        return handle.replay(kf, opts).then(() => externalHandle);
+      },
+      reverse: (name) => {
+        const [kf, opts] = getKeyframesAndOptions(name);
+        return handle.reverse(kf, opts).then(() => externalHandle);
+      },
+      cancel: handle.cancel,
+      finish: handle.finish,
+      pause: handle.pause,
+      setTime: handle.setTime,
+      setPlaybackRate: handle.setPlaybackRate,
+    };
+    return [
+      createProxy(externalHandle, targets),
+      () => {
+        targets.clear();
+      },
+    ];
+  })[0];
+
+  useLayoutEffect(() => {
+    definitionsRef.current = definitions;
   });
 
   useEffect(() => cleanup, []);

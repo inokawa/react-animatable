@@ -1,2 +1,2 @@
-export { useAnimation } from "./hooks";
-export type { AnimationHandle, WithElements } from "./hooks";
+export { useAnimation, useAnimations } from "./hooks";
+export type { AnimationHandle, AnimationsHandle, WithElements } from "./hooks";
