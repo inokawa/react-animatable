@@ -5,4 +5,7 @@ module.exports = {
   ],
   addons: ["@storybook/addon-essentials"],
   framework: "@storybook/react",
+  core: {
+    builder: "webpack5",
+  },
 };
