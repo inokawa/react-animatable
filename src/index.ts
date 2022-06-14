@@ -5,4 +5,5 @@ export type {
   WithElements,
   TypedKeyframe,
   AnimationOptions,
+  AnimatableCSSProperties,
 } from "./hooks";

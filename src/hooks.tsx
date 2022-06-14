@@ -30,12 +30,19 @@ export type AnimationsHandle<ID extends string> = {
   setPlaybackRate: (rate: number | ((prevRate: number) => number)) => void;
 };
 
-type WithoutNumber<P extends object> = {
+export type AnimatableCSSProperties<
+  P = Omit<React.CSSProperties, "offset" | "float"> & {
+    cssOffset?: React.CSSProperties["offset"];
+    cssFloat?: React.CSSProperties["float"];
+    // CSS Motion Path for SVG
+    d?: string;
+  }
+> = {
   [K in keyof P]: Exclude<P[K], number>;
 };
 
 export type TypedKeyframe = Pick<Keyframe, "composite" | "easing" | "offset"> &
-  WithoutNumber<React.CSSProperties> & { d?: string };
+  AnimatableCSSProperties;
 
 export interface AnimationOptions
   extends Omit<KeyframeEffectOptions, "easing"> {
