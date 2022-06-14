@@ -1,7 +1,7 @@
 {
   "name": "react-animatable",
   "version": "0.0.0",
-  "description": "",
+  "description": "A lightweight, performant and composable animation library for React, powered by Web Animations API.",
   "main": "lib/index.js",
   "module": "lib/index.mjs",
   "types": "lib/index.d.ts",
@@ -45,7 +45,7 @@
   },
   "keywords": [
     "react",
-    "hooks",
+    "react-hooks",
     "animation",
     "tween",
     "transition",
