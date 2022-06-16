@@ -62,6 +62,7 @@ export const useAnimations = <ID extends string>(
     return [
       createProxy(externalHandle, targets),
       () => {
+        handle.cancel();
         targets.clear();
       },
     ];

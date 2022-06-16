@@ -60,6 +60,7 @@ export const useAnimation = (
     return [
       createProxy(externalHandle, targets),
       () => {
+        handle.cancel();
         targets.clear();
       },
     ];

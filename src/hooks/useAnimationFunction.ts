@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
   AnimationOptions,
   createAnimation,
@@ -67,7 +67,7 @@ export const useAnimationFunction = (
   const onUpdateRef = useRef(onUpdate);
   const optionsRef = useRef(options);
 
-  const animation = useState<AnimationHandle>(() => {
+  const [animation, cleanup] = useState<[AnimationHandle, () => void]>(() => {
     const getOnUpdate = () => onUpdateRef.current;
     const getOptions = () => optionsRef.current;
 
@@ -88,13 +88,20 @@ export const useAnimationFunction = (
       setTime: handle.setTime,
       setPlaybackRate: handle.setPlaybackRate,
     };
-    return externalHandle;
+    return [
+      externalHandle,
+      () => {
+        handle.cancel();
+      },
+    ];
   })[0];
 
   useLayoutEffect(() => {
     onUpdateRef.current = onUpdate;
     optionsRef.current = options;
   });
+
+  useEffect(() => cleanup, []);
 
   return animation;
 };
