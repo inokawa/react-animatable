@@ -15,7 +15,7 @@ export type ComputedTimingContext = Required<
 >;
 export type AnimationFunction = (ctx: ComputedTimingContext) => void;
 
-const startAnimation = (
+const bindUpdateFunction = (
   animation: Animation,
   getUpdateFunction: () => AnimationFunction
 ) => {
@@ -30,7 +30,6 @@ const startAnimation = (
       requestAnimationFrame(update);
     }
   };
-  animation.play();
   animation.ready.then(update);
 };
 
@@ -47,14 +46,14 @@ const buildAnimationInitializer = (
       const [prevAnimation, prevOptions] = cache;
       if (isSameObject(options, prevOptions)) {
         if (prevAnimation.playState !== "running") {
-          startAnimation(prevAnimation, getUpdateFunction);
+          bindUpdateFunction(prevAnimation, getUpdateFunction);
         }
         return [prevAnimation];
       }
       prevAnimation.cancel();
     }
     const animation = createAnimation(null, null, options);
-    startAnimation(animation, getUpdateFunction);
+    bindUpdateFunction(animation, getUpdateFunction);
     cache = [animation, options];
     return [animation];
   };
