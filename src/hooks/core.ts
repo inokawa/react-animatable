@@ -23,7 +23,7 @@ export interface AnimationOptions
     | `cubic-bezier(${string})`;
 }
 
-const isSameObject = (target: object = {}, prev: object = {}): boolean => {
+export const isSameObject = (target: object = {}, prev: object = {}): boolean => {
   const keys = Object.keys(target);
   if (keys.length !== Object.keys(prev).length) return false;
   return keys.every((k) => (target as any)[k] === (prev as any)[k]);
@@ -32,6 +32,18 @@ const isSameObject = (target: object = {}, prev: object = {}): boolean => {
 const isSameObjectArray = (target: object[], prev: object[]): boolean => {
   if (target.length !== prev.length) return false;
   return target.every((t, i) => isSameObject(t, prev[i]));
+};
+
+export const createAnimation = (
+  el: HTMLElement | null,
+  keyframes: Keyframe[] | null,
+  options: AnimationOptions | undefined
+): Animation => {
+  const effect = new KeyframeEffect(el, keyframes, {
+    fill: "forwards",
+    ...options,
+  });
+  return new Animation(effect);
 };
 
 export const buildAnimationInitializer = (
@@ -58,11 +70,7 @@ export const buildAnimationInitializer = (
         }
         prevAnimation.cancel();
       }
-      const effect = new KeyframeEffect(el, keyframes as Keyframe[], {
-        fill: "forwards",
-        ...options,
-      });
-      const animation = new Animation(effect);
+      const animation = createAnimation(el, keyframes as Keyframe[], options);
       cache.set(el, [animation, keyframes, options]);
       return animation;
     });
