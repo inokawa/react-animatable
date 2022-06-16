@@ -32,9 +32,8 @@ export const useAnimations = <ID extends string>(
 
     const getKeyframesAndOptions = (
       name: ID
-    ): [TypedKeyframe | TypedKeyframe[], AnimationOptions | undefined] => {
-      const [kf, opts] = definitionsRef.current[name] || [];
-      return [kf || [], opts];
+    ): [TypedKeyframe | TypedKeyframe[], (AnimationOptions | undefined)?] => {
+      return definitionsRef.current[name] || [[], undefined];
     };
 
     const handle = createHandle(
