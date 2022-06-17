@@ -38,7 +38,7 @@ const buildAnimationInitializer = (
 ): ((
   keyframes: TypedKeyframe | TypedKeyframe[],
   options: AnimationOptions | undefined
-) => Animation[]) => {
+) => Animation | undefined) => {
   let cache: [Animation, AnimationOptions | undefined] | [] = [];
 
   return (_, options) => {
@@ -48,14 +48,14 @@ const buildAnimationInitializer = (
         if (prevAnimation.playState !== "running") {
           bindUpdateFunction(prevAnimation, getUpdateFunction);
         }
-        return [prevAnimation];
+        return prevAnimation;
       }
       prevAnimation.cancel();
     }
     const animation = createAnimation(null, null, options);
     bindUpdateFunction(animation, getUpdateFunction);
     cache = [animation, options];
-    return [animation];
+    return animation;
   };
 };
 

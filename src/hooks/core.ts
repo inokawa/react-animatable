@@ -54,29 +54,29 @@ export const buildAnimationInitializer = (
 ): ((
   keyframes: TypedKeyframe | TypedKeyframe[],
   options: AnimationOptions | undefined
-) => Animation[]) => {
-  const cache = new WeakMap<
-    HTMLElement,
-    [Animation, TypedKeyframe[], AnimationOptions | undefined]
-  >();
+) => Animation | undefined) => {
+  let cache:
+    | [HTMLElement, Animation, TypedKeyframe[], AnimationOptions | undefined]
+    | [] = [];
 
   return (kf, options) => {
-    const keyframes = Array.isArray(kf) ? kf : [kf];
     const el = getTarget();
-    if (!el) return [];
-    if (cache.has(el)) {
-      const [prevAnimation, prevKeyframes, prevOptions] = cache.get(el)!;
+    if (!el) return;
+    const keyframes = Array.isArray(kf) ? kf : [kf];
+    if (cache.length) {
+      const [prevEl, prevAnimation, prevKeyframes, prevOptions] = cache;
       if (
+        el === prevEl &&
         isSameObjectArray(keyframes, prevKeyframes) &&
         isSameObject(options, prevOptions)
       ) {
-        return [prevAnimation];
+        return prevAnimation;
       }
       prevAnimation.cancel();
     }
     const animation = createAnimation(el, keyframes as Keyframe[], options);
-    cache.set(el, [animation, keyframes, options]);
-    return [animation];
+    cache = [el, animation, keyframes, options];
+    return animation;
   };
 };
 
@@ -84,58 +84,60 @@ export const createHandle = (
   initAnimations: (
     keyframes: TypedKeyframe | TypedKeyframe[],
     options: AnimationOptions | undefined
-  ) => Animation[]
+  ) => Animation | undefined
 ) => {
-  let animations: Animation[] = [];
+  let animation: Animation | undefined;
 
   const handle = {
     play: (
       keyframes: TypedKeyframe | TypedKeyframe[],
       options: AnimationOptions | undefined
     ) => {
-      animations = initAnimations(keyframes, options);
-      animations.forEach((a) => a.play());
-      return Promise.all(animations.map((a) => a.finished));
+      animation = initAnimations(keyframes, options);
+      if (!animation) return Promise.resolve();
+      animation.play();
+      return animation.finished;
     },
     replay: (
       keyframes: TypedKeyframe | TypedKeyframe[],
       options: AnimationOptions | undefined
     ) => {
-      animations = initAnimations(keyframes, options);
-      animations.forEach((a) => {
-        a.currentTime = 0;
-        a.play();
-      });
-      return Promise.all(animations.map((a) => a.finished));
+      animation = initAnimations(keyframes, options);
+      if (!animation) return Promise.resolve();
+      animation.currentTime = 0;
+      animation.play();
+      return animation.finished;
     },
     reverse: (
       keyframes: TypedKeyframe | TypedKeyframe[],
       options: AnimationOptions | undefined
     ) => {
-      animations = initAnimations(keyframes, options);
-      animations.forEach((a) => a.reverse());
-      return Promise.all(animations.map((a) => a.finished));
+      animation = initAnimations(keyframes, options);
+      if (!animation) return Promise.resolve();
+      animation.reverse();
+      return animation.finished;
     },
     cancel: () => {
-      animations.forEach((a) => a.cancel());
+      if (!animation) return;
+      animation.cancel();
     },
     finish: () => {
-      animations.forEach((a) => a.finish());
+      if (!animation) return;
+      animation.finish();
     },
     pause: () => {
-      animations.forEach((a) => a.pause());
+      if (!animation) return;
+      animation.pause();
     },
     setTime: (time: number) => {
-      animations.forEach((a) => {
-        a.currentTime = time;
-      });
+      if (!animation) return;
+      animation.currentTime = time;
     },
     setRate: (arg: number | ((prevRate: number) => number)) => {
-      animations.forEach((a) => {
-        a.updatePlaybackRate(
-          typeof arg === "function" ? arg(a.playbackRate) : arg
-        );
-      });
+      if (!animation) return;
+      animation.updatePlaybackRate(
+        typeof arg === "function" ? arg(animation.playbackRate) : arg
+      );
     },
   };
   return handle;
