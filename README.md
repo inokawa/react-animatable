@@ -54,7 +54,7 @@ export const App = () => {
   return (
     <svg width={600} height={400} viewBox="0 0 600 400">
       <g transform="translate(50, 50)">
-        <animate.text>Hello world</animate.text>
+        <text ref={animate.ref}>Hello world</text>
       </g>
     </svg>
   );

@@ -1,11 +1,11 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { createProxy, WithElements } from "../components/element";
+import { createRef, useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
   AnimationOptions,
   buildAnimationInitializer,
   createHandle,
   TypedKeyframe,
 } from "./core";
+import type { WithRef } from "./useAnimation";
 
 export type AnimationsHandle<ID extends string> = {
   play: (name: ID) => Promise<AnimationsHandle<ID>>;
@@ -22,13 +22,13 @@ export const useAnimations = <ID extends string>(
   definitions: {
     [key in ID]: [TypedKeyframe | TypedKeyframe[], AnimationOptions?];
   }
-): WithElements<AnimationsHandle<ID>> => {
+): WithRef<AnimationsHandle<ID>> => {
   const definitionsRef = useRef(definitions);
 
   const [animation, cleanup] = useState<
-    [WithElements<AnimationsHandle<ID>>, () => void]
+    [WithRef<AnimationsHandle<ID>>, () => void]
   >(() => {
-    const targets = new Set<HTMLElement>();
+    const ref = createRef<HTMLElement>();
 
     const getKeyframesAndOptions = (
       name: ID
@@ -37,9 +37,9 @@ export const useAnimations = <ID extends string>(
     };
 
     const handle = createHandle(
-      buildAnimationInitializer(() => Array.from(targets))
+      buildAnimationInitializer(() => (ref.current ? [ref.current] : []))
     );
-    const externalHandle: AnimationsHandle<ID> = {
+    const externalHandle: WithRef<AnimationsHandle<ID>> = {
       play: (name) => {
         const [kf, opts] = getKeyframesAndOptions(name);
         return handle.play(kf, opts).then(() => externalHandle);
@@ -57,12 +57,12 @@ export const useAnimations = <ID extends string>(
       pause: handle.pause,
       setTime: handle.setTime,
       setPlaybackRate: handle.setRate,
+      ref,
     };
     return [
-      createProxy(externalHandle, targets),
+      externalHandle,
       () => {
         handle.cancel();
-        targets.clear();
       },
     ];
   })[0];

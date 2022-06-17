@@ -1,5 +1,5 @@
 import { StoryObj } from "@storybook/react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { useAnimation } from "../src";
 
 export default { component: useAnimation };
@@ -30,9 +30,9 @@ export const Hello: StoryObj = {
       <div>
         <svg width={600} height={300} viewBox="0 0 600 300">
           <g transform="translate(100, 100)">
-            <animate.text fontSize="24px" fill="lightblue">
+            <text ref={animate.ref} fontSize="24px" fill="lightblue">
               Hello world
-            </animate.text>
+            </text>
           </g>
         </svg>
         <div>
@@ -100,7 +100,7 @@ export const Toggle: StoryObj = {
           Toggle
         </button>
         <div className="rail">
-          <animate.div className="block" />
+          <div ref={animate.ref} className="block" />
         </div>
         <style>
           {`
@@ -151,7 +151,7 @@ export const Path: StoryObj = {
     return (
       <>
         <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
-          <animate.path fill="orange" />
+          <path ref={animate.ref} fill="orange" />
         </svg>
       </>
     );

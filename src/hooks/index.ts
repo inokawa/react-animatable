@@ -4,7 +4,7 @@ export type {
   AnimatableCSSProperties,
 } from "./core";
 export { useAnimation } from "./useAnimation";
-export type { AnimationHandle } from "./useAnimation";
+export type { AnimationHandle, WithRef } from "./useAnimation";
 export { useAnimationFunction } from "./useAnimationFunction";
 export type {
   AnimationFunction,
