@@ -23,7 +23,10 @@ export interface AnimationOptions
     | `cubic-bezier(${string})`;
 }
 
-export const isSameObject = (target: object = {}, prev: object = {}): boolean => {
+export const isSameObject = (
+  target: object = {},
+  prev: object = {}
+): boolean => {
   const keys = Object.keys(target);
   if (keys.length !== Object.keys(prev).length) return false;
   return keys.every((k) => (target as any)[k] === (prev as any)[k]);
@@ -127,7 +130,7 @@ export const createHandle = (
         a.currentTime = time;
       });
     },
-    setPlaybackRate: (arg: number | ((prevRate: number) => number)) => {
+    setRate: (arg: number | ((prevRate: number) => number)) => {
       animations.forEach((a) => {
         a.updatePlaybackRate(
           typeof arg === "function" ? arg(a.playbackRate) : arg

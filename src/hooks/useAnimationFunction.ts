@@ -85,7 +85,7 @@ export const useAnimationFunction = (
       finish: handle.finish,
       pause: handle.pause,
       setTime: handle.setTime,
-      setPlaybackRate: handle.setPlaybackRate,
+      setPlaybackRate: handle.setRate,
     };
     return [
       externalHandle,

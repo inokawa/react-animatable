@@ -55,7 +55,7 @@ export const useAnimation = (
       finish: handle.finish,
       pause: handle.pause,
       setTime: handle.setTime,
-      setPlaybackRate: handle.setPlaybackRate,
+      setPlaybackRate: handle.setRate,
     };
     return [
       createProxy(externalHandle, targets),
