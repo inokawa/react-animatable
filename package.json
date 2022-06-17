@@ -17,9 +17,7 @@
     "storybook:build": "build-storybook",
     "prepublishOnly": "rimraf lib && npm run build"
   },
-  "dependencies": {
-    "react-merge-refs": "^1.1.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@babel/core": "7.18.0",
     "@babel/plugin-transform-react-pure-annotations": "7.18.0",
