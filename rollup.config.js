@@ -35,7 +35,8 @@ export default {
       ],
     }),
     terser({
-      compress: { passes: 3 },
+      compress: { passes: 3, unsafe: true },
+      mangle: { properties: { regex: "^_" } },
       format: {
         // https://github.com/terser/terser/pull/550
         // https://github.com/terser/terser/issues/968

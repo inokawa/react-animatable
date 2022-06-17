@@ -40,27 +40,27 @@ export const useAnimations = <ID extends string>(
     const externalHandle: WithRef<AnimationsHandle<ID>> = {
       play: (name) => {
         const [kf, opts] = getKeyframesAndOptions(name);
-        return handle.play(kf, opts).then(() => externalHandle);
+        return handle._play(kf, opts).then(() => externalHandle);
       },
       replay: (name) => {
         const [kf, opts] = getKeyframesAndOptions(name);
-        return handle.replay(kf, opts).then(() => externalHandle);
+        return handle._replay(kf, opts).then(() => externalHandle);
       },
       reverse: (name) => {
         const [kf, opts] = getKeyframesAndOptions(name);
-        return handle.reverse(kf, opts).then(() => externalHandle);
+        return handle._reverse(kf, opts).then(() => externalHandle);
       },
-      cancel: handle.cancel,
-      finish: handle.finish,
-      pause: handle.pause,
-      setTime: handle.setTime,
-      setPlaybackRate: handle.setRate,
+      cancel: handle._cancel,
+      finish: handle._finish,
+      pause: handle._pause,
+      setTime: handle._setTime,
+      setPlaybackRate: handle._setRate,
       ref,
     };
     return [
       externalHandle,
       () => {
-        handle.cancel();
+        handle._cancel();
       },
     ];
   })[0];

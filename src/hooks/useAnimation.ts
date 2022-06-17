@@ -36,30 +36,30 @@ export const useAnimation = (
       const externalHandle: WithRef<AnimationHandle> = {
         play: () => {
           return handle
-            .play(getKeyframes(), getOptions())
+            ._play(getKeyframes(), getOptions())
             .then(() => externalHandle);
         },
         replay: () => {
           return handle
-            .replay(getKeyframes(), getOptions())
+            ._replay(getKeyframes(), getOptions())
             .then(() => externalHandle);
         },
         reverse: () => {
           return handle
-            .reverse(getKeyframes(), getOptions())
+            ._reverse(getKeyframes(), getOptions())
             .then(() => externalHandle);
         },
-        cancel: handle.cancel,
-        finish: handle.finish,
-        pause: handle.pause,
-        setTime: handle.setTime,
-        setPlaybackRate: handle.setRate,
+        cancel: handle._cancel,
+        finish: handle._finish,
+        pause: handle._pause,
+        setTime: handle._setTime,
+        setPlaybackRate: handle._setRate,
         ref,
       };
       return [
         externalHandle,
         () => {
-          handle.cancel();
+          handle._cancel();
         },
       ];
     }

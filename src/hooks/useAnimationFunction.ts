@@ -73,24 +73,24 @@ export const useAnimationFunction = (
     const handle = createHandle(buildAnimationInitializer(getOnUpdate));
     const externalHandle: AnimationHandle = {
       play: () => {
-        return handle.play([], getOptions()).then(() => externalHandle);
+        return handle._play([], getOptions()).then(() => externalHandle);
       },
       replay: () => {
-        return handle.replay([], getOptions()).then(() => externalHandle);
+        return handle._replay([], getOptions()).then(() => externalHandle);
       },
       reverse: () => {
-        return handle.reverse([], getOptions()).then(() => externalHandle);
+        return handle._reverse([], getOptions()).then(() => externalHandle);
       },
-      cancel: handle.cancel,
-      finish: handle.finish,
-      pause: handle.pause,
-      setTime: handle.setTime,
-      setPlaybackRate: handle.setRate,
+      cancel: handle._cancel,
+      finish: handle._finish,
+      pause: handle._pause,
+      setTime: handle._setTime,
+      setPlaybackRate: handle._setRate,
     };
     return [
       externalHandle,
       () => {
-        handle.cancel();
+        handle._cancel();
       },
     ];
   })[0];

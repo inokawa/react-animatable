@@ -89,7 +89,7 @@ export const createHandle = (
   let animation: Animation | undefined;
 
   const handle = {
-    play: (
+    _play: (
       keyframes: TypedKeyframe | TypedKeyframe[],
       options: AnimationOptions | undefined
     ) => {
@@ -98,7 +98,7 @@ export const createHandle = (
       animation.play();
       return animation.finished;
     },
-    replay: (
+    _replay: (
       keyframes: TypedKeyframe | TypedKeyframe[],
       options: AnimationOptions | undefined
     ) => {
@@ -108,7 +108,7 @@ export const createHandle = (
       animation.play();
       return animation.finished;
     },
-    reverse: (
+    _reverse: (
       keyframes: TypedKeyframe | TypedKeyframe[],
       options: AnimationOptions | undefined
     ) => {
@@ -117,23 +117,23 @@ export const createHandle = (
       animation.reverse();
       return animation.finished;
     },
-    cancel: () => {
+    _cancel: () => {
       if (!animation) return;
       animation.cancel();
     },
-    finish: () => {
+    _finish: () => {
       if (!animation) return;
       animation.finish();
     },
-    pause: () => {
+    _pause: () => {
       if (!animation) return;
       animation.pause();
     },
-    setTime: (time: number) => {
+    _setTime: (time: number) => {
       if (!animation) return;
       animation.currentTime = time;
     },
-    setRate: (arg: number | ((prevRate: number) => number)) => {
+    _setRate: (arg: number | ((prevRate: number) => number)) => {
       if (!animation) return;
       animation.updatePlaybackRate(
         typeof arg === "function" ? arg(animation.playbackRate) : arg
