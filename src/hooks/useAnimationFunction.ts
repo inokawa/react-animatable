@@ -6,7 +6,7 @@ import {
   isSameObject,
   TypedKeyframe,
 } from "./core";
-import { AnimationHandle } from "./useAnimation";
+import type { AnimationHandle } from "./useAnimation";
 
 export type ComputedTimingContext = Required<
   {
@@ -41,7 +41,7 @@ const buildAnimationInitializer = (
 ) => Animation[]) => {
   let cache: [Animation, AnimationOptions | undefined] | [] = [];
 
-  return (kf, options) => {
+  return (_, options) => {
     if (cache.length) {
       const [prevAnimation, prevOptions] = cache;
       if (isSameObject(options, prevOptions)) {
