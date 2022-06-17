@@ -32,9 +32,7 @@ export const useAnimation = (
       const getKeyframes = () => keyframeRef.current;
       const getOptions = () => optionsRef.current;
 
-      const handle = createHandle(
-        buildAnimationInitializer(() => (ref.current ? [ref.current] : []))
-      );
+      const handle = createHandle(buildAnimationInitializer(() => ref.current));
       const externalHandle: WithRef<AnimationHandle> = {
         play: () => {
           return handle

@@ -50,7 +50,7 @@ export const createAnimation = (
 };
 
 export const buildAnimationInitializer = (
-  getTargets: () => HTMLElement[]
+  getTarget: () => HTMLElement | null
 ): ((
   keyframes: TypedKeyframe | TypedKeyframe[],
   options: AnimationOptions | undefined
@@ -62,21 +62,21 @@ export const buildAnimationInitializer = (
 
   return (kf, options) => {
     const keyframes = Array.isArray(kf) ? kf : [kf];
-    return getTargets().map((el) => {
-      if (cache.has(el)) {
-        const [prevAnimation, prevKeyframes, prevOptions] = cache.get(el)!;
-        if (
-          isSameObjectArray(keyframes, prevKeyframes) &&
-          isSameObject(options, prevOptions)
-        ) {
-          return prevAnimation;
-        }
-        prevAnimation.cancel();
+    const el = getTarget();
+    if (!el) return [];
+    if (cache.has(el)) {
+      const [prevAnimation, prevKeyframes, prevOptions] = cache.get(el)!;
+      if (
+        isSameObjectArray(keyframes, prevKeyframes) &&
+        isSameObject(options, prevOptions)
+      ) {
+        return [prevAnimation];
       }
-      const animation = createAnimation(el, keyframes as Keyframe[], options);
-      cache.set(el, [animation, keyframes, options]);
-      return animation;
-    });
+      prevAnimation.cancel();
+    }
+    const animation = createAnimation(el, keyframes as Keyframe[], options);
+    cache.set(el, [animation, keyframes, options]);
+    return [animation];
   };
 };
 

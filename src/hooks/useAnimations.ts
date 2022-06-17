@@ -36,9 +36,7 @@ export const useAnimations = <ID extends string>(
       return definitionsRef.current[name] || [[], undefined];
     };
 
-    const handle = createHandle(
-      buildAnimationInitializer(() => (ref.current ? [ref.current] : []))
-    );
+    const handle = createHandle(buildAnimationInitializer(() => ref.current));
     const externalHandle: WithRef<AnimationsHandle<ID>> = {
       play: (name) => {
         const [kf, opts] = getKeyframesAndOptions(name);
