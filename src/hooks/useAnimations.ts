@@ -14,6 +14,7 @@ export type AnimationsHandle<ID extends string> = {
   cancel: () => void;
   finish: () => void;
   pause: () => void;
+  commit: () => void;
   setTime: (time: number) => void;
   setPlaybackRate: (rate: number | ((prevRate: number) => number)) => void;
   end: () => Promise<void>;
@@ -57,6 +58,7 @@ export const useAnimations = <ID extends string>(
       cancel: handle._cancel,
       finish: handle._finish,
       pause: handle._pause,
+      commit: handle._commit,
       setTime: handle._setTime,
       setPlaybackRate: handle._setRate,
       end: handle._end,

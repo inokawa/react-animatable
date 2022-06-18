@@ -127,6 +127,10 @@ export const createHandle = (
       if (!animation) return;
       animation.pause();
     },
+    _commit: () => {
+      if (!animation) return;
+      animation.commitStyles();
+    },
     _setTime: (time: number) => {
       if (!animation) return;
       animation.currentTime = time;

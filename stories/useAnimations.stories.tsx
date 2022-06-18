@@ -12,20 +12,23 @@ export const Toggle: StoryObj = {
       green: [{ fill: "green" }, { duration: 600, easing: "ease-out" }],
     });
 
-    const onClickRed = useCallback(() => {
-      animate.play("red").end();
-    }, [animate]);
-    const onClickBlue = useCallback(() => {
-      animate.play("blue").end();
-    }, [animate]);
-    const onClickGreen = useCallback(() => {
-      animate.play("green").end();
-    }, [animate]);
-    const onClickAll = useCallback(async () => {
+    const onClickRed = useCallback(async () => {
       await animate.play("red").end();
+      animate.commit();
+    }, []);
+    const onClickBlue = useCallback(async () => {
       await animate.play("blue").end();
+      animate.commit();
+    }, []);
+    const onClickGreen = useCallback(async () => {
       await animate.play("green").end();
-    }, [animate]);
+      animate.commit();
+    }, []);
+    const onClickAll = useCallback(async () => {
+      await onClickRed();
+      await onClickBlue();
+      await onClickGreen();
+    }, []);
 
     return (
       <div>

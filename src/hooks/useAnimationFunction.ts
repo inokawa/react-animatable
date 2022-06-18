@@ -87,6 +87,7 @@ export const useAnimationFunction = (
       cancel: handle._cancel,
       finish: handle._finish,
       pause: handle._pause,
+      commit: handle._commit,
       setTime: handle._setTime,
       setPlaybackRate: handle._setRate,
       end: handle._end,
