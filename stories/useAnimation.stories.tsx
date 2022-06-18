@@ -1,25 +1,18 @@
 import { StoryObj } from "@storybook/react";
 import { useCallback, useEffect, useState } from "react";
-import { useAnimation } from "../src";
+import { TypedEasing, useAnimation } from "../src";
 
 export default { component: useAnimation };
 
 export const Hello: StoryObj = {
   render: () => {
-    type EasingType =
-      | "linear"
-      | "ease"
-      | "ease-in"
-      | "ease-out"
-      | "ease-in-out"
-      | "cubic-bezier";
-
     const [duration, setDuration] = useState(2000);
     const [iteration, setIteration] = useState(2);
     const [direction, setDirection] = useState<PlaybackDirection>("alternate");
-    const [easing, setEasing] = useState<EasingType>("cubic-bezier");
+    const [easing, setEasing] = useState<TypedEasing>("cubic-bezier");
     const [cubicBezierValue, setCubicBezierValue] =
       useState<string>("0.65, 0, 0.35, 1");
+    const [stepsValue, setStepsValue] = useState<string>("20, end");
     const [delay, setDelay] = useState(0);
     const [endDelay, setEndDelay] = useState(0);
 
@@ -40,6 +33,8 @@ export const Hello: StoryObj = {
         easing:
           easing === "cubic-bezier"
             ? `cubic-bezier(${cubicBezierValue})`
+            : easing === "steps"
+            ? `steps(${stepsValue})`
             : easing,
         direction: direction,
         iterations: iteration,
@@ -50,7 +45,15 @@ export const Hello: StoryObj = {
 
     useEffect(() => {
       animate.play();
-    }, [duration, easing, cubicBezierValue, iteration, direction, delay]);
+    }, [
+      duration,
+      easing,
+      cubicBezierValue,
+      stepsValue,
+      iteration,
+      direction,
+      delay,
+    ]);
 
     return (
       <div>
@@ -127,7 +130,7 @@ export const Hello: StoryObj = {
                 value={v}
                 checked={easing === v}
                 onChange={(e) => {
-                  setEasing(e.target.value as EasingType);
+                  setEasing(e.target.value as TypedEasing);
                 }}
               />
               {v}
@@ -139,7 +142,7 @@ export const Hello: StoryObj = {
               value="cubic-bezier"
               checked={easing.indexOf("cubic-bezier") === 0}
               onChange={(e) => {
-                setEasing(e.target.value as EasingType);
+                setEasing(e.target.value as TypedEasing);
               }}
             />
             cubic-bezier(
@@ -149,6 +152,27 @@ export const Hello: StoryObj = {
                 onChange={(e) => {
                   setEasing("cubic-bezier");
                   setCubicBezierValue(e.target.value);
+                }}
+              />
+            }
+            )
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="steps"
+              checked={easing.indexOf("steps") === 0}
+              onChange={(e) => {
+                setEasing(e.target.value as TypedEasing);
+              }}
+            />
+            steps(
+            {
+              <input
+                value={stepsValue}
+                onChange={(e) => {
+                  setEasing("steps");
+                  setStepsValue(e.target.value);
                 }}
               />
             }

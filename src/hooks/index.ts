@@ -1,5 +1,6 @@
 export type {
   TypedKeyframe,
+  TypedEasing,
   AnimationOptions,
   AnimatableCSSProperties,
 } from "./core";

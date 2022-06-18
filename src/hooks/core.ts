@@ -12,15 +12,16 @@ export type AnimatableCSSProperties<
 export type TypedKeyframe = Pick<Keyframe, "composite" | "easing" | "offset"> &
   AnimatableCSSProperties;
 
+export type TypedEasing = NonNullable<
+  Exclude<
+    React.CSSProperties["animationTimingFunction"],
+    React.CSSProperties["all"]
+  >
+>;
+
 export interface AnimationOptions
   extends Omit<KeyframeEffectOptions, "easing"> {
-  easing?:
-    | "linear"
-    | "ease"
-    | "ease-in"
-    | "ease-out"
-    | "ease-in-out"
-    | `cubic-bezier(${string})`;
+  easing?: TypedEasing;
 }
 
 export const isSameObject = (
