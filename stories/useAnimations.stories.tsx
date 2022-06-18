@@ -13,16 +13,19 @@ export const Sequence: StoryObj = {
     });
 
     const onClickRed = useCallback(async () => {
-      await animate.play("red").end();
+      await animate.end();
       animate.commit();
+      animate.play("red");
     }, []);
     const onClickBlue = useCallback(async () => {
-      await animate.play("blue").end();
+      await animate.end();
       animate.commit();
+      animate.play("blue");
     }, []);
     const onClickGreen = useCallback(async () => {
-      await animate.play("green").end();
+      await animate.end();
       animate.commit();
+      animate.play("green");
     }, []);
     const onClickAll = useCallback(async () => {
       await onClickRed();
