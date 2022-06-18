@@ -7,14 +7,15 @@ import {
 } from "./core";
 
 export type AnimationHandle = {
-  play: () => Promise<AnimationHandle>;
-  replay: () => Promise<AnimationHandle>;
-  reverse: () => Promise<AnimationHandle>;
+  play: () => AnimationHandle;
+  replay: () => AnimationHandle;
+  reverse: () => AnimationHandle;
   cancel: () => void;
   finish: () => void;
   pause: () => void;
   setTime: (time: number) => void;
   setPlaybackRate: (rate: number | ((prevRate: number) => number)) => void;
+  end: () => Promise<void>;
 };
 export type WithRef<T> = T & { ref: React.RefObject<any> };
 
@@ -35,25 +36,23 @@ export const useAnimation = (
       const handle = createHandle(buildAnimationInitializer(() => ref.current));
       const externalHandle: WithRef<AnimationHandle> = {
         play: () => {
-          return handle
-            ._play(getKeyframes(), getOptions())
-            .then(() => externalHandle);
+          handle._play(getKeyframes(), getOptions());
+          return externalHandle;
         },
         replay: () => {
-          return handle
-            ._replay(getKeyframes(), getOptions())
-            .then(() => externalHandle);
+          handle._replay(getKeyframes(), getOptions());
+          return externalHandle;
         },
         reverse: () => {
-          return handle
-            ._reverse(getKeyframes(), getOptions())
-            .then(() => externalHandle);
+          handle._reverse(getKeyframes(), getOptions());
+          return externalHandle;
         },
         cancel: handle._cancel,
         finish: handle._finish,
         pause: handle._pause,
         setTime: handle._setTime,
         setPlaybackRate: handle._setRate,
+        end: handle._end,
         ref,
       };
       return [

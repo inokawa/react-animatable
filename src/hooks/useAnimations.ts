@@ -8,14 +8,15 @@ import {
 import type { WithRef } from "./useAnimation";
 
 export type AnimationsHandle<ID extends string> = {
-  play: (name: ID) => Promise<AnimationsHandle<ID>>;
-  replay: (name: ID) => Promise<AnimationsHandle<ID>>;
-  reverse: (name: ID) => Promise<AnimationsHandle<ID>>;
+  play: (name: ID) => AnimationsHandle<ID>;
+  replay: (name: ID) => AnimationsHandle<ID>;
+  reverse: (name: ID) => AnimationsHandle<ID>;
   cancel: () => void;
   finish: () => void;
   pause: () => void;
   setTime: (time: number) => void;
   setPlaybackRate: (rate: number | ((prevRate: number) => number)) => void;
+  end: () => Promise<void>;
 };
 
 export const useAnimations = <ID extends string>(
@@ -40,21 +41,25 @@ export const useAnimations = <ID extends string>(
     const externalHandle: WithRef<AnimationsHandle<ID>> = {
       play: (name) => {
         const [kf, opts] = getKeyframesAndOptions(name);
-        return handle._play(kf, opts).then(() => externalHandle);
+        handle._play(kf, opts);
+        return externalHandle;
       },
       replay: (name) => {
         const [kf, opts] = getKeyframesAndOptions(name);
-        return handle._replay(kf, opts).then(() => externalHandle);
+        handle._replay(kf, opts);
+        return externalHandle;
       },
       reverse: (name) => {
         const [kf, opts] = getKeyframesAndOptions(name);
-        return handle._reverse(kf, opts).then(() => externalHandle);
+        handle._reverse(kf, opts);
+        return externalHandle;
       },
       cancel: handle._cancel,
       finish: handle._finish,
       pause: handle._pause,
       setTime: handle._setTime,
       setPlaybackRate: handle._setRate,
+      end: handle._end,
       ref,
     };
     return [

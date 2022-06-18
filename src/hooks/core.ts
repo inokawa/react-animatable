@@ -94,28 +94,25 @@ export const createHandle = (
       options: AnimationOptions | undefined
     ) => {
       animation = initAnimations(keyframes, options);
-      if (!animation) return Promise.resolve();
+      if (!animation) return;
       animation.play();
-      return animation.finished;
     },
     _replay: (
       keyframes: TypedKeyframe | TypedKeyframe[],
       options: AnimationOptions | undefined
     ) => {
       animation = initAnimations(keyframes, options);
-      if (!animation) return Promise.resolve();
+      if (!animation) return;
       animation.currentTime = 0;
       animation.play();
-      return animation.finished;
     },
     _reverse: (
       keyframes: TypedKeyframe | TypedKeyframe[],
       options: AnimationOptions | undefined
     ) => {
       animation = initAnimations(keyframes, options);
-      if (!animation) return Promise.resolve();
+      if (!animation) return;
       animation.reverse();
-      return animation.finished;
     },
     _cancel: () => {
       if (!animation) return;
@@ -138,6 +135,10 @@ export const createHandle = (
       animation.updatePlaybackRate(
         typeof arg === "function" ? arg(animation.playbackRate) : arg
       );
+    },
+    _end: () => {
+      if (!animation) return Promise.resolve();
+      return animation.finished.then(() => {});
     },
   };
   return handle;
