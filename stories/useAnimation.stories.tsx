@@ -1,30 +1,56 @@
 import { StoryObj } from "@storybook/react";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAnimation } from "../src";
 
 export default { component: useAnimation };
 
 export const Hello: StoryObj = {
   render: () => {
-    const DURATION = 2000;
+    type EasingType =
+      | "linear"
+      | "ease"
+      | "ease-in"
+      | "ease-out"
+      | "ease-in-out"
+      | "cubic-bezier";
+
+    const [duration, setDuration] = useState(2000);
+    const [iteration, setIteration] = useState(2);
+    const [direction, setDirection] = useState<PlaybackDirection>("alternate");
+    const [easing, setEasing] = useState<EasingType>("cubic-bezier");
+    const [cubicBezierValue, setCubicBezierValue] =
+      useState<string>("0.65, 0, 0.35, 1");
+    const [delay, setDelay] = useState(0);
+    const [endDelay, setEndDelay] = useState(0);
 
     const animate = useAnimation(
       [
-        { transform: "translateX(-300px)" },
+        { transform: "translateX(0px)" },
+        { transform: "translateX(-300px)", offset: 0.1 },
         {
-          transform: "rotate(360deg)",
+          transform: "rotate(0deg)",
           fill: "red",
           fontSize: "36px",
           offset: 0.75,
         },
-        { transform: "rotate(0deg)" },
+        { transform: "rotate(360deg)" },
       ],
-      { duration: DURATION, easing: "ease-in-out" }
+      {
+        duration: duration,
+        easing:
+          easing === "cubic-bezier"
+            ? `cubic-bezier(${cubicBezierValue})`
+            : easing,
+        direction: direction,
+        iterations: iteration,
+        delay,
+        endDelay,
+      }
     );
 
     useEffect(() => {
       animate.play();
-    }, []);
+    }, [duration, easing, cubicBezierValue, iteration, direction, delay]);
 
     return (
       <div>
@@ -64,15 +90,129 @@ export const Hello: StoryObj = {
           >
             finish
           </button>
-          <input
-            type="range"
-            defaultValue="0"
-            min={0}
-            max={DURATION}
-            onChange={(e) => {
-              animate.setTime(Number(e.target.value));
-            }}
-          />
+        </div>
+        <div>
+          <label>
+            duration:
+            <input
+              type="number"
+              min={0}
+              value={duration}
+              onChange={(e) => {
+                setDuration(Number(e.target.value));
+              }}
+            />
+            ms
+          </label>
+        </div>
+        <div>
+          <label>
+            iteration:
+            <input
+              type="number"
+              min={1}
+              value={iteration}
+              onChange={(e) => {
+                setIteration(Number(e.target.value));
+              }}
+            />
+          </label>
+        </div>
+        <div>
+          easing:
+          {["linear", "ease", "ease-in", "ease-out", "ease-in-out"].map((v) => (
+            <label>
+              <input
+                type="radio"
+                value={v}
+                checked={easing === v}
+                onChange={(e) => {
+                  setEasing(e.target.value as EasingType);
+                }}
+              />
+              {v}
+            </label>
+          ))}
+          <label>
+            <input
+              type="radio"
+              value="cubic-bezier"
+              checked={easing.indexOf("cubic-bezier") === 0}
+              onChange={(e) => {
+                setEasing(e.target.value as EasingType);
+              }}
+            />
+            cubic-bezier(
+            {
+              <input
+                value={cubicBezierValue}
+                onChange={(e) => {
+                  setEasing("cubic-bezier");
+                  setCubicBezierValue(e.target.value);
+                }}
+              />
+            }
+            )
+          </label>
+        </div>
+        <div>
+          direction:
+          {["normal", "reverse", "alternate", "alternate-reverse"].map((v) => (
+            <label>
+              <input
+                type="radio"
+                value={v}
+                checked={direction === v}
+                onChange={(e) => {
+                  setDirection(e.target.value as PlaybackDirection);
+                }}
+              />
+              {v}
+            </label>
+          ))}
+        </div>
+        <div>
+          <label>
+            delay:
+            <input
+              type="number"
+              min={0}
+              value={delay}
+              onChange={(e) => {
+                setDelay(Number(e.target.value));
+              }}
+            />
+            ms
+          </label>
+        </div>
+        <div>
+          <label>
+            endDelay:
+            <input
+              type="number"
+              min={0}
+              value={endDelay}
+              onChange={(e) => {
+                setEndDelay(Number(e.target.value));
+              }}
+            />
+            ms
+          </label>
+        </div>
+        <div>
+          <label>
+            time:
+            <input
+              type="range"
+              defaultValue="0"
+              min={0}
+              max={duration}
+              onChange={(e) => {
+                animate.setTime(Number(e.target.value) * iteration);
+              }}
+            />
+            ms
+          </label>
         </div>
       </div>
     );
