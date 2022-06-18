@@ -57,13 +57,13 @@ export const buildAnimationInitializer = (
 ) => Animation | undefined) => {
   let cache:
     | [HTMLElement, Animation, TypedKeyframe[], AnimationOptions | undefined]
-    | [] = [];
+    | undefined;
 
   return (kf, options) => {
     const el = getTarget();
     if (!el) return;
     const keyframes = Array.isArray(kf) ? kf : [kf];
-    if (cache.length) {
+    if (cache) {
       const [prevEl, prevAnimation, prevKeyframes, prevOptions] = cache;
       if (
         el === prevEl &&

@@ -39,10 +39,10 @@ const buildAnimationInitializer = (
   keyframes: TypedKeyframe | TypedKeyframe[],
   options: AnimationOptions | undefined
 ) => Animation | undefined) => {
-  let cache: [Animation, AnimationOptions | undefined] | [] = [];
+  let cache: [Animation, AnimationOptions | undefined] | undefined;
 
   return (_, options) => {
-    if (cache.length) {
+    if (cache) {
       const [prevAnimation, prevOptions] = cache;
       if (isSameObject(options, prevOptions)) {
         if (prevAnimation.playState !== "running") {
