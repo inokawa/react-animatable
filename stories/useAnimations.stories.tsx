@@ -4,7 +4,7 @@ import { useAnimations } from "../src";
 
 export default { component: useAnimations };
 
-export const Toggle: StoryObj = {
+export const Sequence: StoryObj = {
   render: () => {
     const animate = useAnimations({
       red: [{ fill: "red" }, { duration: 600, easing: "ease-out" }],
