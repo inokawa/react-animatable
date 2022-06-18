@@ -10,31 +10,36 @@ export const Hello: StoryObj = {
     const [iteration, setIteration] = useState(2);
     const [direction, setDirection] = useState<PlaybackDirection>("alternate");
     const [easing, setEasing] = useState<TypedEasing>("cubic-bezier");
-    const [cubicBezierValue, setCubicBezierValue] =
-      useState<string>("0.65, 0, 0.35, 1");
-    const [stepsValue, setStepsValue] = useState<string>("20, end");
+    const [cubicBezierValues, setCubicBezierValues] = useState<
+      [number, number, number, number]
+    >([0.65, 0, 0.35, 1]);
+    const [stepsValues, setStepsValues] = useState<[number, string]>([
+      20,
+      "end",
+    ]);
     const [delay, setDelay] = useState(0);
     const [endDelay, setEndDelay] = useState(0);
 
     const animate = useAnimation(
       [
-        { transform: "translateX(0px)" },
-        { transform: "translateX(-300px)", offset: 0.1 },
+        { transform: "rotate(-720deg)" },
+        { transform: "rotate(-360deg) translateX(-250px)", offset: 0.25 },
         {
           transform: "rotate(0deg)",
           fill: "red",
-          fontSize: "36px",
+          fontSize: "48px",
+          fontWeight: "bold",
           offset: 0.75,
         },
-        { transform: "rotate(360deg)" },
+        { transform: "rotate(360deg)", fill: "lightskyblue" },
       ],
       {
         duration: duration,
         easing:
           easing === "cubic-bezier"
-            ? `cubic-bezier(${cubicBezierValue})`
+            ? `cubic-bezier(${cubicBezierValues.join(",")})`
             : easing === "steps"
-            ? `steps(${stepsValue})`
+            ? `steps(${stepsValues.join(",")})`
             : easing,
         direction: direction,
         iterations: iteration,
@@ -48,8 +53,8 @@ export const Hello: StoryObj = {
     }, [
       duration,
       easing,
-      cubicBezierValue,
-      stepsValue,
+      cubicBezierValues,
+      stepsValues,
       iteration,
       direction,
       delay,
@@ -59,7 +64,7 @@ export const Hello: StoryObj = {
       <div>
         <svg width={600} height={300} viewBox="0 0 600 300">
           <g transform="translate(100, 100)">
-            <text ref={animate.ref} fontSize="24px" fill="lightblue">
+            <text ref={animate.ref} fontSize="24px" fill="dimgray">
               Hello world
             </text>
           </g>
@@ -124,7 +129,7 @@ export const Hello: StoryObj = {
         <div>
           easing:
           {["linear", "ease", "ease-in", "ease-out", "ease-in-out"].map((v) => (
-            <label>
+            <label key={v}>
               <input
                 type="radio"
                 value={v}
@@ -146,15 +151,32 @@ export const Hello: StoryObj = {
               }}
             />
             cubic-bezier(
-            {
-              <input
-                value={cubicBezierValue}
-                onChange={(e) => {
-                  setEasing("cubic-bezier");
-                  setCubicBezierValue(e.target.value);
-                }}
-              />
-            }
+            {cubicBezierValues
+              .map((v, i) => (
+                <input
+                  key={i}
+                  value={v}
+                  type="number"
+                  step={0.01}
+                  min={0}
+                  max={1}
+                  onChange={(e) => {
+                    setEasing("cubic-bezier");
+                    setCubicBezierValues((prev) => {
+                      const next: [number, number, number, number] = [...prev];
+                      next[i] = Number(e.target.value);
+                      return next;
+                    });
+                  }}
+                />
+              ))
+              .reduce((acc, v, i) => {
+                acc.push(v);
+                if (i !== cubicBezierValues.length - 1) {
+                  acc.push(",");
+                }
+                return acc;
+              }, [] as React.ReactNode[])}
             )
           </label>
           <label>
@@ -169,20 +191,44 @@ export const Hello: StoryObj = {
             steps(
             {
               <input
-                value={stepsValue}
+                type="number"
+                step={1}
+                min={1}
+                value={stepsValues[0]}
                 onChange={(e) => {
                   setEasing("steps");
-                  setStepsValue(e.target.value);
+                  setStepsValues((prev) => [Number(e.target.value), prev[1]]);
                 }}
               />
             }
+            ,
+            <select
+              value={stepsValues[1]}
+              onChange={(e) => {
+                setEasing("steps");
+                setStepsValues((prev) => [prev[0], e.target.value]);
+              }}
+            >
+              {[
+                "jump-start",
+                "jump-end",
+                "jump-none",
+                "jump-both",
+                "start",
+                "end",
+              ].map((v) => (
+                <option key={v} value={v}>
+                  {v}
+                </option>
+              ))}
+            </select>
             )
           </label>
         </div>
         <div>
           direction:
           {["normal", "reverse", "alternate", "alternate-reverse"].map((v) => (
-            <label>
+            <label key={v}>
               <input
                 type="radio"
                 value={v}
