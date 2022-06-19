@@ -29,6 +29,8 @@ And in some legacy browsers that does not support Web Animations API, [you may n
 
 ## Usage
 
+The hooks accepts [canonical keyframe format objects](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API/Keyframe_Formats#syntax) and [KeyframeEffect's options](https://developer.mozilla.org/en-US/docs/Web/API/KeyframeEffect/KeyframeEffect#parameters) as arguments, so check them before using this library.
+
 ```tsx
 import { useEffect } from "react";
 import { useAnimation } from "react-animatable";
@@ -69,7 +71,7 @@ And see [examples](./stories) for more usages.
 1. [browsers that have Element.animate()](https://caniuse.com/mdn-api_element_animate)
 1. browsers that have no Web Animations APIs
 
-In 1, you can use all functions of this library. Some of the newer features like [composite mode](https://caniuse.com/web-animation), [commitStyles](https://caniuse.com/mdn-api_animation_commitstyles) and [CSS Motion Path](https://caniuse.com/css-motion-paths) may be ignored in some browsers though.
+In 1, you can use all functions of this library without polyfill. Some of the newer features like [composite mode](https://caniuse.com/web-animation), [commitStyles](https://caniuse.com/mdn-api_animation_commitstyles) and [CSS Motion Path](https://caniuse.com/css-motion-paths) may be ignored in some browsers though.
 
 In 2, you can use this library but `useAnimationFuction` would not work.
 
@@ -95,7 +97,7 @@ ReactDOM.render(<App />);
 })();
 ```
 
-#### **Partial keyframes are not supported** error was thrown
+#### `Partial keyframes are not supported` error was thrown
 
 web-animations-js does not support partial keyframes, so you have to write animation definitions like below.
 
