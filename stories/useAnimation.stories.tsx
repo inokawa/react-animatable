@@ -306,9 +306,7 @@ export const Toggle: StoryObj = {
 
     return (
       <div>
-        <button onMouseDown={onClick} onTouchStart={onClick}>
-          Toggle
-        </button>
+        <button onClick={onClick}>Toggle</button>
         <div className="rail">
           <div ref={animate.ref} className="block" />
         </div>

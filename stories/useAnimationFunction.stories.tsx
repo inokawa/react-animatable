@@ -35,9 +35,7 @@ export const Text: StoryObj = {
 
     return (
       <div>
-        <button onMouseDown={onClick} onTouchStart={onClick}>
-          {enable ? "stop" : "start"}
-        </button>
+        <button onClick={onClick}>{enable ? "stop" : "start"}</button>
         <div>{time.toFixed(6)}</div>
       </div>
     );
