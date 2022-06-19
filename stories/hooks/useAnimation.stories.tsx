@@ -1,6 +1,6 @@
 import { StoryObj } from "@storybook/react";
 import { useCallback, useEffect, useState } from "react";
-import { TypedEasing, useAnimation } from "../src";
+import { TypedEasing, useAnimation } from "../../src";
 
 export default { component: useAnimation };
 

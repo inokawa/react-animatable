@@ -1,6 +1,6 @@
 import { StoryObj } from "@storybook/react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useAnimationFunction } from "../src";
+import { useAnimationFunction } from "../../src";
 
 export default { component: useAnimationFunction };
 

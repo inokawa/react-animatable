@@ -1,6 +1,6 @@
 import { StoryObj } from "@storybook/react";
 import { useCallback } from "react";
-import { useAnimations } from "../src";
+import { useAnimations } from "../../src";
 
 export default { component: useAnimations };
 
