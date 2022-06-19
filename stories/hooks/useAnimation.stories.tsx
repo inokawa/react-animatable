@@ -289,6 +289,69 @@ export const Hello: StoryObj = {
   },
 };
 
+const Rect = ({
+  value,
+  i,
+  height,
+}: {
+  value: number;
+  i: number;
+  height: number;
+}) => {
+  const animate = useAnimation(
+    {
+      height: `${value}px`,
+      transform: `translateY(-${value}px)`,
+      opacity: String(1 - i * 0.025),
+    },
+    { duration: 150, easing: "ease-out", delay: i * 100 }
+  );
+
+  useEffect(() => {
+    animate.play();
+  }, [value]);
+
+  return (
+    <rect
+      ref={animate.ref}
+      x={i * 20}
+      y={height}
+      width={18}
+      height={0}
+      fill="steelblue"
+    />
+  );
+};
+
+export const Bar: StoryObj = {
+  render: () => {
+    const init = () =>
+      Array.from({ length: 30 }).map(() => 300 * Math.random() ** 2);
+    const [rects, setRects] = useState(init);
+
+    const width = 800;
+    const height = 400;
+    const margin = 10;
+    const maxBarHeight = height - margin * 2;
+    return (
+      <>
+        <div>
+          <button onClick={() => setRects(init())}>refresh</button>
+        </div>
+        <div>
+          <svg width={width} height={height}>
+            <g transform={`translate(${margin},${margin})`}>
+              {rects.map((v, i) => (
+                <Rect key={i} i={i} value={v} height={maxBarHeight} />
+              ))}
+            </g>
+          </svg>
+        </div>
+      </>
+    );
+  },
+};
+
 export const Toggle: StoryObj = {
   render: () => {
     const animate = useAnimation(
