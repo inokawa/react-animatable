@@ -2,14 +2,14 @@
 
 ![npm](https://img.shields.io/npm/v/react-animatable) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/react-animatable) [![check](https://github.com/inokawa/react-animatable/actions/workflows/check.yml/badge.svg)](https://github.com/inokawa/react-animatable/actions/workflows/check.yml) [![demo](https://github.com/inokawa/react-animatable/actions/workflows/demo.yml/badge.svg)](https://github.com/inokawa/react-animatable/actions/workflows/demo.yml)
 
-A lightweight, performant and composable animation library for [React](https://github.com/facebook/react), powered by [Web Animations API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API).
+A small, performant, flexible and composable animation library for [React](https://github.com/facebook/react), powered by [Web Animations API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API).
 
 ## Features
 
 - Performant animation driven by native [Web Animations API (WAAPI)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API).
 - [TypeScript](https://www.typescriptlang.org/) centric design for modern web application development.
-- Simple and flexible APIs based on React hooks (WIP).
-- [Tiny bundle size](https://bundlephobia.com/package/react-animatable) and has zero dependencies.
+- Flexible and composable APIs based on React hooks.
+- [Tiny bundle size (currently about 1kB gzipped)](https://bundlephobia.com/package/react-animatable) and has zero dependencies.
 
 ## Demo
 
