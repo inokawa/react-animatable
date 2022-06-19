@@ -136,7 +136,7 @@ export const createHandle = (
     },
     _commit: () => {
       if (!animation) return;
-      animation.commitStyles();
+      animation.commitStyles?.();
     },
     _setTime: (time: number) => {
       if (!animation) return;
