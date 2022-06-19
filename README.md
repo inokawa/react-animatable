@@ -6,7 +6,7 @@ A lightweight, performant and composable animation library for [React](https://g
 
 ## Features
 
-- Performant animation driven by native [Web Animations API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API).
+- Performant animation driven by native [Web Animations API (WAAPI)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API).
 - [TypeScript](https://www.typescriptlang.org/) centric design for modern web application development.
 - Simple and flexible APIs based on React hooks (WIP).
 - [Tiny bundle size](https://bundlephobia.com/package/react-animatable) and has zero dependencies.
@@ -25,7 +25,7 @@ npm install react-animatable
 
 - react >= 16.14
 
-And in [some legacy browsers that does not support Web Animations API](https://caniuse.com/web-animation), you may need to [use polyfill](#use-polyfill).
+And in some legacy browsers that does not support Web Animations API, [you may need to use polyfill](#use-polyfill).
 
 ## Usage
 
@@ -63,29 +63,57 @@ export const App = () => {
 
 And see [examples](./stories) for more usages.
 
-### Use polyfill
+## Use polyfill
 
-https://github.com/web-animations/web-animations-js
+1. [browsers that have KeyframeEffect](https://caniuse.com/mdn-api_keyframeeffect)
+1. [browsers that have Element.animate()](https://caniuse.com/mdn-api_element_animate)
+1. browsers that have no Web Animations APIs
+
+In 1, you can use all functions of this library. Some of the newer features like [composite mode](https://caniuse.com/web-animation), [commitStyles](https://caniuse.com/mdn-api_animation_commitstyles) and [CSS Motion Path](https://caniuse.com/css-motion-paths) may be ignored in some browsers though.
+
+In 2, you can use this library but `useAnimationFuction` would not work.
+
+In 3, you have to setup [Web Animations API polyfill](https://github.com/web-animations/web-animations-js) to use this library.
+
+### Setup web-animations-js
 
 ```sh
 npm install web-animations-js
 ```
 
-You can polyfill always
-
 ```js
+// You can polyfill always
 import "web-animations-js";
-
 ReactDOM.render(<App />);
-```
 
-or polyfill only if browser does not support Web Animations API
-
-```js
+// or polyfill only if browser does not support Web Animations API
 (async () => {
   if (!("animate" in document.body)) {
     await import("web-animations-js");
   }
   ReactDOM.render(<App />);
 })();
+```
+
+#### **Partial keyframes are not supported** error was thrown
+
+web-animations-js does not support partial keyframes, so you have to write animation definitions like below.
+
+https://github.com/PolymerElements/paper-ripple/issues/28#issuecomment-266945027
+
+```jsx
+// valid
+const animate = useAnimation(
+  [
+    { transform: "translate3d(0px, 0, 0)" },
+    { transform: "translate3d(400px, 0, 0)" },
+  ],
+  { duration: 800, easing: "ease-in-out" }
+);
+
+// invalid
+const animate = useAnimation(
+  { transform: "translate3d(400px, 0, 0)" },
+  { duration: 800, easing: "ease-in-out" }
+);
 ```
