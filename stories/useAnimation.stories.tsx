@@ -22,16 +22,16 @@ export const Hello: StoryObj = {
 
     const animate = useAnimation(
       [
-        { transform: "rotate(-720deg)" },
+        { transform: "rotate(-720deg) translateX(0px)" },
         { transform: "rotate(-360deg) translateX(-250px)", offset: 0.25 },
         {
-          transform: "rotate(0deg)",
+          transform: "rotate(0deg) translateX(0px)",
           fill: "red",
           fontSize: "48px",
           fontWeight: "bold",
           offset: 0.75,
         },
-        { transform: "rotate(360deg)", fill: "lightskyblue" },
+        { transform: "rotate(360deg) translateX(0px)", fill: "lightskyblue" },
       ],
       {
         duration: duration,
@@ -64,9 +64,9 @@ export const Hello: StoryObj = {
       <div>
         <svg width={600} height={300} viewBox="0 0 600 300">
           <g transform="translate(100, 100)">
-            <text ref={animate.ref} fontSize="24px" fill="dimgray">
-              Hello world
-            </text>
+            <g ref={animate.ref} fontSize="24px" fill="dimgray">
+              <text>Hello world</text>
+            </g>
           </g>
         </svg>
         <div>
