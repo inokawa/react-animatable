@@ -54,9 +54,15 @@ export const Canvas: StoryObj = {
         const ctx =
           ctxRef.current || (ctxRef.current = ref.current.getContext("2d")!);
         ctx.clearRect(0, 0, width, height);
+        const fillStyle = ["red", "blue", "green"][timing.currentIteration % 3];
+        ctx.fillStyle = fillStyle;
+        ctx.font = ctx.font.replace(
+          /\d+px/,
+          `${Math.floor(timing.progress * 50)}px`
+        );
+        ctx.fillText(fillStyle, 40, 80);
         ctx.beginPath();
         ctx.arc(width / 2, height / 2, 50 * timing.progress, 0, Math.PI * 2);
-        ctx.fillStyle = ["red", "blue", "green"][timing.currentIteration % 3];
         ctx.fill();
       },
       {
