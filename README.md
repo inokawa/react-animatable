@@ -67,6 +67,10 @@ And see [examples](./stories) for more usages.
 
 https://github.com/web-animations/web-animations-js
 
+```sh
+npm install web-animations-js
+```
+
 You can polyfill always
 
 ```js
