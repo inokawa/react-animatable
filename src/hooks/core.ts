@@ -43,10 +43,17 @@ export const createAnimation = (
   keyframes: Keyframe[] | null,
   options: AnimationOptions | undefined
 ): Animation => {
-  const effect = new KeyframeEffect(el, keyframes, {
+  const modifiedOptions: AnimationOptions = {
     fill: "forwards",
     ...options,
-  });
+  };
+  let effect: KeyframeEffect;
+  try {
+    effect = new KeyframeEffect(el, keyframes, modifiedOptions);
+  } catch (e) {
+    // Fallback to Element.animate()
+    return el!.animate(keyframes, modifiedOptions);
+  }
   return new Animation(effect);
 };
 
