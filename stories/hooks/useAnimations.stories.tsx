@@ -1,5 +1,5 @@
 import { StoryObj } from "@storybook/react";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useAnimations } from "../../src";
 
 export default { component: useAnimations };
@@ -31,6 +31,10 @@ export const Sequence: StoryObj = {
       await onClickRed();
       await onClickBlue();
       await onClickGreen();
+    }, []);
+
+    useEffect(() => {
+      onClickAll();
     }, []);
 
     return (
