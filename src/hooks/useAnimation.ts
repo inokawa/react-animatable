@@ -1,8 +1,10 @@
 import { createRef, useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
   AnimationOptions,
-  buildAnimationInitializer,
+  createAnimation,
   createHandle,
+  isSameObject,
+  isSameObjectArray,
   TypedKeyframe,
 } from "./core";
 
@@ -31,10 +33,38 @@ export const useAnimation = (
     () => {
       const ref = createRef<HTMLElement>();
 
+      const getTarget = () => ref.current;
       const getKeyframes = () => keyframeRef.current;
       const getOptions = () => optionsRef.current;
 
-      const handle = createHandle(buildAnimationInitializer(() => ref.current));
+      let cache:
+        | [
+            HTMLElement,
+            Animation,
+            TypedKeyframe[],
+            AnimationOptions | undefined
+          ]
+        | undefined;
+      const handle = createHandle((kf, options) => {
+        const el = getTarget();
+        if (!el) return;
+        const keyframes = Array.isArray(kf) ? kf : [kf];
+        if (cache) {
+          const [prevEl, prevAnimation, prevKeyframes, prevOptions] = cache;
+          if (
+            el === prevEl &&
+            isSameObjectArray(keyframes, prevKeyframes) &&
+            isSameObject(options, prevOptions)
+          ) {
+            return prevAnimation;
+          }
+          prevAnimation.cancel();
+        }
+        const animation = createAnimation(el, keyframes as Keyframe[], options);
+        cache = [el, animation, keyframes, options];
+        return animation;
+      });
+
       const externalHandle: WithRef<AnimationHandle> = {
         play: () => {
           handle._play(getKeyframes(), getOptions());

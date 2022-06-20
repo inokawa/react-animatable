@@ -4,7 +4,6 @@ import {
   createAnimation,
   createHandle,
   isSameObject,
-  TypedKeyframe,
 } from "./core";
 import type { AnimationHandle } from "./useAnimation";
 
@@ -33,32 +32,6 @@ const bindUpdateFunction = (
   animation.ready.then(update);
 };
 
-const buildAnimationInitializer = (
-  getUpdateFunction: () => AnimationFunction
-): ((
-  keyframes: TypedKeyframe | TypedKeyframe[],
-  options: AnimationOptions | undefined
-) => Animation | undefined) => {
-  let cache: [Animation, AnimationOptions | undefined] | undefined;
-
-  return (_, options) => {
-    if (cache) {
-      const [prevAnimation, prevOptions] = cache;
-      if (isSameObject(options, prevOptions)) {
-        if (prevAnimation.playState !== "running") {
-          bindUpdateFunction(prevAnimation, getUpdateFunction);
-        }
-        return prevAnimation;
-      }
-      prevAnimation.cancel();
-    }
-    const animation = createAnimation(null, null, options);
-    bindUpdateFunction(animation, getUpdateFunction);
-    cache = [animation, options];
-    return animation;
-  };
-};
-
 export const useAnimationFunction = (
   onUpdate: AnimationFunction,
   options?: AnimationOptions
@@ -70,7 +43,24 @@ export const useAnimationFunction = (
     const getOnUpdate = () => onUpdateRef.current;
     const getOptions = () => optionsRef.current;
 
-    const handle = createHandle(buildAnimationInitializer(getOnUpdate));
+    let cache: [Animation, AnimationOptions | undefined] | undefined;
+    const handle = createHandle((_, options) => {
+      if (cache) {
+        const [prevAnimation, prevOptions] = cache;
+        if (isSameObject(options, prevOptions)) {
+          if (prevAnimation.playState !== "running") {
+            bindUpdateFunction(prevAnimation, getOnUpdate);
+          }
+          return prevAnimation;
+        }
+        prevAnimation.cancel();
+      }
+      const animation = createAnimation(null, null, options);
+      bindUpdateFunction(animation, getOnUpdate);
+      cache = [animation, options];
+      return animation;
+    });
+
     const externalHandle: AnimationHandle = {
       play: () => {
         handle._play([], getOptions());

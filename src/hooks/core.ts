@@ -32,7 +32,10 @@ export const isSameObject = (
   return keys.every((k) => (target as any)[k] === (prev as any)[k]);
 };
 
-const isSameObjectArray = (target: object[], prev: object[]): boolean => {
+export const isSameObjectArray = (
+  target: object[],
+  prev: object[]
+): boolean => {
   if (target.length !== prev.length) return false;
   return target.every((t, i) => isSameObject(t, prev[i]));
 };
@@ -54,37 +57,6 @@ export const createAnimation = (
     return el!.animate(keyframes, modifiedOptions);
   }
   return new Animation(effect);
-};
-
-export const buildAnimationInitializer = (
-  getTarget: () => HTMLElement | null
-): ((
-  keyframes: TypedKeyframe | TypedKeyframe[],
-  options: AnimationOptions | undefined
-) => Animation | undefined) => {
-  let cache:
-    | [HTMLElement, Animation, TypedKeyframe[], AnimationOptions | undefined]
-    | undefined;
-
-  return (kf, options) => {
-    const el = getTarget();
-    if (!el) return;
-    const keyframes = Array.isArray(kf) ? kf : [kf];
-    if (cache) {
-      const [prevEl, prevAnimation, prevKeyframes, prevOptions] = cache;
-      if (
-        el === prevEl &&
-        isSameObjectArray(keyframes, prevKeyframes) &&
-        isSameObject(options, prevOptions)
-      ) {
-        return prevAnimation;
-      }
-      prevAnimation.cancel();
-    }
-    const animation = createAnimation(el, keyframes as Keyframe[], options);
-    cache = [el, animation, keyframes, options];
-    return animation;
-  };
 };
 
 export const createHandle = (
