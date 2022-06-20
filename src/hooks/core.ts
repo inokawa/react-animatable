@@ -59,55 +59,48 @@ export const createAnimation = (
   return new Animation(effect);
 };
 
-export const createHandle = <T = never, U = never>(
-  initAnimations: (arg0: T, arg1: U) => Animation | undefined
-) => {
-  let animation: Animation | undefined;
-
+export const createHandle = () => {
   const handle = {
-    _play: (arg0: T, arg1: U) => {
-      animation = initAnimations(arg0, arg1);
-      if (!animation) return;
+    _play: (animation: Animation) => {
       animation.play();
     },
-    _replay: (arg0: T, arg1: U) => {
-      animation = initAnimations(arg0, arg1);
-      if (!animation) return;
+    _replay: (animation: Animation) => {
       animation.currentTime = 0;
       animation.play();
     },
-    _reverse: (arg0: T, arg1: U) => {
-      animation = initAnimations(arg0, arg1);
-      if (!animation) return;
+    _reverse: (animation: Animation) => {
       animation.reverse();
     },
-    _cancel: () => {
+    _cancel: (animation: Animation | undefined) => {
       if (!animation) return;
       animation.cancel();
     },
-    _finish: () => {
+    _finish: (animation: Animation | undefined) => {
       if (!animation) return;
       animation.finish();
     },
-    _pause: () => {
+    _pause: (animation: Animation | undefined) => {
       if (!animation) return;
       animation.pause();
     },
-    _commit: () => {
+    _commit: (animation: Animation | undefined) => {
       if (!animation) return;
       animation.commitStyles?.();
     },
-    _setTime: (time: number) => {
+    _setTime: (animation: Animation | undefined, time: number) => {
       if (!animation) return;
       animation.currentTime = time;
     },
-    _setRate: (arg: number | ((prevRate: number) => number)) => {
+    _setRate: (
+      animation: Animation | undefined,
+      arg: number | ((prevRate: number) => number)
+    ) => {
       if (!animation) return;
       animation.updatePlaybackRate(
         typeof arg === "function" ? arg(animation.playbackRate) : arg
       );
     },
-    _end: () => {
+    _end: (animation: Animation | undefined) => {
       if (!animation) return Promise.resolve();
       return animation.finished.then(() => {});
     },

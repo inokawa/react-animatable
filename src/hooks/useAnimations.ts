@@ -13,13 +13,16 @@ export type AnimationsHandle<ID extends string> = {
   play: (name: ID) => AnimationsHandle<ID>;
   replay: (name: ID) => AnimationsHandle<ID>;
   reverse: (name: ID) => AnimationsHandle<ID>;
-  cancel: () => void;
-  finish: () => void;
-  pause: () => void;
-  commit: () => void;
-  setTime: (time: number) => void;
-  setPlaybackRate: (rate: number | ((prevRate: number) => number)) => void;
-  end: () => Promise<void>;
+  cancel: (name: ID) => void;
+  finish: (name: ID) => void;
+  pause: (name: ID) => void;
+  commit: (name: ID) => void;
+  setTime: (name: ID, time: number) => void;
+  setPlaybackRate: (
+    name: ID,
+    rate: number | ((prevRate: number) => number)
+  ) => void;
+  end: (name: ID) => Promise<void>;
 };
 
 export const useAnimations = <ID extends string>(
@@ -43,16 +46,14 @@ export const useAnimations = <ID extends string>(
 
     const cache = new Map<
       string,
-      [HTMLElement, Animation, TypedKeyframe[], AnimationOptions | undefined]
+      [Animation, HTMLElement, TypedKeyframe[], AnimationOptions | undefined]
     >();
-
-    const handle = createHandle<ID, null>((name) => {
-      const el = getTarget();
-      if (!el) return;
+    const initAnimation = (name: ID): Animation => {
+      const el = getTarget()!;
       const [kf, options] = getKeyframesAndOptions(name);
       const keyframes = Array.isArray(kf) ? kf : [kf];
       if (cache.has(name)) {
-        const [prevEl, prevAnimation, prevKeyframes, prevOptions] =
+        const [prevAnimation, prevEl, prevKeyframes, prevOptions] =
           cache.get(name)!;
         if (
           el === prevEl &&
@@ -64,38 +65,40 @@ export const useAnimations = <ID extends string>(
         prevAnimation.cancel();
       }
       const animation = createAnimation(el, keyframes as Keyframe[], options);
-      cache.set(name, [el, animation, keyframes, options]);
+      cache.set(name, [animation, el, keyframes, options]);
       return animation;
-    });
+    };
+    const getAnimation = (name: ID) => cache.get(name)?.[0];
+    const handle = createHandle();
 
     const externalHandle: WithRef<AnimationsHandle<ID>> = {
       play: (name) => {
-        handle._play(name, null);
+        handle._play(initAnimation(name));
         return externalHandle;
       },
       replay: (name) => {
-        handle._replay(name, null);
+        handle._replay(initAnimation(name));
         return externalHandle;
       },
       reverse: (name) => {
-        handle._reverse(name, null);
+        handle._reverse(initAnimation(name));
         return externalHandle;
       },
-      cancel: handle._cancel,
-      finish: handle._finish,
-      pause: handle._pause,
-      commit: handle._commit,
-      setTime: handle._setTime,
-      setPlaybackRate: handle._setRate,
-      end: handle._end,
+      cancel: (name) => handle._cancel(getAnimation(name)),
+      finish: (name) => handle._finish(getAnimation(name)),
+      pause: (name) => handle._pause(getAnimation(name)),
+      commit: (name) => handle._commit(getAnimation(name)),
+      setTime: (name, time) => handle._setTime(getAnimation(name), time),
+      setPlaybackRate: (name, rate) =>
+        handle._setRate(getAnimation(name), rate),
+      end: (name) => handle._end(getAnimation(name)),
       ref,
     };
     return [
       externalHandle,
       () => {
-        handle._cancel();
-        cache.forEach(([, a]) => {
-          a.cancel();
+        cache.forEach(([a]) => {
+          handle._cancel(a);
         });
       },
     ];

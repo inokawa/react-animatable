@@ -39,21 +39,20 @@ export const useAnimation = (
 
       let cache:
         | [
-            HTMLElement,
             Animation,
+            HTMLElement,
             TypedKeyframe[],
             AnimationOptions | undefined
           ]
         | undefined;
-      const handle = createHandle<
-        TypedKeyframe | TypedKeyframe[],
-        AnimationOptions | undefined
-      >((kf, options) => {
-        const el = getTarget();
-        if (!el) return;
+      const initAnimation = (
+        kf: TypedKeyframe | TypedKeyframe[],
+        options: AnimationOptions | undefined
+      ): Animation => {
+        const el = getTarget()!;
         const keyframes = Array.isArray(kf) ? kf : [kf];
         if (cache) {
-          const [prevEl, prevAnimation, prevKeyframes, prevOptions] = cache;
+          const [prevAnimation, prevEl, prevKeyframes, prevOptions] = cache;
           if (
             el === prevEl &&
             isSameObjectArray(keyframes, prevKeyframes) &&
@@ -64,36 +63,38 @@ export const useAnimation = (
           prevAnimation.cancel();
         }
         const animation = createAnimation(el, keyframes as Keyframe[], options);
-        cache = [el, animation, keyframes, options];
+        cache = [animation, el, keyframes, options];
         return animation;
-      });
+      };
+      const getAnimation = () => cache?.[0];
+      const handle = createHandle();
 
       const externalHandle: WithRef<AnimationHandle> = {
         play: () => {
-          handle._play(getKeyframes(), getOptions());
+          handle._play(initAnimation(getKeyframes(), getOptions()));
           return externalHandle;
         },
         replay: () => {
-          handle._replay(getKeyframes(), getOptions());
+          handle._replay(initAnimation(getKeyframes(), getOptions()));
           return externalHandle;
         },
         reverse: () => {
-          handle._reverse(getKeyframes(), getOptions());
+          handle._reverse(initAnimation(getKeyframes(), getOptions()));
           return externalHandle;
         },
-        cancel: handle._cancel,
-        finish: handle._finish,
-        pause: handle._pause,
-        commit: handle._commit,
-        setTime: handle._setTime,
-        setPlaybackRate: handle._setRate,
-        end: handle._end,
+        cancel: () => handle._cancel(getAnimation()),
+        finish: () => handle._finish(getAnimation()),
+        pause: () => handle._pause(getAnimation()),
+        commit: () => handle._commit(getAnimation()),
+        setTime: (time) => handle._setTime(getAnimation(), time),
+        setPlaybackRate: (rate) => handle._setRate(getAnimation(), rate),
+        end: () => handle._end(getAnimation()),
         ref,
       };
       return [
         externalHandle,
         () => {
-          handle._cancel();
+          handle._cancel(getAnimation());
         },
       ];
     }

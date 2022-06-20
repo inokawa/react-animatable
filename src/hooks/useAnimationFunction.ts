@@ -44,50 +44,52 @@ export const useAnimationFunction = (
     const getOptions = () => optionsRef.current;
 
     let cache: [Animation, AnimationOptions | undefined] | undefined;
-    const handle = createHandle<AnimationOptions | undefined, null>(
-      (options) => {
-        if (cache) {
-          const [prevAnimation, prevOptions] = cache;
-          if (isSameObject(options, prevOptions)) {
-            if (prevAnimation.playState !== "running") {
-              bindUpdateFunction(prevAnimation, getOnUpdate);
-            }
-            return prevAnimation;
+    const initAnimation = (
+      options: AnimationOptions | undefined
+    ): Animation => {
+      if (cache) {
+        const [prevAnimation, prevOptions] = cache;
+        if (isSameObject(options, prevOptions)) {
+          if (prevAnimation.playState !== "running") {
+            bindUpdateFunction(prevAnimation, getOnUpdate);
           }
-          prevAnimation.cancel();
+          return prevAnimation;
         }
-        const animation = createAnimation(null, null, options);
-        bindUpdateFunction(animation, getOnUpdate);
-        cache = [animation, options];
-        return animation;
+        prevAnimation.cancel();
       }
-    );
+      const animation = createAnimation(null, null, options);
+      bindUpdateFunction(animation, getOnUpdate);
+      cache = [animation, options];
+      return animation;
+    };
+    const getAnimation = () => cache?.[0];
+    const handle = createHandle();
 
     const externalHandle: AnimationHandle = {
       play: () => {
-        handle._play(getOptions(), null);
+        handle._play(initAnimation(getOptions()));
         return externalHandle;
       },
       replay: () => {
-        handle._replay(getOptions(), null);
+        handle._replay(initAnimation(getOptions()));
         return externalHandle;
       },
       reverse: () => {
-        handle._reverse(getOptions(), null);
+        handle._reverse(initAnimation(getOptions()));
         return externalHandle;
       },
-      cancel: handle._cancel,
-      finish: handle._finish,
-      pause: handle._pause,
-      commit: handle._commit,
-      setTime: handle._setTime,
-      setPlaybackRate: handle._setRate,
-      end: handle._end,
+      cancel: () => handle._cancel(getAnimation()),
+      finish: () => handle._finish(getAnimation()),
+      pause: () => handle._pause(getAnimation()),
+      commit: () => handle._commit(getAnimation()),
+      setTime: (time) => handle._setTime(getAnimation(), time),
+      setPlaybackRate: (rate) => handle._setRate(getAnimation(), rate),
+      end: () => handle._end(getAnimation()),
     };
     return [
       externalHandle,
       () => {
-        handle._cancel();
+        handle._cancel(getAnimation());
       },
     ];
   })[0];
