@@ -1,8 +1,78 @@
 import { StoryObj } from "@storybook/react";
 import { useCallback, useEffect, useState } from "react";
-import { useAnimations } from "../../src";
+import { AnimationOptions, useAnimations } from "../../src";
 
 export default { component: useAnimations };
+
+const WavedRect = ({ i }: { i: number }) => {
+  const baseTiming: AnimationOptions = {
+    easing: "ease-in-out",
+    iterations: Infinity,
+    direction: "alternate",
+    fill: "both",
+    delay: i * 98,
+  };
+  const animate = useAnimations({
+    move: [
+      [
+        { transform: "translateY(0) scaleX(.8)" },
+        { transform: "translateY(95vh) scaleX(1)" },
+      ],
+      { ...baseTiming, duration: 2500 },
+    ],
+    opacity: [
+      [{ opacity: 1 }, { opacity: 0 }],
+      { ...baseTiming, duration: 2000 },
+    ],
+    color: [
+      [
+        { backgroundColor: "rgb(239, 239, 255)" },
+        { backgroundColor: "#e4c349" },
+      ],
+      { ...baseTiming, duration: 3000 },
+    ],
+  });
+
+  useEffect(() => {
+    animate.play("move");
+    animate.play("opacity");
+    animate.play("color");
+  }, []);
+
+  return (
+    <div
+      ref={animate.ref}
+      style={{
+        width: "5vw",
+        height: "2.5vh",
+        background: "#efefff",
+        borderRadius: "1vh",
+      }}
+    />
+  );
+};
+
+export const Wave: StoryObj = {
+  render: () => {
+    const [rects] = useState(() => Array.from({ length: 20 }).map((_, i) => i));
+
+    return (
+      <div
+        style={{
+          background: "#e45349",
+          width: "100vw",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        {rects.map((v, i) => (
+          <WavedRect key={i} i={i} />
+        ))}
+      </div>
+    );
+  },
+};
 
 export const Countdown: StoryObj = {
   render: () => {
@@ -60,7 +130,7 @@ export const Countdown: StoryObj = {
         setCount((p) => p - 1);
 
         if (startCount > 0) {
-          animate.setPlaybackRate((prev) => Math.min(prev * 1.15, 6));
+          animate.setPlaybackRate("count", (prev) => Math.min(prev * 1.15, 6));
         } else {
           clearInterval(id);
           animate.play("boom");
