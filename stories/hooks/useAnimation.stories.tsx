@@ -289,7 +289,7 @@ export const Hello: StoryObj = {
   },
 };
 
-const Rect = ({
+const Bar = ({
   value,
   i,
   height,
@@ -323,7 +323,7 @@ const Rect = ({
   );
 };
 
-export const Bar: StoryObj = {
+export const Bars: StoryObj = {
   render: () => {
     const init = () =>
       Array.from({ length: 30 }).map(() => 300 * Math.random() ** 2);
@@ -342,7 +342,7 @@ export const Bar: StoryObj = {
           <svg width={width} height={height}>
             <g transform={`translate(${margin},${margin})`}>
               {rects.map((v, i) => (
-                <Rect key={i} i={i} value={v} height={maxBarHeight} />
+                <Bar key={i} i={i} value={v} height={maxBarHeight} />
               ))}
             </g>
           </svg>

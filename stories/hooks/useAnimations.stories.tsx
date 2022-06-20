@@ -1,8 +1,97 @@
 import { StoryObj } from "@storybook/react";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAnimations } from "../../src";
 
 export default { component: useAnimations };
+
+export const Countdown: StoryObj = {
+  render: () => {
+    const [count, setCount] = useState(10);
+    const animate = useAnimations({
+      count: [
+        [
+          { opacity: 1, transform: "scale(.6)" },
+          { opacity: 0.5, transform: "scale(1)" },
+        ],
+        {
+          duration: 500,
+          easing: "linear",
+          delay: 0,
+          iterations: 1000,
+          direction: "alternate",
+        },
+      ],
+      boom: [
+        [
+          {
+            opacity: 0,
+            transform: "scale(.01) rotate(-10deg)",
+            color: "white",
+            offset: 0,
+          },
+          {
+            opacity: 1,
+            transform: "scale(1.8) rotate(7deg)",
+            color: "orange",
+            offset: 0.8,
+          },
+          {
+            opacity: 1,
+            transform: "scale(1) rotate(0deg)",
+            color: "white",
+            offset: 1,
+          },
+        ],
+        {
+          duration: 2000,
+          easing: "ease-out",
+          delay: 0,
+          iterations: 1,
+        },
+      ],
+    });
+
+    useEffect(() => {
+      animate.play("count");
+      let startCount = count;
+
+      const id = setInterval(() => {
+        startCount -= 1;
+        setCount((p) => p - 1);
+
+        if (startCount > 0) {
+          animate.setPlaybackRate((prev) => Math.min(prev * 1.15, 6));
+        } else {
+          clearInterval(id);
+          animate.play("boom");
+        }
+      }, 1000);
+
+      return () => {
+        clearInterval(id);
+      };
+    }, []);
+    return (
+      <div
+        style={{
+          background: "gray",
+          width: 400,
+          height: 400,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <span
+          ref={animate.ref}
+          style={{ color: "white", fontSize: 64, fontWeight: "bold" }}
+        >
+          {count}
+        </span>
+      </div>
+    );
+  },
+};
 
 export const Sequence: StoryObj = {
   render: () => {
