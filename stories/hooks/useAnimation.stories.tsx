@@ -352,6 +352,41 @@ export const Bars: StoryObj = {
   },
 };
 
+export const Square: StoryObj = {
+  render: () => {
+    const animate = useAnimation(
+      [
+        { transform: "rotate(0deg)", borderRadius: "1rem", offset: 0 },
+        { transform: "rotate(360deg)", borderRadius: "99px", offset: 0.25 },
+        { transform: "rotate(0deg)", borderRadius: "1rem", offset: 0.5 },
+        { transform: "rotate(-360deg)", borderRadius: "0px", offset: 0.75 },
+        { transform: "rotate(0deg)", borderRadius: "1rem", offset: 1 },
+      ],
+      {
+        duration: 3000,
+        iterations: Infinity,
+        easing: "ease-in-out",
+      }
+    );
+
+    useEffect(() => {
+      animate.play();
+    }, []);
+
+    return (
+      <div
+        ref={animate.ref}
+        style={{
+          border: "solid 0.1rem #135569",
+          height: "6rem",
+          width: "6rem",
+          margin: "2rem 0 2rem 2rem",
+        }}
+      ></div>
+    );
+  },
+};
+
 export const Toggle: StoryObj = {
   render: () => {
     const animate = useAnimation(
