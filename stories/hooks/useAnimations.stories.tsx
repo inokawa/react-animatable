@@ -165,26 +165,36 @@ export const Countdown: StoryObj = {
 
 export const Sequence: StoryObj = {
   render: () => {
+    const timing: AnimationOptions = { duration: 600, easing: "ease-out" };
     const animate = useAnimations({
-      red: [{ fill: "red" }, { duration: 600, easing: "ease-out" }],
-      blue: [{ fill: "blue" }, { duration: 600, easing: "ease-out" }],
-      green: [{ fill: "green" }, { duration: 600, easing: "ease-out" }],
+      red: [{ fill: "red" }, timing],
+      blue: [{ fill: "blue" }, timing],
+      green: [{ fill: "green" }, timing],
     });
 
     const onClickRed = useCallback(async () => {
-      await animate.end();
-      animate.commit();
-      animate.play("red");
+      animate.cancelAll();
+      try {
+        await animate.play("red").end("red");
+      } finally {
+        animate.commit("red");
+      }
     }, []);
     const onClickBlue = useCallback(async () => {
-      await animate.end();
-      animate.commit();
-      animate.play("blue");
+      animate.cancelAll();
+      try {
+        await animate.play("blue").end("blue");
+      } finally {
+        animate.commit("blue");
+      }
     }, []);
     const onClickGreen = useCallback(async () => {
-      await animate.end();
-      animate.commit();
-      animate.play("green");
+      animate.cancelAll();
+      try {
+        await animate.play("green").end("green");
+      } finally {
+        animate.commit("green");
+      }
     }, []);
     const onClickAll = useCallback(async () => {
       await onClickRed();
