@@ -44,34 +44,36 @@ export const useAnimationFunction = (
     const getOptions = () => optionsRef.current;
 
     let cache: [Animation, AnimationOptions | undefined] | undefined;
-    const handle = createHandle((_, options) => {
-      if (cache) {
-        const [prevAnimation, prevOptions] = cache;
-        if (isSameObject(options, prevOptions)) {
-          if (prevAnimation.playState !== "running") {
-            bindUpdateFunction(prevAnimation, getOnUpdate);
+    const handle = createHandle<AnimationOptions | undefined, null>(
+      (options) => {
+        if (cache) {
+          const [prevAnimation, prevOptions] = cache;
+          if (isSameObject(options, prevOptions)) {
+            if (prevAnimation.playState !== "running") {
+              bindUpdateFunction(prevAnimation, getOnUpdate);
+            }
+            return prevAnimation;
           }
-          return prevAnimation;
+          prevAnimation.cancel();
         }
-        prevAnimation.cancel();
+        const animation = createAnimation(null, null, options);
+        bindUpdateFunction(animation, getOnUpdate);
+        cache = [animation, options];
+        return animation;
       }
-      const animation = createAnimation(null, null, options);
-      bindUpdateFunction(animation, getOnUpdate);
-      cache = [animation, options];
-      return animation;
-    });
+    );
 
     const externalHandle: AnimationHandle = {
       play: () => {
-        handle._play([], getOptions());
+        handle._play(getOptions(), null);
         return externalHandle;
       },
       replay: () => {
-        handle._replay([], getOptions());
+        handle._replay(getOptions(), null);
         return externalHandle;
       },
       reverse: () => {
-        handle._reverse([], getOptions());
+        handle._reverse(getOptions(), null);
         return externalHandle;
       },
       cancel: handle._cancel,

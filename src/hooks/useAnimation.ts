@@ -45,7 +45,10 @@ export const useAnimation = (
             AnimationOptions | undefined
           ]
         | undefined;
-      const handle = createHandle((kf, options) => {
+      const handle = createHandle<
+        TypedKeyframe | TypedKeyframe[],
+        AnimationOptions | undefined
+      >((kf, options) => {
         const el = getTarget();
         if (!el) return;
         const keyframes = Array.isArray(kf) ? kf : [kf];

@@ -41,16 +41,19 @@ export const useAnimations = <ID extends string>(
       return definitionsRef.current[name] || [[], undefined];
     };
 
-    let cache:
-      | [HTMLElement, Animation, TypedKeyframe[], AnimationOptions | undefined]
-      | undefined;
+    const cache = new Map<
+      string,
+      [HTMLElement, Animation, TypedKeyframe[], AnimationOptions | undefined]
+    >();
 
-    const handle = createHandle((kf, options) => {
+    const handle = createHandle<ID, null>((name) => {
       const el = getTarget();
       if (!el) return;
+      const [kf, options] = getKeyframesAndOptions(name);
       const keyframes = Array.isArray(kf) ? kf : [kf];
-      if (cache) {
-        const [prevEl, prevAnimation, prevKeyframes, prevOptions] = cache;
+      if (cache.has(name)) {
+        const [prevEl, prevAnimation, prevKeyframes, prevOptions] =
+          cache.get(name)!;
         if (
           el === prevEl &&
           isSameObjectArray(keyframes, prevKeyframes) &&
@@ -61,24 +64,21 @@ export const useAnimations = <ID extends string>(
         prevAnimation.cancel();
       }
       const animation = createAnimation(el, keyframes as Keyframe[], options);
-      cache = [el, animation, keyframes, options];
+      cache.set(name, [el, animation, keyframes, options]);
       return animation;
     });
 
     const externalHandle: WithRef<AnimationsHandle<ID>> = {
       play: (name) => {
-        const [kf, opts] = getKeyframesAndOptions(name);
-        handle._play(kf, opts);
+        handle._play(name, null);
         return externalHandle;
       },
       replay: (name) => {
-        const [kf, opts] = getKeyframesAndOptions(name);
-        handle._replay(kf, opts);
+        handle._replay(name, null);
         return externalHandle;
       },
       reverse: (name) => {
-        const [kf, opts] = getKeyframesAndOptions(name);
-        handle._reverse(kf, opts);
+        handle._reverse(name, null);
         return externalHandle;
       },
       cancel: handle._cancel,
@@ -94,6 +94,9 @@ export const useAnimations = <ID extends string>(
       externalHandle,
       () => {
         handle._cancel();
+        cache.forEach(([, a]) => {
+          a.cancel();
+        });
       },
     ];
   })[0];

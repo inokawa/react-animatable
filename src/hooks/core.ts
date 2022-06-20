@@ -59,37 +59,25 @@ export const createAnimation = (
   return new Animation(effect);
 };
 
-export const createHandle = (
-  initAnimations: (
-    keyframes: TypedKeyframe | TypedKeyframe[],
-    options: AnimationOptions | undefined
-  ) => Animation | undefined
+export const createHandle = <T = never, U = never>(
+  initAnimations: (arg0: T, arg1: U) => Animation | undefined
 ) => {
   let animation: Animation | undefined;
 
   const handle = {
-    _play: (
-      keyframes: TypedKeyframe | TypedKeyframe[],
-      options: AnimationOptions | undefined
-    ) => {
-      animation = initAnimations(keyframes, options);
+    _play: (arg0: T, arg1: U) => {
+      animation = initAnimations(arg0, arg1);
       if (!animation) return;
       animation.play();
     },
-    _replay: (
-      keyframes: TypedKeyframe | TypedKeyframe[],
-      options: AnimationOptions | undefined
-    ) => {
-      animation = initAnimations(keyframes, options);
+    _replay: (arg0: T, arg1: U) => {
+      animation = initAnimations(arg0, arg1);
       if (!animation) return;
       animation.currentTime = 0;
       animation.play();
     },
-    _reverse: (
-      keyframes: TypedKeyframe | TypedKeyframe[],
-      options: AnimationOptions | undefined
-    ) => {
-      animation = initAnimations(keyframes, options);
+    _reverse: (arg0: T, arg1: U) => {
+      animation = initAnimations(arg0, arg1);
       if (!animation) return;
       animation.reverse();
     },
