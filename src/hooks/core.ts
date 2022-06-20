@@ -1,12 +1,11 @@
-export type AnimatableCSSProperties<
-  P = Omit<React.CSSProperties, "offset" | "float"> & {
-    cssOffset?: React.CSSProperties["offset"];
-    cssFloat?: React.CSSProperties["float"];
-    // CSS Motion Path for SVG
-    d?: string;
-  }
-> = {
-  [K in keyof P]: Exclude<P[K], number>;
+export type AnimatableCSSProperties = Omit<
+  React.CSSProperties,
+  "offset" | "float"
+> & {
+  cssOffset?: React.CSSProperties["offset"];
+  cssFloat?: React.CSSProperties["float"];
+  // CSS Motion Path for SVG
+  d?: string;
 };
 
 export type TypedKeyframe = Pick<Keyframe, "composite" | "easing" | "offset"> &
