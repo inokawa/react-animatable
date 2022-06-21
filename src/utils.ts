@@ -1,3 +1,4 @@
+export const noop = () => {};
 export const getKeys = Object.keys;
 export const isArray = Array.isArray;
 

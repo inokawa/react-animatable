@@ -1,3 +1,5 @@
+import { noop } from "../utils";
+
 export type AnimatableCSSProperties = Omit<
   React.CSSProperties,
   "offset" | "float"
@@ -85,7 +87,7 @@ export const createHandle = () => {
     },
     _end: (animation: Animation | undefined) => {
       if (!animation) return Promise.resolve();
-      return animation.finished.then(() => {});
+      return animation.finished.then(noop);
     },
   };
   return handle;

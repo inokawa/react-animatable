@@ -6,6 +6,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { noop } from "../utils";
 
 const toMap = (elements: React.ReactElement[]) =>
   elements.reduce((acc, e, i) => {
@@ -18,9 +19,8 @@ export const TransitionHasExitContext = createContext<
   React.MutableRefObject<boolean>
 >(null!);
 export const TransitionStateContext = createContext<TransitionState>("update");
-export const TransitionNotifierContext = createContext<(show: boolean) => void>(
-  () => {}
-);
+export const TransitionNotifierContext =
+  createContext<(show: boolean) => void>(noop);
 
 const Provider = ({
   s: state,
