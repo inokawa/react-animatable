@@ -35,6 +35,8 @@ export default {
       ],
     }),
     terser({
+      ecma: 2015,
+      module: true,
       compress: { passes: 3, unsafe: true },
       mangle: { properties: { regex: "^_" } },
       format: {
