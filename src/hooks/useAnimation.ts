@@ -1,10 +1,9 @@
 import { createRef, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { isArray, isSameObject, isSameObjectArray } from "../utils";
 import {
   AnimationOptions,
   createAnimation,
   createHandle,
-  isSameObject,
-  isSameObjectArray,
   TypedKeyframe,
 } from "./core";
 
@@ -52,7 +51,7 @@ export const useAnimation = (
         options: AnimationOptions | undefined
       ): Animation => {
         const el = getTarget()!;
-        const keyframes = Array.isArray(kf) ? kf : [kf];
+        const keyframes = isArray(kf) ? kf : [kf];
         if (cache) {
           const [prevAnimation, prevEl, prevKeyframes, prevOptions] = cache;
           if (

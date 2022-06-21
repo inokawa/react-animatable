@@ -23,23 +23,6 @@ export interface AnimationOptions
   easing?: TypedEasing;
 }
 
-export const isSameObject = (
-  target: object = {},
-  prev: object = {}
-): boolean => {
-  const keys = Object.keys(target);
-  if (keys.length !== Object.keys(prev).length) return false;
-  return keys.every((k) => (target as any)[k] === (prev as any)[k]);
-};
-
-export const isSameObjectArray = (
-  target: object[],
-  prev: object[]
-): boolean => {
-  if (target.length !== prev.length) return false;
-  return target.every((t, i) => isSameObject(t, prev[i]));
-};
-
 export const createAnimation = (
   el: HTMLElement | null,
   keyframes: Keyframe[] | null,

@@ -1,10 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import {
-  AnimationOptions,
-  createAnimation,
-  createHandle,
-  isSameObject,
-} from "./core";
+import { isSameObject } from "../utils";
+import { AnimationOptions, createAnimation, createHandle } from "./core";
 import type { AnimationHandle } from "./useAnimation";
 
 export type ComputedTimingContext = Required<
