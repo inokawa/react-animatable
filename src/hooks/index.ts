@@ -13,3 +13,4 @@ export type {
 } from "./useAnimationFunction";
 export { useAnimations } from "./useAnimations";
 export type { AnimationsHandle } from "./useAnimations";
+export { useEnterExitAnimation } from "./useEnterExitAnimation";
