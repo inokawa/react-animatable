@@ -1,8 +1,61 @@
 import { StoryObj } from "@storybook/react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimationOptions, useAnimations } from "../../src";
 
 export default { component: useAnimations };
+
+const Text = ({ children }: { children: string }) => {
+  const animate = useAnimations({
+    mount: [
+      [
+        { transform: "translateY(-20px)", opacity: 0.2 },
+        { transform: "translateY(0px)", opacity: 1 },
+      ],
+      { duration: 800, easing: "ease-out" },
+    ],
+    update: [
+      [{ transform: "rotateX(360deg)" }, { transform: "rotateX(0deg)" }],
+      { duration: 800, easing: "ease-out" },
+    ],
+  });
+
+  const mounted = useRef(false);
+  useEffect(() => {
+    if (mounted.current) {
+      animate.play("update");
+    } else {
+      animate.play("mount");
+      mounted.current = true;
+    }
+  }, [children]);
+
+  return (
+    <span
+      ref={animate.ref}
+      style={{ display: "inline-block", whiteSpace: "pre", fontSize: 32 }}
+    >
+      {children}
+    </span>
+  );
+};
+
+export const Texts: StoryObj = {
+  render: () => {
+    const [value, setValue] = useState("Animation");
+    return (
+      <div style={{ margin: 20 }}>
+        <div style={{ marginBottom: 100 }}>
+          <input value={value} onChange={(e) => setValue(e.target.value)} />
+        </div>
+        <div>
+          {value.split("").map((t, i) => (
+            <Text key={i}>{t}</Text>
+          ))}
+        </div>
+      </div>
+    );
+  },
+};
 
 const WavedRect = ({ i }: { i: number }) => {
   const baseTiming: AnimationOptions = {
