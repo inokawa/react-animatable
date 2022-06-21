@@ -14,7 +14,7 @@ import {
 } from ".";
 import { getKeys } from "../utils";
 
-export const useEnterExitAnimation = <T extends TransitionState>(
+export const useTransitionAnimation = <T extends TransitionState>(
   definitions: {
     [key in T]: [TypedKeyframe | TypedKeyframe[], AnimationOptions?];
   }

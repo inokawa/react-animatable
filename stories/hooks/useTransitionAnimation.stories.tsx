@@ -1,8 +1,8 @@
 import { StoryObj } from "@storybook/react";
 import { useEffect, useRef, useState } from "react";
-import { AnimationGroup, useEnterExitAnimation } from "../../src";
+import { AnimationGroup, useTransitionAnimation } from "../../src";
 
-export default { component: useEnterExitAnimation };
+export default { component: useTransitionAnimation };
 
 const Text = ({ children }: { children: string }) => {
   const prev = useRef(children);
@@ -11,7 +11,7 @@ const Text = ({ children }: { children: string }) => {
   }, [children]);
 
   const timing = { duration: 800, easing: "ease-out" };
-  const animate = useEnterExitAnimation({
+  const animate = useTransitionAnimation({
     enter: [
       [
         { transform: "translateY(-20px)", opacity: 0.2 },
@@ -80,7 +80,7 @@ const SvgText = ({ children, i }: { children: string; i: number }) => {
     prevX.current = x;
   }, [x]);
   const timing = { duration: 800, easing: "ease-in-out" };
-  const transition = useEnterExitAnimation({
+  const transition = useTransitionAnimation({
     update: [
       [
         { transform: `translateX(${prevX.current - x}px)` },
