@@ -112,10 +112,28 @@ const animate = useAnimation(
   ],
   { duration: 800, easing: "ease-in-out" }
 );
-
 // invalid
 const animate = useAnimation(
   { transform: "translate3d(400px, 0, 0)" },
+  { duration: 800, easing: "ease-in-out" }
+);
+
+// valid
+const animate = useAnimation(
+  [
+    { transform: "translateX(0px)", fill: "blue" },
+    { transform: "translateX(100px)", fill: "red" },
+    { transform: "translateX(0px)", fill: "blue" },
+  ],
+  { duration: 800, easing: "ease-in-out" }
+);
+// invalid
+const animate = useAnimation(
+  [
+    { transform: "translateX(0px)" },
+    { transform: "translateX(100px)", fill: "red" },
+    { fill: "blue" },
+  ],
   { duration: 800, easing: "ease-in-out" }
 );
 ```
