@@ -9,7 +9,7 @@ A small, performant, flexible and composable animation library for [React](https
 - Performant animation driven by native [Web Animations API (WAAPI)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API).
 - [TypeScript](https://www.typescriptlang.org/) centric design for modern web application development.
 - Flexible and composable APIs based on React hooks.
-- [Tiny bundle size (currently about 1kB gzipped)](https://bundlephobia.com/package/react-animatable) and has zero dependencies.
+- [Tiny bundle size (currently about 1.3kB gzipped)](https://bundlephobia.com/package/react-animatable) and has zero dependencies.
 
 ## Demo
 
