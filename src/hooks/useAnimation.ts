@@ -12,12 +12,14 @@ export type AnimationHandle = {
   play: () => AnimationHandle;
   replay: () => AnimationHandle;
   reverse: () => AnimationHandle;
-  cancel: () => void;
-  finish: () => void;
-  pause: () => void;
-  commit: () => void;
-  setTime: (time: number) => void;
-  setPlaybackRate: (rate: number | ((prevRate: number) => number)) => void;
+  cancel: () => AnimationHandle;
+  finish: () => AnimationHandle;
+  pause: () => AnimationHandle;
+  commit: () => AnimationHandle;
+  setTime: (time: number) => AnimationHandle;
+  setPlaybackRate: (
+    rate: number | ((prevRate: number) => number)
+  ) => AnimationHandle;
   end: () => Promise<void>;
 };
 export type WithRef<T> = T & { ref: React.RefObject<any> };
@@ -82,12 +84,30 @@ export const useAnimation = (
           handle._reverse(initAnimation(getKeyframes(), getOptions()));
           return externalHandle;
         },
-        cancel: () => handle._cancel(getAnimation()),
-        finish: () => handle._finish(getAnimation()),
-        pause: () => handle._pause(getAnimation()),
-        commit: () => handle._commit(getAnimation()),
-        setTime: (time) => handle._setTime(getAnimation(), time),
-        setPlaybackRate: (rate) => handle._setRate(getAnimation(), rate),
+        cancel: () => {
+          handle._cancel(getAnimation());
+          return externalHandle;
+        },
+        finish: () => {
+          handle._finish(getAnimation());
+          return externalHandle;
+        },
+        pause: () => {
+          handle._pause(getAnimation());
+          return externalHandle;
+        },
+        commit: () => {
+          handle._commit(getAnimation());
+          return externalHandle;
+        },
+        setTime: (time) => {
+          handle._setTime(getAnimation(), time);
+          return externalHandle;
+        },
+        setPlaybackRate: (rate) => {
+          handle._setRate(getAnimation(), rate);
+          return externalHandle;
+        },
         end: () => handle._end(getAnimation()),
         ref,
       };

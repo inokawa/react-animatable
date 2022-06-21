@@ -13,15 +13,15 @@ export type AnimationsHandle<ID extends string> = {
   play: (name: ID) => AnimationsHandle<ID>;
   replay: (name: ID) => AnimationsHandle<ID>;
   reverse: (name: ID) => AnimationsHandle<ID>;
-  cancel: (name: ID) => void;
-  finish: (name: ID) => void;
-  pause: (name: ID) => void;
-  commit: (name: ID) => void;
-  setTime: (name: ID, time: number) => void;
+  cancel: (name: ID) => AnimationsHandle<ID>;
+  finish: (name: ID) => AnimationsHandle<ID>;
+  pause: (name: ID) => AnimationsHandle<ID>;
+  commit: (name: ID) => AnimationsHandle<ID>;
+  setTime: (name: ID, time: number) => AnimationsHandle<ID>;
   setPlaybackRate: (
     name: ID,
     rate: number | ((prevRate: number) => number)
-  ) => void;
+  ) => AnimationsHandle<ID>;
   end: (name: ID) => Promise<void>;
   cancelAll: () => void;
 };
@@ -85,13 +85,30 @@ export const useAnimations = <ID extends string>(
         handle._reverse(initAnimation(name));
         return externalHandle;
       },
-      cancel: (name) => handle._cancel(getAnimation(name)),
-      finish: (name) => handle._finish(getAnimation(name)),
-      pause: (name) => handle._pause(getAnimation(name)),
-      commit: (name) => handle._commit(getAnimation(name)),
-      setTime: (name, time) => handle._setTime(getAnimation(name), time),
-      setPlaybackRate: (name, rate) =>
-        handle._setRate(getAnimation(name), rate),
+      cancel: (name) => {
+        handle._cancel(getAnimation(name));
+        return externalHandle;
+      },
+      finish: (name) => {
+        handle._finish(getAnimation(name));
+        return externalHandle;
+      },
+      pause: (name) => {
+        handle._pause(getAnimation(name));
+        return externalHandle;
+      },
+      commit: (name) => {
+        handle._commit(getAnimation(name));
+        return externalHandle;
+      },
+      setTime: (name, time) => {
+        handle._setTime(getAnimation(name), time);
+        return externalHandle;
+      },
+      setPlaybackRate: (name, rate) => {
+        handle._setRate(getAnimation(name), rate);
+        return externalHandle;
+      },
       end: (name) => handle._end(getAnimation(name)),
       cancelAll: () => {
         cache.forEach(([a]) => {

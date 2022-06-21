@@ -78,12 +78,30 @@ export const useAnimationFunction = (
         handle._reverse(initAnimation(getOptions()));
         return externalHandle;
       },
-      cancel: () => handle._cancel(getAnimation()),
-      finish: () => handle._finish(getAnimation()),
-      pause: () => handle._pause(getAnimation()),
-      commit: () => handle._commit(getAnimation()),
-      setTime: (time) => handle._setTime(getAnimation(), time),
-      setPlaybackRate: (rate) => handle._setRate(getAnimation(), rate),
+      cancel: () => {
+        handle._cancel(getAnimation());
+        return externalHandle;
+      },
+      finish: () => {
+        handle._finish(getAnimation());
+        return externalHandle;
+      },
+      pause: () => {
+        handle._pause(getAnimation());
+        return externalHandle;
+      },
+      commit: () => {
+        handle._commit(getAnimation());
+        return externalHandle;
+      },
+      setTime: (time) => {
+        handle._setTime(getAnimation(), time);
+        return externalHandle;
+      },
+      setPlaybackRate: (rate) => {
+        handle._setRate(getAnimation(), rate);
+        return externalHandle;
+      },
       end: () => handle._end(getAnimation()),
     };
     return [

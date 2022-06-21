@@ -34,9 +34,7 @@ const WavedRect = ({ i }: { i: number }) => {
   });
 
   useEffect(() => {
-    animate.play("move");
-    animate.play("opacity");
-    animate.play("color");
+    animate.play("move").play("opacity").play("color");
   }, []);
 
   return (
