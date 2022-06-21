@@ -42,9 +42,11 @@ export const useEnterExitAnimation = <T extends TransitionState>(
   });
 
   useLayoutEffect(() => {
+    if (currentState === "update") return;
     const handle = definitions[currentState as T];
     if (!handle) return;
     animation
+      .cancelAll()
       .play(currentState as T)
       .end(currentState as T)
       .then(() => {
@@ -52,9 +54,6 @@ export const useEnterExitAnimation = <T extends TransitionState>(
           setShow(false);
         }
       });
-    return () => {
-      animation.cancel(currentState as T);
-    };
   }, [currentState]);
 
   return animation;

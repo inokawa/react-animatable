@@ -4,6 +4,67 @@ import { AnimationGroup, useEnterExitAnimation } from "../../src";
 
 export default { component: useEnterExitAnimation };
 
+const Text = ({ children }: { children: string }) => {
+  const prev = useRef(children);
+  useEffect(() => {
+    prev.current = children;
+  }, [children]);
+
+  const timing = { duration: 800, easing: "ease-out" };
+  const animate = useEnterExitAnimation({
+    enter: [
+      [
+        { transform: "translateY(-20px)", opacity: 0.2 },
+        { transform: "translateY(0px)", opacity: 1 },
+      ],
+      timing,
+    ],
+    exit: [
+      [
+        { transform: "translateY(0px)", opacity: 1 },
+        { transform: "translateY(20px)", opacity: 0.2 },
+      ],
+      timing,
+    ],
+    update:
+      children !== prev.current
+        ? [
+            [{ transform: "rotateX(360deg)" }, { transform: "rotateX(0deg)" }],
+            timing,
+          ]
+        : [{}],
+  });
+
+  return (
+    <span
+      ref={animate.ref}
+      style={{ display: "inline-block", whiteSpace: "pre", fontSize: 32 }}
+    >
+      {children}
+    </span>
+  );
+};
+
+export const Input: StoryObj = {
+  render: () => {
+    const [value, setValue] = useState("Animation");
+    return (
+      <div style={{ margin: 20 }}>
+        <div style={{ marginBottom: 100 }}>
+          <input value={value} onChange={(e) => setValue(e.target.value)} />
+        </div>
+        <div>
+          <AnimationGroup>
+            {value.split("").map((t, i) => (
+              <Text key={i}>{t}</Text>
+            ))}
+          </AnimationGroup>
+        </div>
+      </div>
+    );
+  },
+};
+
 const shuffle = <T,>(array: T[]): T[] => {
   for (let i = array.length - 1; i >= 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));

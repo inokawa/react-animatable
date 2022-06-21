@@ -21,8 +21,8 @@ export type AnimationsHandle<ID extends string> = {
     name: ID,
     rate: number | ((prevRate: number) => number)
   ) => AnimationsHandle<ID>;
+  cancelAll: () => AnimationsHandle<ID>;
   end: (name: ID) => Promise<void>;
-  cancelAll: () => void;
 };
 
 export const useAnimations = <ID extends string>(
@@ -108,12 +108,13 @@ export const useAnimations = <ID extends string>(
         handle._setRate(getAnimation(name), rate);
         return externalHandle;
       },
-      end: (name) => handle._end(getAnimation(name)),
       cancelAll: () => {
         cache.forEach(([a]) => {
           handle._cancel(a);
         });
+        return externalHandle;
       },
+      end: (name) => handle._end(getAnimation(name)),
       ref,
     };
     return [
