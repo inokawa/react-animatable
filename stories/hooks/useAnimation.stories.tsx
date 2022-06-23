@@ -357,7 +357,7 @@ export const Square: StoryObj = {
     const animate = useAnimation(
       [
         { transform: "rotate(0deg)", borderRadius: "1rem", offset: 0 },
-        { transform: "rotate(360deg)", borderRadius: "99px", offset: 0.25 },
+        { transform: "rotate(360deg)", borderRadius: "50%", offset: 0.25 },
         { transform: "rotate(0deg)", borderRadius: "1rem", offset: 0.5 },
         { transform: "rotate(-360deg)", borderRadius: "0px", offset: 0.75 },
         { transform: "rotate(0deg)", borderRadius: "1rem", offset: 1 },
