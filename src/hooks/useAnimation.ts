@@ -96,9 +96,7 @@ export const useAnimation = (
           return externalHandle;
         },
         commit: () => {
-          handle._commit(
-            getAnimation(),
-            getTarget()!,
+          handle._commit(getAnimation(), getTarget()!, () =>
             getKeyframeKeys(getKeyframes())
           );
           return externalHandle;

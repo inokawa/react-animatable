@@ -74,7 +74,7 @@ export const createHandle = () => {
     _commit: (
       animation: Animation | undefined,
       el: HTMLElement,
-      keys: string[]
+      getKeys: () => string[]
     ) => {
       if (!animation) return;
       if (animation.commitStyles) {
@@ -83,7 +83,7 @@ export const createHandle = () => {
       }
       // Fallback for commitStyles
       const computedStyle = getComputedStyle(el);
-      keys.forEach((k) => {
+      getKeys().forEach((k) => {
         (el.style as any)[k] = (computedStyle as any)[k];
       });
     },
