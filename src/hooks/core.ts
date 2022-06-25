@@ -1,4 +1,4 @@
-import { noop } from "../utils";
+import { getKeys, noop, uniqBy } from "../utils";
 
 export type AnimatableCSSProperties = Omit<
   React.CSSProperties,
@@ -24,6 +24,9 @@ export interface AnimationOptions
   extends Omit<KeyframeEffectOptions, "easing"> {
   easing?: TypedEasing;
 }
+
+export const getKeyframeKeys = (keyframes: TypedKeyframe[]): string[] =>
+  uniqBy(keyframes.flatMap((k) => getKeys(k)));
 
 export const createAnimation = (
   el: HTMLElement | null,

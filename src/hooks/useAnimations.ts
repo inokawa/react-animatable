@@ -1,15 +1,10 @@
 import { createRef, useEffect, useLayoutEffect, useRef, useState } from "react";
-import {
-  getKeys,
-  isSameObject,
-  isSameObjectArray,
-  toArray,
-  uniqBy,
-} from "../utils";
+import { isSameObject, isSameObjectArray, toArray } from "../utils";
 import {
   AnimationOptions,
   createAnimation,
   createHandle,
+  getKeyframeKeys,
   TypedKeyframe,
 } from "./core";
 import type { WithRef } from "./useAnimation";
@@ -106,7 +101,7 @@ export const useAnimations = <ID extends string>(
         handle._commit(
           getAnimation(name),
           getTarget()!,
-          uniqBy(getKeys(toArray(getKeyframesAndOptions(name)[0])))
+          getKeyframeKeys(toArray(getKeyframesAndOptions(name)[0]))
         );
         return externalHandle;
       },
