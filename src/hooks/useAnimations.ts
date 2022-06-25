@@ -4,7 +4,6 @@ import {
   AnimationOptions,
   createAnimation,
   createHandle,
-  getKeyframeKeys,
   TypedKeyframe,
 } from "./core";
 import type { WithRef } from "./useAnimation";
@@ -98,8 +97,10 @@ export const useAnimations = <ID extends string>(
         return externalHandle;
       },
       commit: (name) => {
-        handle._commit(getAnimation(name), getTarget()!, () =>
-          getKeyframeKeys(toArray(getKeyframesAndOptions(name)[0]))
+        handle._commit(
+          getAnimation(name),
+          getTarget()!,
+          toArray(getKeyframesAndOptions(name)[0])
         );
         return externalHandle;
       },

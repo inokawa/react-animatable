@@ -4,7 +4,6 @@ import {
   AnimationOptions,
   createAnimation,
   createHandle,
-  getKeyframeKeys,
   TypedKeyframe,
 } from "./core";
 
@@ -96,9 +95,7 @@ export const useAnimation = (
           return externalHandle;
         },
         commit: () => {
-          handle._commit(getAnimation(), getTarget()!, () =>
-            getKeyframeKeys(getKeyframes())
-          );
+          handle._commit(getAnimation(), getTarget()!, getKeyframes());
           return externalHandle;
         },
         setTime: (time) => {
