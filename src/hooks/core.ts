@@ -68,9 +68,21 @@ export const createHandle = () => {
       if (!animation) return;
       animation.pause();
     },
-    _commit: (animation: Animation | undefined) => {
+    _commit: (
+      animation: Animation | undefined,
+      el: HTMLElement,
+      keys: string[]
+    ) => {
       if (!animation) return;
-      animation.commitStyles?.();
+      if (animation.commitStyles) {
+        animation.commitStyles();
+        return;
+      }
+      // Fallback for commitStyles
+      const computedStyle = getComputedStyle(el);
+      keys.forEach((k) => {
+        (el.style as any)[k] = (computedStyle as any)[k];
+      });
     },
     _setTime: (animation: Animation | undefined, time: number) => {
       if (!animation) return;

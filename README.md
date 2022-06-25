@@ -118,7 +118,7 @@ Currently it only detects enter/update/exit of children by key, that works simil
 1. [browsers that have Element.animate()](https://caniuse.com/mdn-api_element_animate)
 1. browsers that have no Web Animations APIs
 
-In 1, you can use all functions of this library without polyfill. Some of the newer features like [composite mode](https://caniuse.com/web-animation), [commitStyles](https://caniuse.com/mdn-api_animation_commitstyles) and [CSS Motion Path](https://caniuse.com/css-motion-paths) may be ignored in some browsers though.
+In 1, you can use all functions of this library without polyfill. Some of the newer features like [composite mode](https://caniuse.com/web-animation) and [CSS Motion Path](https://caniuse.com/css-motion-paths) may be ignored in some browsers though.
 
 In 2, you can use this library but `useAnimationFuction` would not work.
 

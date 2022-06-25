@@ -1,5 +1,11 @@
 import { createRef, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { isArray, isSameObject, isSameObjectArray } from "../utils";
+import {
+  getKeys,
+  isSameObject,
+  isSameObjectArray,
+  toArray,
+  uniqBy,
+} from "../utils";
 import {
   AnimationOptions,
   createAnimation,
@@ -35,7 +41,7 @@ export const useAnimation = (
       const ref = createRef<HTMLElement>();
 
       const getTarget = () => ref.current;
-      const getKeyframes = () => keyframeRef.current;
+      const getKeyframes = () => toArray(keyframeRef.current);
       const getOptions = () => optionsRef.current;
 
       let cache:
@@ -47,11 +53,10 @@ export const useAnimation = (
           ]
         | undefined;
       const initAnimation = (
-        kf: TypedKeyframe | TypedKeyframe[],
+        keyframes: TypedKeyframe[],
         options: AnimationOptions | undefined
       ): Animation => {
         const el = getTarget()!;
-        const keyframes = isArray(kf) ? kf : [kf];
         if (cache) {
           const [prevAnimation, prevEl, prevKeyframes, prevOptions] = cache;
           if (
@@ -96,7 +101,11 @@ export const useAnimation = (
           return externalHandle;
         },
         commit: () => {
-          handle._commit(getAnimation());
+          handle._commit(
+            getAnimation(),
+            getTarget()!,
+            uniqBy(getKeys(getKeyframes()))
+          );
           return externalHandle;
         },
         setTime: (time) => {

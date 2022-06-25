@@ -1,5 +1,11 @@
 import { createRef, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { isArray, isSameObject, isSameObjectArray } from "../utils";
+import {
+  getKeys,
+  isArray,
+  isSameObject,
+  isSameObjectArray,
+  uniqBy,
+} from "../utils";
 import {
   AnimationOptions,
   createAnimation,
@@ -97,7 +103,11 @@ export const useAnimations = <ID extends string>(
         return externalHandle;
       },
       commit: (name) => {
-        handle._commit(getAnimation(name));
+        handle._commit(
+          getAnimation(name),
+          getTarget()!,
+          uniqBy(getKeys(getKeyframesAndOptions(name)[0]))
+        );
         return externalHandle;
       },
       setTime: (name, time) => {

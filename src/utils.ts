@@ -18,3 +18,10 @@ export const isSameObjectArray = (
   if (target.length !== prev.length) return false;
   return target.every((t, i) => isSameObject(t, prev[i]));
 };
+
+export const toArray = <T>(items: T | T[]): T[] =>
+  isArray(items) ? items : [items];
+
+export const uniqBy = <T extends string | number>(items: T[]): T[] => {
+  return Array.from(new Set(items));
+};
