@@ -1,10 +1,14 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { isSameObject } from "../utils";
-import { AnimationOptions, createAnimation, createHandle } from "./core";
+import {
+  AnimationOptions,
+  createAnimation,
+  createHandle,
+  PlayOptions,
+} from "./core";
 
 export type AnimationFunctionHandle = {
-  play: () => AnimationFunctionHandle;
-  replay: () => AnimationFunctionHandle;
+  play: (opts?: PlayOptions) => AnimationFunctionHandle;
   reverse: () => AnimationFunctionHandle;
   cancel: () => AnimationFunctionHandle;
   finish: () => AnimationFunctionHandle;
@@ -76,12 +80,8 @@ export const useAnimationFunction = (
       const handle = createHandle();
 
       const externalHandle: AnimationFunctionHandle = {
-        play: () => {
-          handle._play(initAnimation(getOptions()));
-          return externalHandle;
-        },
-        replay: () => {
-          handle._replay(initAnimation(getOptions()));
+        play: (opts) => {
+          handle._play(initAnimation(getOptions()), opts);
           return externalHandle;
         },
         reverse: () => {

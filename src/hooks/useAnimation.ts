@@ -4,12 +4,12 @@ import {
   AnimationOptions,
   createAnimation,
   createHandle,
+  PlayOptions,
   TypedKeyframe,
 } from "./core";
 
 export type AnimationHandle = {
-  play: () => AnimationHandle;
-  replay: () => AnimationHandle;
+  play: (opts?: PlayOptions) => AnimationHandle;
   reverse: () => AnimationHandle;
   cancel: () => AnimationHandle;
   finish: () => AnimationHandle;
@@ -70,12 +70,8 @@ export const useAnimation = (
       const handle = createHandle();
 
       const externalHandle: WithRef<AnimationHandle> = {
-        play: () => {
-          handle._play(initAnimation(getKeyframes(), getOptions()));
-          return externalHandle;
-        },
-        replay: () => {
-          handle._replay(initAnimation(getKeyframes(), getOptions()));
+        play: (opts) => {
+          handle._play(initAnimation(getKeyframes(), getOptions()), opts);
           return externalHandle;
         },
         reverse: () => {

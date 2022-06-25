@@ -3,6 +3,7 @@ export type {
   TypedEasing,
   AnimationOptions,
   AnimatableCSSProperties,
+  PlayOptions,
 } from "./core";
 export { useAnimation } from "./useAnimation";
 export type { AnimationHandle, WithRef } from "./useAnimation";

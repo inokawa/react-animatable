@@ -4,13 +4,13 @@ import {
   AnimationOptions,
   createAnimation,
   createHandle,
+  PlayOptions,
   TypedKeyframe,
 } from "./core";
 import type { WithRef } from "./useAnimation";
 
 export type AnimationsHandle<ID extends string> = {
-  play: (name: ID) => AnimationsHandle<ID>;
-  replay: (name: ID) => AnimationsHandle<ID>;
+  play: (name: ID, opts?: PlayOptions) => AnimationsHandle<ID>;
   reverse: (name: ID) => AnimationsHandle<ID>;
   cancel: (name: ID) => AnimationsHandle<ID>;
   finish: (name: ID) => AnimationsHandle<ID>;
@@ -72,12 +72,8 @@ export const useAnimations = <ID extends string>(
     const handle = createHandle();
 
     const externalHandle: WithRef<AnimationsHandle<ID>> = {
-      play: (name) => {
-        handle._play(initAnimation(name));
-        return externalHandle;
-      },
-      replay: (name) => {
-        handle._replay(initAnimation(name));
+      play: (name, opts) => {
+        handle._play(initAnimation(name), opts);
         return externalHandle;
       },
       reverse: (name) => {

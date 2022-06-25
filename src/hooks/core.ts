@@ -45,13 +45,14 @@ export const createAnimation = (
   }
 };
 
+export type PlayOptions = { reset?: boolean };
+
 export const createHandle = () => {
   const handle = {
-    _play: (animation: Animation) => {
-      animation.play();
-    },
-    _replay: (animation: Animation) => {
-      animation.currentTime = 0;
+    _play: (animation: Animation, opts: PlayOptions = {}) => {
+      if (opts.reset) {
+        animation.currentTime = 0;
+      }
       animation.play();
     },
     _reverse: (animation: Animation) => {
