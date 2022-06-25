@@ -70,34 +70,10 @@ export const Hello: StoryObj = {
           </g>
         </svg>
         <div>
-          <button
-            onClick={() => {
-              animate.play();
-            }}
-          >
-            play
-          </button>
-          <button
-            onClick={() => {
-              animate.pause();
-            }}
-          >
-            pause
-          </button>
-          <button
-            onClick={() => {
-              animate.reverse();
-            }}
-          >
-            reverse
-          </button>
-          <button
-            onClick={() => {
-              animate.finish();
-            }}
-          >
-            finish
-          </button>
+          <button onClick={animate.play}>play</button>
+          <button onClick={animate.pause}>pause</button>
+          <button onClick={animate.reverse}>reverse</button>
+          <button onClick={animate.finish}>finish</button>
         </div>
         <div>
           <label>
@@ -382,7 +358,7 @@ export const Square: StoryObj = {
           width: "6rem",
           margin: "2rem 0 2rem 2rem",
         }}
-      ></div>
+      />
     );
   },
 };
@@ -398,13 +374,9 @@ export const Toggle: StoryObj = {
       animate.play();
     }, [animate]);
 
-    const onClick = useCallback(() => {
-      animate.reverse();
-    }, [animate]);
-
     return (
       <div>
-        <button onClick={onClick}>Toggle</button>
+        <button onClick={animate.reverse}>Toggle</button>
         <div className="rail">
           <div ref={animate.ref} className="block" />
         </div>
@@ -455,11 +427,9 @@ export const Path: StoryObj = {
     const height = 300;
 
     return (
-      <>
-        <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
-          <path ref={animate.ref} fill="orange" />
-        </svg>
-      </>
+      <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
+        <path ref={animate.ref} fill="orange" />
+      </svg>
     );
   },
 };
