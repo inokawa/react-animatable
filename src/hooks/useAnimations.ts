@@ -1,7 +1,6 @@
 import { createRef, useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
   getKeys,
-  isArray,
   isSameObject,
   isSameObjectArray,
   toArray,
@@ -58,7 +57,7 @@ export const useAnimations = <ID extends string>(
     const initAnimation = (name: ID): Animation => {
       const el = getTarget()!;
       const [kf, options] = getKeyframesAndOptions(name);
-      const keyframes = isArray(kf) ? kf : [kf];
+      const keyframes = toArray(kf);
       if (cache.has(name)) {
         const [prevAnimation, prevEl, prevKeyframes, prevOptions] =
           cache.get(name)!;
