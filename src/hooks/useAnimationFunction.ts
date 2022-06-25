@@ -1,7 +1,20 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { isSameObject } from "../utils";
 import { AnimationOptions, createAnimation, createHandle } from "./core";
-import type { AnimationHandle } from "./useAnimation";
+
+export type AnimationFunctionHandle = {
+  play: () => AnimationFunctionHandle;
+  replay: () => AnimationFunctionHandle;
+  reverse: () => AnimationFunctionHandle;
+  cancel: () => AnimationFunctionHandle;
+  finish: () => AnimationFunctionHandle;
+  pause: () => AnimationFunctionHandle;
+  setTime: (time: number) => AnimationFunctionHandle;
+  setPlaybackRate: (
+    rate: number | ((prevRate: number) => number)
+  ) => AnimationFunctionHandle;
+  end: () => Promise<void>;
+};
 
 export type ComputedTimingContext = Required<
   {
@@ -31,82 +44,80 @@ const bindUpdateFunction = (
 export const useAnimationFunction = (
   onUpdate: AnimationFunction,
   options?: AnimationOptions
-): AnimationHandle => {
+): AnimationFunctionHandle => {
   const onUpdateRef = useRef(onUpdate);
   const optionsRef = useRef(options);
 
-  const [animation, cleanup] = useState<[AnimationHandle, () => void]>(() => {
-    const getOnUpdate = () => onUpdateRef.current;
-    const getOptions = () => optionsRef.current;
+  const [animation, cleanup] = useState<[AnimationFunctionHandle, () => void]>(
+    () => {
+      const getOnUpdate = () => onUpdateRef.current;
+      const getOptions = () => optionsRef.current;
 
-    let cache: [Animation, AnimationOptions | undefined] | undefined;
-    const initAnimation = (
-      options: AnimationOptions | undefined
-    ): Animation => {
-      if (cache) {
-        const [prevAnimation, prevOptions] = cache;
-        if (isSameObject(options, prevOptions)) {
-          if (prevAnimation.playState !== "running") {
-            bindUpdateFunction(prevAnimation, getOnUpdate);
+      let cache: [Animation, AnimationOptions | undefined] | undefined;
+      const initAnimation = (
+        options: AnimationOptions | undefined
+      ): Animation => {
+        if (cache) {
+          const [prevAnimation, prevOptions] = cache;
+          if (isSameObject(options, prevOptions)) {
+            if (prevAnimation.playState !== "running") {
+              bindUpdateFunction(prevAnimation, getOnUpdate);
+            }
+            return prevAnimation;
           }
-          return prevAnimation;
+          prevAnimation.cancel();
         }
-        prevAnimation.cancel();
-      }
-      const animation = createAnimation(null, null, options);
-      bindUpdateFunction(animation, getOnUpdate);
-      cache = [animation, options];
-      return animation;
-    };
-    const getAnimation = () => cache?.[0];
-    const handle = createHandle();
+        const animation = createAnimation(null, null, options);
+        bindUpdateFunction(animation, getOnUpdate);
+        cache = [animation, options];
+        return animation;
+      };
+      const getAnimation = () => cache?.[0];
+      const handle = createHandle();
 
-    const externalHandle: AnimationHandle = {
-      play: () => {
-        handle._play(initAnimation(getOptions()));
-        return externalHandle;
-      },
-      replay: () => {
-        handle._replay(initAnimation(getOptions()));
-        return externalHandle;
-      },
-      reverse: () => {
-        handle._reverse(initAnimation(getOptions()));
-        return externalHandle;
-      },
-      cancel: () => {
-        handle._cancel(getAnimation());
-        return externalHandle;
-      },
-      finish: () => {
-        handle._finish(getAnimation());
-        return externalHandle;
-      },
-      pause: () => {
-        handle._pause(getAnimation());
-        return externalHandle;
-      },
-      commit: () => {
-        handle._commit(getAnimation());
-        return externalHandle;
-      },
-      setTime: (time) => {
-        handle._setTime(getAnimation(), time);
-        return externalHandle;
-      },
-      setPlaybackRate: (rate) => {
-        handle._setRate(getAnimation(), rate);
-        return externalHandle;
-      },
-      end: () => handle._end(getAnimation()),
-    };
-    return [
-      externalHandle,
-      () => {
-        handle._cancel(getAnimation());
-      },
-    ];
-  })[0];
+      const externalHandle: AnimationFunctionHandle = {
+        play: () => {
+          handle._play(initAnimation(getOptions()));
+          return externalHandle;
+        },
+        replay: () => {
+          handle._replay(initAnimation(getOptions()));
+          return externalHandle;
+        },
+        reverse: () => {
+          handle._reverse(initAnimation(getOptions()));
+          return externalHandle;
+        },
+        cancel: () => {
+          handle._cancel(getAnimation());
+          return externalHandle;
+        },
+        finish: () => {
+          handle._finish(getAnimation());
+          return externalHandle;
+        },
+        pause: () => {
+          handle._pause(getAnimation());
+          return externalHandle;
+        },
+        setTime: (time) => {
+          handle._setTime(getAnimation(), time);
+          return externalHandle;
+        },
+        setPlaybackRate: (rate) => {
+          handle._setRate(getAnimation(), rate);
+          return externalHandle;
+        },
+        end: () => handle._end(getAnimation()),
+      };
+      return [
+        externalHandle,
+        () => {
+          handle._cancel(getAnimation());
+        },
+      ];
+    }
+  )[0];
 
   useLayoutEffect(() => {
     onUpdateRef.current = onUpdate;

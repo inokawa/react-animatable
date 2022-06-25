@@ -8,6 +8,7 @@ export { useAnimation } from "./useAnimation";
 export type { AnimationHandle, WithRef } from "./useAnimation";
 export { useAnimationFunction } from "./useAnimationFunction";
 export type {
+  AnimationFunctionHandle,
   AnimationFunction,
   ComputedTimingContext,
 } from "./useAnimationFunction";
