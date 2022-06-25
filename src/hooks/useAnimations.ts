@@ -4,6 +4,7 @@ import {
   isArray,
   isSameObject,
   isSameObjectArray,
+  toArray,
   uniqBy,
 } from "../utils";
 import {
@@ -106,7 +107,7 @@ export const useAnimations = <ID extends string>(
         handle._commit(
           getAnimation(name),
           getTarget()!,
-          uniqBy(getKeys(getKeyframesAndOptions(name)[0]))
+          uniqBy(getKeys(toArray(getKeyframesAndOptions(name)[0])))
         );
         return externalHandle;
       },
