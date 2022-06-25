@@ -36,6 +36,7 @@ import { useEffect } from "react";
 import { useAnimation } from "react-animatable";
 
 export const App = () => {
+  // Define your animation in WAAPI way
   const animate = useAnimation(
     [
       { fill: "red", fontSize: "24px" },
@@ -50,13 +51,29 @@ export const App = () => {
   );
 
   useEffect(() => {
+    // And play it!
     animate.play();
   }, []);
 
   return (
-    <svg width={600} height={400} viewBox="0 0 600 400">
+    <svg
+      width={600}
+      height={400}
+      viewBox="0 0 600 400"
+      onClick={
+        // The return value of useAnimation and its methods are memoized
+        animate.pause
+      }
+    >
       <g transform="translate(50, 50)">
-        <text ref={animate.ref}>Hello world</text>
+        <text
+          ref={
+            // You have to pass ref to element you want to control
+            animate.ref
+          }
+        >
+          Hello world
+        </text>
       </g>
     </svg>
   );
