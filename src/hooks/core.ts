@@ -37,14 +37,12 @@ export const createAnimation = (
     fill: "forwards",
     ...options,
   };
-  let effect: KeyframeEffect;
   try {
-    effect = new KeyframeEffect(el, keyframes, modifiedOptions);
+    return new Animation(new KeyframeEffect(el, keyframes, modifiedOptions));
   } catch (e) {
     // Fallback to Element.animate()
     return el!.animate(keyframes, modifiedOptions);
   }
-  return new Animation(effect);
 };
 
 export const createHandle = () => {
