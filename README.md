@@ -187,3 +187,8 @@ const animate = useAnimation(
   { duration: 800, easing: "ease-in-out" }
 );
 ```
+
+## My previous experiments (deprecated)
+
+- [tweened](https://github.com/inokawa/tweened)
+- [react-use-d3](https://github.com/inokawa/react-use-d3)
