@@ -87,6 +87,7 @@ export const createHandle = () => {
       keyframes: TypedKeyframe[]
     ) => {
       if (!animation) return;
+      // https://www.w3.org/TR/web-animations-1/#fill-behavior
       if (animation.commitStyles) {
         animation.commitStyles();
       } else {
