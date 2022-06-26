@@ -161,6 +161,66 @@ export const Countdown: StoryObj = {
   },
 };
 
+const Block = ({ i, length: n }: { i: number; length: number }) => {
+  const timing: AnimationOptions = {
+    duration: 250,
+  };
+  const animate = useAnimations({
+    one: [
+      [{ backgroundColor: "#eee" }, { backgroundColor: "steelblue" }],
+      { ...timing, endDelay: 1000 },
+    ],
+    two: [
+      [{ backgroundColor: "steelblue" }, { backgroundColor: "orange" }],
+      { ...timing, endDelay: 1000 },
+    ],
+    three: [
+      [{ backgroundColor: "orange" }, { backgroundColor: "#eee" }],
+      { ...timing, endDelay: n },
+    ],
+  });
+
+  useEffect(() => {
+    const run = async () => {
+      animate.cancelAll();
+      await animate.play("one").end("one");
+      animate.cancel("one");
+      await animate.play("two").end("two");
+      animate.cancel("two");
+      await animate.play("three").end("three");
+      run();
+    };
+    setTimeout(run, i + (Math.random() * n) / 4);
+  }, []);
+
+  return (
+    <div
+      ref={animate.ref}
+      style={{
+        width: 10,
+        height: 10,
+        margin: " 1px 0 0 1px",
+        float: "left",
+        background: "#eee",
+        display: "inline-block",
+      }}
+    />
+  );
+};
+
+export const Chained: StoryObj = {
+  render: () => {
+    const length = 4002;
+    return (
+      <div style={{ maxWidth: 960 }}>
+        {Array.from({ length: length }).map((_, i) => (
+          <Block key={i} i={i} length={length} />
+        ))}
+      </div>
+    );
+  },
+};
+
 export const Sequence: StoryObj = {
   render: () => {
     const timing: AnimationOptions = { duration: 600, easing: "ease-out" };
