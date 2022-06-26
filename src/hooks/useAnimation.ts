@@ -40,10 +40,10 @@ export const useAnimation = (
 
       let cache:
         | [
-            Animation,
-            HTMLElement,
-            TypedKeyframe[],
-            AnimationOptions | undefined
+            animation: Animation,
+            el: HTMLElement,
+            keyframes: TypedKeyframe[],
+            options: AnimationOptions | undefined
           ]
         | undefined;
       const initAnimation = (

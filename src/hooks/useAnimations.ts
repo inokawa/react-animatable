@@ -46,7 +46,12 @@ export const useAnimations = <ID extends string>(
 
     const cache = new Map<
       string,
-      [Animation, HTMLElement, TypedKeyframe[], AnimationOptions | undefined]
+      [
+        animation: Animation,
+        el: HTMLElement,
+        keyframes: TypedKeyframe[],
+        options: AnimationOptions | undefined
+      ]
     >();
     const initAnimation = (name: ID): Animation => {
       const el = getTarget()!;
