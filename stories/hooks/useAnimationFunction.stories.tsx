@@ -69,7 +69,6 @@ export const Canvas: StoryObj = {
         easing: "ease-in-out",
         duration: 1000,
         iterations: Infinity,
-        fill: "both",
       }
     );
 

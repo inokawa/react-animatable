@@ -292,7 +292,7 @@ const Bar = ({
           },
           target,
         ],
-    { duration: 150, easing: "ease-out", delay: i * 100, fill: "both" }
+    { duration: 150, easing: "ease-out", delay: i * 100 }
   );
 
   useEffect(() => {

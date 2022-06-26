@@ -9,7 +9,6 @@ const WavedRect = ({ i }: { i: number }) => {
     easing: "ease-in-out",
     iterations: Infinity,
     direction: "alternate",
-    fill: "both",
     delay: i * 98,
   };
   const animate = useAnimations({

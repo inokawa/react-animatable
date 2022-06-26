@@ -45,7 +45,7 @@ export const createAnimation = (
   options: AnimationOptions | undefined
 ): Animation => {
   const modifiedOptions: AnimationOptions = {
-    fill: "forwards",
+    fill: "both",
     ...options,
   };
   try {
