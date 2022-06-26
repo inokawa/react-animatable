@@ -231,27 +231,24 @@ export const Sequence: StoryObj = {
     });
 
     const onClickRed = useCallback(async () => {
-      animate.cancelAll();
       try {
         await animate.play("red").end("red");
       } finally {
-        animate.commit("red");
+        animate.persist("red");
       }
     }, []);
     const onClickBlue = useCallback(async () => {
-      animate.cancelAll();
       try {
         await animate.play("blue").end("blue");
       } finally {
-        animate.commit("blue");
+        animate.persist("blue");
       }
     }, []);
     const onClickGreen = useCallback(async () => {
-      animate.cancelAll();
       try {
         await animate.play("green").end("green");
       } finally {
-        animate.commit("green");
+        animate.persist("green");
       }
     }, []);
     const onClickAll = useCallback(async () => {

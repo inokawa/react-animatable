@@ -14,7 +14,7 @@ export type AnimationHandle = {
   cancel: () => AnimationHandle;
   finish: () => AnimationHandle;
   pause: () => AnimationHandle;
-  commit: () => AnimationHandle;
+  persist: () => AnimationHandle;
   setTime: (time: number) => AnimationHandle;
   setPlaybackRate: (
     rate: number | ((prevRate: number) => number)
@@ -90,8 +90,8 @@ export const useAnimation = (
           handle._pause(getAnimation());
           return externalHandle;
         },
-        commit: () => {
-          handle._commit(getAnimation(), getTarget()!, getKeyframes());
+        persist: () => {
+          handle._persist(getAnimation(), getTarget()!, getKeyframes());
           return externalHandle;
         },
         setTime: (time) => {

@@ -15,7 +15,7 @@ export type AnimationsHandle<ID extends string> = {
   cancel: (name: ID) => AnimationsHandle<ID>;
   finish: (name: ID) => AnimationsHandle<ID>;
   pause: (name: ID) => AnimationsHandle<ID>;
-  commit: (name: ID) => AnimationsHandle<ID>;
+  persist: (name: ID) => AnimationsHandle<ID>;
   setTime: (name: ID, time: number) => AnimationsHandle<ID>;
   setPlaybackRate: (
     name: ID,
@@ -97,8 +97,8 @@ export const useAnimations = <ID extends string>(
         handle._pause(getAnimation(name));
         return externalHandle;
       },
-      commit: (name) => {
-        handle._commit(
+      persist: (name) => {
+        handle._persist(
           getAnimation(name),
           getTarget()!,
           toArray(getKeyframesAndOptions(name)[0])

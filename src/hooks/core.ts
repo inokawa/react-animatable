@@ -81,7 +81,7 @@ export const createHandle = () => {
       if (!animation) return;
       animation.pause();
     },
-    _commit: (
+    _persist: (
       animation: Animation | undefined,
       el: HTMLElement,
       keyframes: TypedKeyframe[]
@@ -89,13 +89,14 @@ export const createHandle = () => {
       if (!animation) return;
       if (animation.commitStyles) {
         animation.commitStyles();
-        return;
+      } else {
+        // Fallback for commitStyles
+        const computedStyle = getComputedStyle(el);
+        getKeyframeKeys(keyframes).forEach((k) => {
+          (el.style as any)[k] = (computedStyle as any)[k];
+        });
       }
-      // Fallback for commitStyles
-      const computedStyle = getComputedStyle(el);
-      getKeyframeKeys(keyframes).forEach((k) => {
-        (el.style as any)[k] = (computedStyle as any)[k];
-      });
+      animation.cancel();
     },
     _setTime: (animation: Animation | undefined, time: number) => {
       if (!animation) return;
