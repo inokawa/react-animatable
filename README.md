@@ -2,7 +2,7 @@
 
 ![npm](https://img.shields.io/npm/v/react-animatable) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/react-animatable) [![check](https://github.com/inokawa/react-animatable/actions/workflows/check.yml/badge.svg)](https://github.com/inokawa/react-animatable/actions/workflows/check.yml) [![demo](https://github.com/inokawa/react-animatable/actions/workflows/demo.yml/badge.svg)](https://github.com/inokawa/react-animatable/actions/workflows/demo.yml)
 
-A small, performant, flexible and composable animation library for [React](https://github.com/facebook/react), powered by [Web Animations API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API).
+A small but powerful animation library for [React](https://github.com/facebook/react), built on [Web Animations API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API).
 
 <img src="./demo.gif" width="600px" />
 
