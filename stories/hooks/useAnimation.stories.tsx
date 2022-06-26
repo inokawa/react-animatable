@@ -1,6 +1,6 @@
 import { StoryObj } from "@storybook/react";
 import { useEffect, useState } from "react";
-import { TypedEasing, useAnimation } from "../../src";
+import { TypedEasing, TypedKeyframe, useAnimation } from "../../src";
 
 export default { component: useAnimation };
 
@@ -269,23 +269,38 @@ const Bar = ({
   value,
   i,
   height,
+  keep,
 }: {
   value: number;
   i: number;
   height: number;
+  keep: boolean;
 }) => {
+  const target: TypedKeyframe = {
+    height: `${value}px`,
+    transform: `translateY(-${value}px)`,
+    opacity: String(1 - i * 0.025),
+  };
   const animate = useAnimation(
-    {
-      height: `${value}px`,
-      transform: `translateY(-${value}px)`,
-      opacity: String(1 - i * 0.025),
-    },
-    { duration: 150, easing: "ease-out", delay: i * 100 }
+    keep
+      ? target
+      : [
+          {
+            height: 0,
+            transform: "translateY(0px)",
+            opacity: target.opacity,
+          },
+          target,
+        ],
+    { duration: 150, easing: "ease-out", delay: i * 100, fill: "both" }
   );
 
   useEffect(() => {
+    if (keep) {
+      animate.persist();
+    }
     animate.play();
-  }, [value]);
+  }, [value, keep]);
 
   return (
     <rect
@@ -304,21 +319,42 @@ export const Bars: StoryObj = {
     const init = () =>
       Array.from({ length: 30 }).map(() => 300 * Math.random() ** 2);
     const [rects, setRects] = useState(init);
+    const [keep, setKeep] = useState(false);
 
     const width = 800;
     const height = 400;
     const margin = 10;
     const maxBarHeight = height - margin * 2;
+
+    const refresh = () => setRects(init());
+
     return (
       <>
         <div>
-          <button onClick={() => setRects(init())}>refresh</button>
+          <button onClick={refresh}>refresh</button>
+          <label>
+            <input
+              type="checkbox"
+              checked={keep}
+              onChange={(e) => {
+                setKeep(e.target.checked);
+                refresh();
+              }}
+            />
+            keep
+          </label>
         </div>
         <div>
           <svg width={width} height={height}>
             <g transform={`translate(${margin},${margin})`}>
               {rects.map((v, i) => (
-                <Bar key={i} i={i} value={v} height={maxBarHeight} />
+                <Bar
+                  key={i}
+                  i={i}
+                  value={v}
+                  height={maxBarHeight}
+                  keep={keep}
+                />
               ))}
             </g>
           </svg>
