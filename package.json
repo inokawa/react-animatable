@@ -52,6 +52,7 @@
   },
   "keywords": [
     "react",
+    "react-component",
     "react-hooks",
     "animation",
     "tween",
