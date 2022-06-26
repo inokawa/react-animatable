@@ -26,7 +26,15 @@ export interface AnimationOptions
 }
 
 export const getKeyframeKeys = (keyframes: TypedKeyframe[]): string[] =>
-  uniqBy(keyframes.flatMap((k) => getKeys(k)));
+  uniqBy(keyframes.flatMap(getKeys)).map((k) => {
+    if (k === "cssFloat") {
+      return "float";
+    } else if (k === "cssOffset") {
+      return "offset";
+    } else {
+      return k;
+    }
+  });
 
 export const createAnimation = (
   el: HTMLElement | null,
