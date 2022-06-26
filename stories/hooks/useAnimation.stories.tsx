@@ -1,5 +1,5 @@
 import { StoryObj } from "@storybook/react";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { TypedEasing, useAnimation } from "../../src";
 
 export default { component: useAnimation };
@@ -70,7 +70,7 @@ export const Hello: StoryObj = {
           </g>
         </svg>
         <div>
-          <button onClick={animate.play}>play</button>
+          <button onClick={() => animate.play()}>play</button>
           <button onClick={animate.pause}>pause</button>
           <button onClick={animate.reverse}>reverse</button>
           <button onClick={animate.finish}>finish</button>
