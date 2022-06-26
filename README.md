@@ -4,6 +4,8 @@
 
 A small, performant, flexible and composable animation library for [React](https://github.com/facebook/react), powered by [Web Animations API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API).
 
+<img src="./demo.gif" width="600px" />
+
 ## Features
 
 - Performant animation driven by native [Web Animations API (WAAPI)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API).
