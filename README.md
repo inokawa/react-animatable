@@ -12,7 +12,7 @@ A small but powerful animation library for [React](https://github.com/facebook/r
 - HTML, SVG, Canvas and other things can be animated.
 - [TypeScript](https://www.typescriptlang.org/) centric design for modern web application development.
 - Composable and declarative APIs based on React hooks.
-- [Tiny bundle size (currently about 2kB gzipped)](https://bundlephobia.com/package/react-animatable) and has zero dependencies.
+- [Tiny bundle size (currently about 2kB gzipped)](https://bundlephobia.com/package/react-animatable) and has zero dependencies. Of course treeshakeable
 
 ## Demo
 
