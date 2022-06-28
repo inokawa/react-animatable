@@ -38,6 +38,12 @@ export const useAnimationController = <ID extends string>(
         );
       };
 
+      const cancelAll = () => {
+        forAllHandle((handle) => {
+          handle.cancel();
+        });
+      };
+
       const externalHandle: AnimationController<ID> = {
         get: getHandle,
         playAll: (opts) => {
@@ -53,9 +59,7 @@ export const useAnimationController = <ID extends string>(
           return externalHandle;
         },
         cancelAll: () => {
-          forAllHandle((handle) => {
-            handle.cancel();
-          });
+          cancelAll();
           return externalHandle;
         },
         finishAll: () => {
@@ -79,7 +83,7 @@ export const useAnimationController = <ID extends string>(
       return [
         externalHandle,
         () => {
-          externalHandle.cancelAll();
+          cancelAll();
         },
       ];
     }

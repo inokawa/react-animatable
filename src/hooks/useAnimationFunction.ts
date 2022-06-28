@@ -79,6 +79,10 @@ export const useAnimationFunction = (
       const getAnimation = () => cache?.[0];
       const handle = createHandle();
 
+      const cancel = () => {
+        handle._cancel(getAnimation());
+      };
+
       const externalHandle: AnimationFunctionHandle = {
         play: (opts) => {
           handle._play(initAnimation(getOptions()), opts);
@@ -89,7 +93,7 @@ export const useAnimationFunction = (
           return externalHandle;
         },
         cancel: () => {
-          handle._cancel(getAnimation());
+          cancel();
           return externalHandle;
         },
         finish: () => {
@@ -113,7 +117,7 @@ export const useAnimationFunction = (
       return [
         externalHandle,
         () => {
-          handle._cancel(getAnimation());
+          cancel();
         },
       ];
     }
