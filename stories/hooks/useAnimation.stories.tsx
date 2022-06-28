@@ -472,8 +472,9 @@ export const Path: StoryObj = {
 
 export const ThreeDimentional: StoryObj = {
   render: () => {
+    const [pos, setPos] = useState({ x: 1, y: 1 });
     const animate = useAnimation(
-      { transform: "rotate3d(1, 1, 1, 360deg)" },
+      { transform: `rotate3d(${pos.y / 100}, ${pos.x / 100}, 0, 360deg)` },
       {
         duration: 1000,
         iterations: Infinity,
@@ -482,6 +483,16 @@ export const ThreeDimentional: StoryObj = {
 
     useEffect(() => {
       animate.play();
+    }, [pos]);
+
+    useEffect(() => {
+      const onPointerMove = (e: PointerEvent) => {
+        setPos({ x: e.clientX, y: e.clientY });
+      };
+      window.addEventListener("pointermove", onPointerMove);
+      return () => {
+        window.removeEventListener("pointermove", onPointerMove);
+      };
     }, []);
 
     return (
