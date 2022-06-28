@@ -8,11 +8,16 @@ import {
 
 export default { component: useTransitionAnimation };
 
-const Text = ({ children }: { children: string }) => {
-  const prev = useRef(children);
+const usePrevious = <T,>(value: T) => {
+  const prev = useRef(value);
   useEffect(() => {
-    prev.current = children;
-  }, [children]);
+    prev.current = value;
+  }, [value]);
+  return prev.current;
+};
+
+const Text = ({ children }: { children: string }) => {
+  const prev = usePrevious(children);
 
   const timing = { duration: 800, easing: "ease-out" };
   const animate = useTransitionAnimation({
@@ -32,7 +37,7 @@ const Text = ({ children }: { children: string }) => {
     ),
     update: useAnimation(
       [{ transform: "rotateX(360deg)" }, { transform: "rotateX(0deg)" }],
-      children !== prev.current ? timing : undefined
+      children !== prev ? timing : undefined
     ),
   });
 
@@ -76,15 +81,12 @@ const shuffle = <T,>(array: T[]): T[] => {
 
 const SvgText = ({ children, i }: { children: string; i: number }) => {
   const x = i * 20;
-  const prevX = useRef(x);
-  useEffect(() => {
-    prevX.current = x;
-  }, [x]);
+  const prevX = usePrevious(x);
   const timing = { duration: 800, easing: "ease-in-out" };
   const transition = useTransitionAnimation({
     update: useAnimation(
       [
-        { transform: `translateX(${prevX.current - x}px)` },
+        { transform: `translateX(${prevX - x}px)` },
         { transform: `translateX(0px)` },
       ],
       timing
