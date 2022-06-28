@@ -1,6 +1,10 @@
 import { StoryObj } from "@storybook/react";
 import { useEffect, useRef, useState } from "react";
-import { AnimationGroup, useTransitionAnimation } from "../../src";
+import {
+  AnimationGroup,
+  useAnimation,
+  useTransitionAnimation,
+} from "../../src";
 
 export default { component: useTransitionAnimation };
 
@@ -12,27 +16,24 @@ const Text = ({ children }: { children: string }) => {
 
   const timing = { duration: 800, easing: "ease-out" };
   const animate = useTransitionAnimation({
-    enter: [
+    enter: useAnimation(
       [
         { transform: "translateY(-20px)", opacity: 0.2 },
         { transform: "translateY(0px)", opacity: 1 },
       ],
-      timing,
-    ],
-    exit: [
+      timing
+    ),
+    exit: useAnimation(
       [
         { transform: "translateY(0px)", opacity: 1 },
         { transform: "translateY(20px)", opacity: 0.2 },
       ],
-      timing,
-    ],
-    update:
-      children !== prev.current
-        ? [
-            [{ transform: "rotateX(360deg)" }, { transform: "rotateX(0deg)" }],
-            timing,
-          ]
-        : [{}],
+      timing
+    ),
+    update: useAnimation(
+      [{ transform: "rotateX(360deg)" }, { transform: "rotateX(0deg)" }],
+      children !== prev.current ? timing : undefined
+    ),
   });
 
   return (
@@ -81,24 +82,24 @@ const SvgText = ({ children, i }: { children: string; i: number }) => {
   }, [x]);
   const timing = { duration: 800, easing: "ease-in-out" };
   const transition = useTransitionAnimation({
-    update: [
+    update: useAnimation(
       [
         { transform: `translateX(${prevX.current - x}px)` },
         { transform: `translateX(0px)` },
       ],
-      timing,
-    ],
-    enter: [
+      timing
+    ),
+    enter: useAnimation(
       [
         { fill: "green", fillOpacity: "0", transform: "translateY(-20px)" },
         { fill: "green", fillOpacity: "1", transform: "translateY(0px)" },
       ],
-      timing,
-    ],
-    exit: [
+      timing
+    ),
+    exit: useAnimation(
       { fill: "brown", fillOpacity: "0", transform: "translateY(20px)" },
-      timing,
-    ],
+      timing
+    ),
   });
 
   return (

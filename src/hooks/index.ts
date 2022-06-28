@@ -6,13 +6,13 @@ export type {
   PlayOptions,
 } from "./core";
 export { useAnimation } from "./useAnimation";
-export type { AnimationHandle, WithRef } from "./useAnimation";
+export type { AnimationHandle } from "./useAnimation";
+export { useAnimationController } from "./useAnimationController";
+export type { AnimationController } from "./useAnimationController";
 export { useAnimationFunction } from "./useAnimationFunction";
 export type {
   AnimationFunctionHandle,
   AnimationFunction,
   ComputedTimingContext,
 } from "./useAnimationFunction";
-export { useAnimations } from "./useAnimations";
-export type { AnimationsHandle } from "./useAnimations";
 export { useTransitionAnimation } from "./useTransitionAnimation";

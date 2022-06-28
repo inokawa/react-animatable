@@ -91,11 +91,11 @@ A basic hook to use Web Animations API.
 
 [Examples](./stories/hooks/useAnimation.stories.tsx)
 
-### useAnimations
+### useAnimationController
 
-Same as [useAnimation](#useanimation), but it can have animation definitions more than 1.
+A hook to compose multiple [useAnimation](#useanimation) and orchestrate their animations.
 
-[Examples](./stories/hooks/useAnimations.stories.tsx)
+[Examples](./stories/hooks/useAnimationController.stories.tsx)
 
 ### useAnimationFunction
 
@@ -105,7 +105,7 @@ Same as [useAnimation](#useanimation), but it drives function not React element.
 
 ### useTransitionAnimation
 
-Similar to [useAnimations](#useanimations), but it plays when element enter/update/exits.
+A hook to compose multiple [useAnimation](#useanimation) and plays them when element enter/update/exits.
 This hook must be used under [AnimationGroup component](#animationgroup).
 
 [Examples](./stories/hooks/useTransitionAnimation.stories.tsx)

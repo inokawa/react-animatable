@@ -1,8 +1,12 @@
 import { StoryObj } from "@storybook/react";
 import { useCallback, useEffect, useState } from "react";
-import { AnimationOptions, useAnimations } from "../../src";
+import {
+  AnimationOptions,
+  useAnimation,
+  useAnimationController,
+} from "../../src";
 
-export default { component: useAnimations };
+export default { component: useAnimationController };
 
 const WavedRect = ({ i }: { i: number }) => {
   const baseTiming: AnimationOptions = {
@@ -11,29 +15,25 @@ const WavedRect = ({ i }: { i: number }) => {
     direction: "alternate",
     delay: i * 98,
   };
-  const animate = useAnimations({
-    move: [
-      [
-        { transform: "translateY(0) scaleX(.8)" },
-        { transform: "translateY(95vh) scaleX(1)" },
-      ],
-      { ...baseTiming, duration: 2500 },
+  const move = useAnimation(
+    [
+      { transform: "translateY(0) scaleX(.8)" },
+      { transform: "translateY(95vh) scaleX(1)" },
     ],
-    opacity: [
-      [{ opacity: 1 }, { opacity: 0 }],
-      { ...baseTiming, duration: 2000 },
-    ],
-    color: [
-      [
-        { backgroundColor: "rgb(239, 239, 255)" },
-        { backgroundColor: "#e4c349" },
-      ],
-      { ...baseTiming, duration: 3000 },
-    ],
+    { ...baseTiming, duration: 2500 }
+  );
+  const opacity = useAnimation([{ opacity: 1 }, { opacity: 0 }], {
+    ...baseTiming,
+    duration: 2000,
   });
+  const color = useAnimation(
+    [{ backgroundColor: "rgb(239, 239, 255)" }, { backgroundColor: "#e4c349" }],
+    { ...baseTiming, duration: 3000 }
+  );
+  const animate = useAnimationController({ move, opacity, color });
 
   useEffect(() => {
-    animate.play("move").play("opacity").play("color");
+    animate.playAll();
   }, []);
 
   return (
@@ -74,8 +74,8 @@ export const Wave: StoryObj = {
 export const Countdown: StoryObj = {
   render: () => {
     const [count, setCount] = useState(10);
-    const animate = useAnimations({
-      count: [
+    const animate = useAnimationController({
+      count: useAnimation(
         [
           { opacity: 1, transform: "scale(.6)" },
           { opacity: 0.5, transform: "scale(1)" },
@@ -86,9 +86,9 @@ export const Countdown: StoryObj = {
           delay: 0,
           iterations: 1000,
           direction: "alternate",
-        },
-      ],
-      boom: [
+        }
+      ),
+      boom: useAnimation(
         [
           {
             opacity: 0,
@@ -114,12 +114,12 @@ export const Countdown: StoryObj = {
           easing: "ease-out",
           delay: 0,
           iterations: 1,
-        },
-      ],
+        }
+      ),
     });
 
     useEffect(() => {
-      animate.play("count");
+      animate.get("count").play();
       let startCount = count;
 
       const id = setInterval(() => {
@@ -127,10 +127,12 @@ export const Countdown: StoryObj = {
         setCount((p) => p - 1);
 
         if (startCount > 0) {
-          animate.setPlaybackRate("count", (prev) => Math.min(prev * 1.15, 6));
+          animate
+            .get("count")
+            .setPlaybackRate((prev) => Math.min(prev * 1.15, 6));
         } else {
           clearInterval(id);
-          animate.play("boom");
+          animate.get("boom").play();
         }
       }, 1000);
 
@@ -164,29 +166,28 @@ const Block = ({ i, length: n }: { i: number; length: number }) => {
   const timing: AnimationOptions = {
     duration: 250,
   };
-  const animate = useAnimations({
-    one: [
-      [{ backgroundColor: "#eee" }, { backgroundColor: "steelblue" }],
-      { ...timing, endDelay: 1000 },
-    ],
-    two: [
-      [{ backgroundColor: "steelblue" }, { backgroundColor: "orange" }],
-      { ...timing, endDelay: 1000 },
-    ],
-    three: [
-      [{ backgroundColor: "orange" }, { backgroundColor: "#eee" }],
-      { ...timing, endDelay: n },
-    ],
-  });
+  const one = useAnimation(
+    [{ backgroundColor: "#eee" }, { backgroundColor: "steelblue" }],
+    { ...timing, endDelay: 1000 }
+  );
+  const two = useAnimation(
+    [{ backgroundColor: "steelblue" }, { backgroundColor: "orange" }],
+    { ...timing, endDelay: 1000 }
+  );
+  const three = useAnimation(
+    [{ backgroundColor: "orange" }, { backgroundColor: "#eee" }],
+    { ...timing, endDelay: n }
+  );
+  const animate = useAnimationController({ one, two, three });
 
   useEffect(() => {
     const run = async () => {
       animate.cancelAll();
-      await animate.play("one").end("one");
-      animate.cancel("one");
-      await animate.play("two").end("two");
-      animate.cancel("two");
-      await animate.play("three").end("three");
+      await animate.get("one").play().end();
+      animate.get("one").cancel();
+      await animate.get("two").play().end();
+      animate.get("two").cancel();
+      await animate.get("three").play().end();
       run();
     };
     setTimeout(run, i + (Math.random() * n) / 4);
@@ -223,31 +224,33 @@ export const Chained: StoryObj = {
 export const Sequence: StoryObj = {
   render: () => {
     const timing: AnimationOptions = { duration: 600, easing: "ease-out" };
-    const animate = useAnimations({
-      red: [{ fill: "red" }, timing],
-      blue: [{ fill: "blue" }, timing],
-      green: [{ fill: "green" }, timing],
-    });
+    const red = useAnimation({ fill: "red" }, timing);
+    const blue = useAnimation({ fill: "blue" }, timing);
+    const green = useAnimation({ fill: "green" }, timing);
+    const animate = useAnimationController({ red, blue, green });
 
     const onClickRed = useCallback(async () => {
+      const handle = animate.get("red");
       try {
-        await animate.play("red").end("red");
+        await handle.play().end();
       } finally {
-        animate.persist("red");
+        handle.persist();
       }
     }, []);
     const onClickBlue = useCallback(async () => {
+      const handle = animate.get("blue");
       try {
-        await animate.play("blue").end("blue");
+        await handle.play().end();
       } finally {
-        animate.persist("blue");
+        handle.persist();
       }
     }, []);
     const onClickGreen = useCallback(async () => {
+      const handle = animate.get("green");
       try {
-        await animate.play("green").end("green");
+        await handle.play().end();
       } finally {
-        animate.persist("green");
+        handle.persist();
       }
     }, []);
     const onClickAll = useCallback(async () => {

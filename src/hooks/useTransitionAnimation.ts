@@ -5,21 +5,19 @@ import {
   TransitionState,
   TransitionStateContext,
 } from "../components/AnimationGroup";
+import type { AnimationHandle } from "./useAnimation";
 import {
-  AnimationOptions,
-  AnimationsHandle,
-  TypedKeyframe,
-  useAnimations,
-  WithRef,
-} from ".";
+  AnimationController,
+  useAnimationController,
+} from "./useAnimationController";
 import { getKeys } from "../utils";
 
 export const useTransitionAnimation = <T extends TransitionState>(
   definitions: {
-    [key in T]: [TypedKeyframe | TypedKeyframe[], AnimationOptions?];
+    [key in T]: AnimationHandle;
   }
-): WithRef<AnimationsHandle<T>> => {
-  const animation = useAnimations(definitions);
+): AnimationController<T> => {
+  const animation = useAnimationController(definitions);
   const currentState = useContext(TransitionStateContext);
   const setShow = useContext(TransitionNotifierContext);
   const hasExitRef = useContext(TransitionHasExitContext);
@@ -35,9 +33,9 @@ export const useTransitionAnimation = <T extends TransitionState>(
     if (currentState !== "update") return;
     const handle = definitions[currentState as T];
     if (!handle) return;
-    animation.play(currentState as T);
+    animation.get(currentState as T).play();
     return () => {
-      animation.cancel(currentState as T);
+      animation.get(currentState as T).cancel();
     };
   });
 
@@ -47,8 +45,9 @@ export const useTransitionAnimation = <T extends TransitionState>(
     if (!handle) return;
     animation
       .cancelAll()
-      .play(currentState as T)
-      .end(currentState as T)
+      .get(currentState as T)
+      .play()
+      .end()
       .then(() => {
         if (currentState === "exit") {
           setShow(false);
