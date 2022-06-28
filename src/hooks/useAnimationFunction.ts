@@ -17,7 +17,7 @@ export type AnimationFunctionHandle = {
   setPlaybackRate: (
     rate: number | ((prevRate: number) => number)
   ) => AnimationFunctionHandle;
-  end: () => Promise<void>;
+  end: () => Promise<AnimationFunctionHandle>;
 };
 
 export type ComputedTimingContext = Required<
@@ -108,7 +108,7 @@ export const useAnimationFunction = (
           handle._setRate(getAnimation(), rate);
           return externalHandle;
         },
-        end: () => handle._end(getAnimation()),
+        end: () => handle._end(getAnimation()).then(() => externalHandle),
       };
       return [
         externalHandle,

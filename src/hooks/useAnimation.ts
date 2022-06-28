@@ -26,7 +26,7 @@ export type AnimationHandle = {
   setPlaybackRate: (
     rate: number | ((prevRate: number) => number)
   ) => AnimationHandle;
-  end: () => Promise<void>;
+  end: () => Promise<AnimationHandle>;
   ref: RefObject<any>;
 };
 
@@ -108,7 +108,7 @@ export const useAnimation = (
         handle._setRate(getAnimation(), rate);
         return externalHandle;
       },
-      end: () => handle._end(getAnimation()),
+      end: () => handle._end(getAnimation()).then(() => externalHandle),
       ref,
     };
     return [

@@ -183,10 +183,8 @@ const Block = ({ i, length: n }: { i: number; length: number }) => {
   useEffect(() => {
     const run = async () => {
       animate.cancelAll();
-      await animate.get("one").play().end();
-      animate.get("one").cancel();
-      await animate.get("two").play().end();
-      animate.get("two").cancel();
+      (await animate.get("one").play().end()).cancel();
+      (await animate.get("two").play().end()).cancel();
       await animate.get("three").play().end();
       run();
     };
