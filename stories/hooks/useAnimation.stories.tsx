@@ -555,5 +555,5 @@ export const ThreeDimentional: StoryObj = {
       </>
     );
   },
-  storyName: "3D",
+  name: "3D",
 };
