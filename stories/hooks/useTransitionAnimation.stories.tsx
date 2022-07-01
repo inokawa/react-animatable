@@ -2,6 +2,7 @@ import { StoryObj } from "@storybook/react";
 import { useEffect, useRef, useState } from "react";
 import {
   AnimationGroup,
+  AnimationOptions,
   useAnimation,
   useTransitionAnimation,
 } from "../../src";
@@ -142,6 +143,88 @@ export const Alphabet: StoryObj = {
           </g>
         </svg>
         <style>{`text { font: bold 28px monospace; }`}</style>
+      </>
+    );
+  },
+};
+
+const ExpandRect = ({ i, length }: { i: number; length: number }) => {
+  const timing: AnimationOptions = {
+    easing: "ease-in-out",
+    direction: "alternate",
+    duration: 1000,
+  };
+
+  const transition = useTransitionAnimation({
+    enter: useAnimation(
+      [
+        {
+          backgroundColor: "limegreen",
+          transform: "scale(0)",
+          opacity: 0,
+        },
+        { backgroundColor: "skyblue", transform: "scale(1)", opacity: 1 },
+      ],
+      { ...timing, delay: i * 100 }
+    ),
+    exit: useAnimation(
+      [
+        { backgroundColor: "skyblue", transform: "scale(1)", opacity: 1 },
+        {
+          backgroundColor: "limegreen",
+          transform: "scale(0)",
+          opacity: 0,
+        },
+      ],
+      { ...timing, delay: (length - i) * 100 }
+    ),
+  });
+
+  return (
+    <div
+      ref={transition.ref}
+      style={{
+        width: "100px",
+        height: "100px",
+        background: "#efefff",
+        margin: 4,
+      }}
+    />
+  );
+};
+
+export const Expand: StoryObj = {
+  render: () => {
+    const [expanded, setExpanded] = useState(true);
+    const length = 16;
+    const [rects] = useState(() => Array.from({ length }).map((_, i) => i));
+
+    return (
+      <>
+        <button
+          onClick={() => setExpanded((prev) => !prev)}
+          style={{ marginBottom: 10 }}
+        >
+          {expanded ? "close" : "open"}
+        </button>
+        <div
+          style={{
+            background: 'whitesmoke',
+            width: "500px",
+            height: "500px",
+            display: "flex",
+            alignItems: "flex-start",
+            justifyContent: "flex-start",
+            flexWrap: "wrap",
+            alignContent: "flex-start",
+          }}
+        >
+          <AnimationGroup>
+            {expanded
+              ? rects.map((i) => <ExpandRect key={i} i={i} length={length} />)
+              : []}
+          </AnimationGroup>
+        </div>
       </>
     );
   },

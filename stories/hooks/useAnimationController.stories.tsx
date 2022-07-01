@@ -63,7 +63,7 @@ export const Wave: StoryObj = {
           justifyContent: "center",
         }}
       >
-        {rects.map((v, i) => (
+        {rects.map((i) => (
           <WavedRect key={i} i={i} />
         ))}
       </div>
@@ -182,11 +182,15 @@ const Block = ({ i, length: n }: { i: number; length: number }) => {
 
   useEffect(() => {
     const run = async () => {
-      animate.cancelAll();
-      (await animate.get("one").play().end()).cancel();
-      (await animate.get("two").play().end()).cancel();
-      await animate.get("three").play().end();
-      run();
+      try {
+        animate.cancelAll();
+        (await animate.get("one").play().end()).cancel();
+        (await animate.get("two").play().end()).cancel();
+        await animate.get("three").play().end();
+        run();
+      } catch (e) {
+        // ignore uncaught promise error
+      }
     };
     setTimeout(run, i + (Math.random() * n) / 4);
   }, []);
@@ -252,9 +256,13 @@ export const Sequence: StoryObj = {
       }
     }, []);
     const onClickAll = useCallback(async () => {
-      await onClickRed();
-      await onClickBlue();
-      await onClickGreen();
+      try {
+        await onClickRed();
+        await onClickBlue();
+        await onClickGreen();
+      } catch (e) {
+        // ignore uncaught promise error
+      }
     }, []);
 
     useEffect(() => {
