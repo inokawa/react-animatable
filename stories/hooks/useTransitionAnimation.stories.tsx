@@ -157,19 +157,11 @@ const ExpandRect = ({ i, length }: { i: number; length: number }) => {
 
   const transition = useTransitionAnimation({
     enter: useAnimation(
-      [
-        {
-          backgroundColor: "limegreen",
-          transform: "scale(0)",
-          opacity: 0,
-        },
-        { backgroundColor: "skyblue", transform: "scale(1)", opacity: 1 },
-      ],
+      [{ backgroundColor: "skyblue", transform: "scale(1)", opacity: 1 }],
       { ...timing, delay: i * 100 }
     ),
     exit: useAnimation(
       [
-        { backgroundColor: "skyblue", transform: "scale(1)", opacity: 1 },
         {
           backgroundColor: "limegreen",
           transform: "scale(0)",
@@ -188,6 +180,9 @@ const ExpandRect = ({ i, length }: { i: number; length: number }) => {
         height: "100px",
         background: "#efefff",
         margin: 4,
+        backgroundColor: "limegreen",
+        transform: "scale(0)",
+        opacity: 0,
       }}
     />
   );
@@ -209,7 +204,7 @@ export const Expand: StoryObj = {
         </button>
         <div
           style={{
-            background: 'whitesmoke',
+            background: "whitesmoke",
             width: "500px",
             height: "500px",
             display: "flex",

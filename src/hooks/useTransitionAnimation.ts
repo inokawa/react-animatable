@@ -11,6 +11,7 @@ import {
   useAnimationController,
 } from "./useAnimationController";
 import { getKeys } from "../utils";
+import { usePrevious } from "./usePrevious";
 
 export const useTransitionAnimation = <T extends TransitionState>(
   definitions: {
@@ -39,10 +40,13 @@ export const useTransitionAnimation = <T extends TransitionState>(
     };
   });
 
+  const prevState = usePrevious(currentState);
+
   useLayoutEffect(() => {
     if (currentState === "update") return;
     const handle = definitions[currentState as T];
     if (!handle) return;
+    animation.get(prevState as T).persist();
     animation
       .cancelAll()
       .get(currentState as T)
