@@ -52,6 +52,9 @@ export const useTransitionAnimation = <T extends TransitionState>(
         if (currentState === "exit") {
           setShow(false);
         }
+      })
+      .catch(() => {
+        // ignore uncaught promise error
       });
   }, [currentState]);
 
