@@ -17,7 +17,11 @@ export default {
       sourcemap: true,
     },
   ],
-  external: Object.keys(pkg.dependencies),
+  external: (id) =>
+    [
+      ...Object.keys(pkg.dependencies),
+      ...Object.keys(pkg.devDependencies),
+    ].some((d) => id.startsWith(d)),
   plugins: [
     typescript({
       tsconfig: "./tsconfig.json",
