@@ -58,9 +58,8 @@ export const useAnimationFunction = (
       const getOptions = () => optionsRef.current;
 
       let cache: [Animation, AnimationOptions | undefined] | undefined;
-      const initAnimation = (
-        options: AnimationOptions | undefined
-      ): Animation => {
+      const initAnimation = (): Animation => {
+        const options = getOptions();
         if (cache) {
           const [prevAnimation, prevOptions] = cache;
           if (isSameObject(options, prevOptions)) {
@@ -85,11 +84,11 @@ export const useAnimationFunction = (
 
       const externalHandle: AnimationFunctionHandle = {
         play: (opts) => {
-          handle._play(initAnimation(getOptions()), opts);
+          handle._play(initAnimation(), opts);
           return externalHandle;
         },
         reverse: () => {
-          handle._reverse(initAnimation(getOptions()));
+          handle._reverse(initAnimation());
           return externalHandle;
         },
         cancel: () => {

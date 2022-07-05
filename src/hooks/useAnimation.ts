@@ -52,10 +52,9 @@ export const useAnimation = (
           options: AnimationOptions | undefined
         ]
       | undefined;
-    const initAnimation = (
-      keyframes: TypedKeyframe[],
-      options: AnimationOptions | undefined
-    ): Animation => {
+    const initAnimation = (): Animation => {
+      const keyframes = getKeyframes();
+      const options = getOptions();
       const el = getTarget()!;
       if (cache) {
         const [prevAnimation, prevEl, prevKeyframes, prevOptions] = cache;
@@ -81,11 +80,11 @@ export const useAnimation = (
 
     const externalHandle: AnimationHandle = {
       play: (opts) => {
-        handle._play(initAnimation(getKeyframes(), getOptions()), opts);
+        handle._play(initAnimation(), opts);
         return externalHandle;
       },
       reverse: () => {
-        handle._reverse(initAnimation(getKeyframes(), getOptions()));
+        handle._reverse(initAnimation());
         return externalHandle;
       },
       cancel: () => {
