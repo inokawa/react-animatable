@@ -391,6 +391,12 @@ export const Square: StoryObj = {
     return (
       <div
         ref={animate.ref}
+        onMouseEnter={() => {
+          animate.pause();
+        }}
+        onMouseLeave={() => {
+          animate.play();
+        }}
         style={{
           border: "solid 0.1rem #135569",
           height: "6rem",
