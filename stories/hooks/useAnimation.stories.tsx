@@ -265,6 +265,20 @@ export const Playground: StoryObj = {
             ms
           </label>
         </div>
+        <div>
+          <label>
+            playback rate:
+            <input
+              type="number"
+              min={-100}
+              max={100}
+              defaultValue={1}
+              onChange={(e) => {
+                animate.setPlaybackRate(Number(e.target.value));
+              }}
+            />
+          </label>
+        </div>
       </div>
     );
   },
