@@ -6,7 +6,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { isSameObject, isSameObjectArray, toArray } from "../utils";
+import { getStyle, isSameObject, isSameObjectArray, toArray } from "../utils";
 import {
   AnimationOptions,
   createAnimation,
@@ -31,7 +31,10 @@ export type AnimationHandle = {
 };
 
 export const useAnimation = (
-  keyframe: TypedKeyframe | TypedKeyframe[],
+  keyframe:
+    | TypedKeyframe
+    | TypedKeyframe[]
+    | ((prev: CSSStyleDeclaration) => TypedKeyframe[]),
   options?: AnimationOptions
 ): AnimationHandle => {
   const keyframeRef = useRef(keyframe);
@@ -41,7 +44,12 @@ export const useAnimation = (
     const ref = createRef<HTMLElement>();
 
     const getTarget = () => ref.current;
-    const getKeyframes = () => toArray(keyframeRef.current);
+    const getKeyframes = () => {
+      if (typeof keyframeRef.current === "function") {
+        return keyframeRef.current(getStyle(getTarget()!));
+      }
+      return toArray(keyframeRef.current);
+    };
     const getOptions = () => optionsRef.current;
 
     let cache:

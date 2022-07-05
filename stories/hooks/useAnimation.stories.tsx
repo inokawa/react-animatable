@@ -1,6 +1,11 @@
 import { StoryObj } from "@storybook/react";
 import { useEffect, useState } from "react";
-import { TypedEasing, TypedKeyframe, useAnimation } from "../../src";
+import {
+  AnimationOptions,
+  TypedEasing,
+  TypedKeyframe,
+  useAnimation,
+} from "../../src";
 
 export default { component: useAnimation };
 
@@ -283,22 +288,19 @@ const Bar = ({
   };
   const animate = useAnimation(
     keep
-      ? target
-      : [
+      ? (prev) => [
           {
-            height: 0,
-            transform: "translateY(0px)",
-            opacity: target.opacity,
+            height: prev.height,
+            transform: prev.transform,
+            opacity: prev.opacity,
           },
           target,
-        ],
+        ]
+      : [target],
     { duration: 150, easing: "ease-out", delay: i * 100 }
   );
 
   useEffect(() => {
-    if (keep) {
-      animate.persist();
-    }
     animate.play();
   }, [value, keep]);
 
@@ -309,6 +311,7 @@ const Bar = ({
       y={height}
       width={18}
       height={0}
+      opacity={target.opacity}
       fill="steelblue"
     />
   );

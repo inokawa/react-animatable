@@ -1,4 +1,4 @@
-import { getKeys, noop, uniqBy } from "../utils";
+import { getKeys, getStyle, noop, uniqBy } from "../utils";
 
 export type AnimatableCSSProperties = Omit<
   React.CSSProperties,
@@ -92,7 +92,7 @@ export const createHandle = () => {
         animation.commitStyles();
       } else {
         // Fallback for commitStyles
-        const computedStyle = getComputedStyle(el);
+        const computedStyle = getStyle(el);
         getKeyframeKeys(keyframes).forEach((k) => {
           (el.style as any)[k] = (computedStyle as any)[k];
         });

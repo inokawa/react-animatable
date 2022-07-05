@@ -1,6 +1,7 @@
 export const noop = () => {};
 export const getKeys = Object.keys;
 export const isArray = Array.isArray;
+export const getStyle = getComputedStyle;
 
 export const isSameObject = (
   target: object = {},
