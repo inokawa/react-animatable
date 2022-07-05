@@ -9,7 +9,7 @@ import {
 
 export default { component: useAnimation };
 
-export const Hello: StoryObj = {
+export const Playground: StoryObj = {
   render: () => {
     const [duration, setDuration] = useState(2000);
     const [iteration, setIteration] = useState(2);
@@ -371,14 +371,12 @@ export const Square: StoryObj = {
   render: () => {
     const animate = useAnimation(
       [
-        { transform: "rotate(0deg)", borderRadius: "1rem", offset: 0 },
-        { transform: "rotate(360deg)", borderRadius: "50%", offset: 0.25 },
-        { transform: "rotate(0deg)", borderRadius: "1rem", offset: 0.5 },
-        { transform: "rotate(-360deg)", borderRadius: "0px", offset: 0.75 },
-        { transform: "rotate(0deg)", borderRadius: "1rem", offset: 1 },
+        { transform: "rotate(0deg)", borderRadius: "1rem" },
+        { transform: "rotate(360deg)", borderRadius: "50%" },
+        { transform: "rotate(720deg)", borderRadius: "1rem" },
       ],
       {
-        duration: 3000,
+        duration: 1000,
         iterations: Infinity,
         easing: "ease-in-out",
       }
