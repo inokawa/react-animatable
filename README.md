@@ -190,8 +190,8 @@ const animate = useAnimation(
 
 ## Contribute
 
-All contributions are welcome!
-If you have any feature requests or improvements, please create a [issue](https://github.com/inokawa/react-animatable/issues) or [PR](https://github.com/inokawa/react-animatable/pulls).
+All contributions are welcome.
+If you find a problem, feel free to create an [issue](https://github.com/inokawa/react-animatable/issues) or a [PR](https://github.com/inokawa/react-animatable/pulls).
 
 ### Making a Pull Request
 
