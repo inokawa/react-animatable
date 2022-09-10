@@ -6,8 +6,8 @@ import {
   useRef,
   useState,
 } from "react";
-import { getKeys } from "../utils";
-import type { PlayOptions } from "./core";
+import { getKeys } from "../../core/utils";
+import type { PlayOptions } from "../../core/waapi";
 import type { AnimationHandle } from "./useAnimation";
 
 export type AnimationController<ID extends string> = {

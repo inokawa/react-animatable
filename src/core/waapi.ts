@@ -1,4 +1,4 @@
-import { getKeys, getStyle, noop, uniqBy } from "../utils";
+import { getKeys, getStyle, noop, uniqBy } from "./utils";
 
 export type AnimatableCSSProperties = Omit<
   React.CSSProperties,

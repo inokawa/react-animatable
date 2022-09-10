@@ -1,11 +1,11 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { isSameObject } from "../utils";
+import { isSameObject } from "../../core/utils";
 import {
   AnimationOptions,
   createAnimation,
   createHandle,
   PlayOptions,
-} from "./core";
+} from "../../core/waapi";
 
 export type AnimationFunctionHandle = {
   play: (opts?: PlayOptions) => AnimationFunctionHandle;

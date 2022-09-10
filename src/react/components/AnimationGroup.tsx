@@ -6,7 +6,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { noop } from "../utils";
+import { noop } from "../../core/utils";
 
 const toMap = (elements: React.ReactElement[]) =>
   elements.reduce((acc, e, i) => {

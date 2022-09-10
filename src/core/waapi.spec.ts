@@ -1,5 +1,5 @@
 import { describe, it, expect } from "@jest/globals";
-import { getKeyframeKeys } from "./core";
+import { getKeyframeKeys } from "./waapi";
 
 describe("getKeyframeKeys", () => {
   it("normal", () => {

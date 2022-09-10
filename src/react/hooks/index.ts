@@ -1,10 +1,3 @@
-export type {
-  TypedKeyframe,
-  TypedEasing,
-  AnimationOptions,
-  AnimatableCSSProperties,
-  PlayOptions,
-} from "./core";
 export { useAnimation } from "./useAnimation";
 export type { AnimationHandle } from "./useAnimation";
 export { useAnimationController } from "./useAnimationController";

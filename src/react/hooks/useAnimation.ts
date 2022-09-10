@@ -6,14 +6,14 @@ import {
   useRef,
   useState,
 } from "react";
-import { getStyle, isSameObject, isSameObjectArray, toArray } from "../utils";
+import { getStyle, isSameObject, isSameObjectArray, toArray } from "../../core/utils";
 import {
   AnimationOptions,
   createAnimation,
   createHandle,
   PlayOptions,
   TypedKeyframe,
-} from "./core";
+} from "../../core/waapi";
 
 export type AnimationHandle = {
   play: (opts?: PlayOptions) => AnimationHandle;
