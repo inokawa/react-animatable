@@ -28,6 +28,8 @@ npm install react-animatable
 
 - react >= 16.14
 
+If you use webpack 5, use react >= 18 to avoid [Can't resolve `react/jsx-runtime` error](https://github.com/facebook/react/issues/20235).
+
 And in some legacy browsers that does not support Web Animations API, [you may need to use polyfill](#use-polyfill).
 
 ## Usage
