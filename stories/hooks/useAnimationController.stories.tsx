@@ -1,5 +1,5 @@
 import { StoryObj } from "@storybook/react";
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   AnimationOptions,
   useAnimation,
@@ -38,7 +38,7 @@ const WavedRect = ({ i }: { i: number }) => {
 
   return (
     <div
-      ref={animate.ref}
+      ref={animate}
       style={{
         width: "5vw",
         height: "2.5vh",
@@ -152,7 +152,7 @@ export const Countdown: StoryObj = {
         }}
       >
         <span
-          ref={animate.ref}
+          ref={animate}
           style={{ color: "white", fontSize: 64, fontWeight: "bold" }}
         >
           {count}
@@ -197,7 +197,7 @@ const Block = ({ i, length: n }: { i: number; length: number }) => {
 
   return (
     <div
-      ref={animate.ref}
+      ref={animate}
       style={{
         width: 10,
         height: 10,
@@ -273,7 +273,7 @@ export const Sequence: StoryObj = {
       <div>
         <svg width={150} height={150}>
           <path
-            ref={animate.ref}
+            ref={animate}
             d="M 10,30 A 20,20 0,0,1 50,30 A 20,20 0,0,1 90,30 Q 90,60 50,90 Q 10,60 10,30 z"
           />
         </svg>
