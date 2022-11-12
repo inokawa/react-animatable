@@ -1,6 +1,6 @@
 {
   "name": "react-animatable",
-  "version": "0.12.0",
+  "version": "0.12.1",
   "description": "A simple but powerful animation library for React, built on Web Animations API.",
   "main": "lib/index.js",
   "module": "lib/index.mjs",
@@ -68,7 +68,8 @@
     "svg",
     "css",
     "d3",
-    "web-animations"
+    "web-animations",
+    "nextjs"
   ],
   "author": "inokawa <stratoooo-taster@yahoo.co.jp> (https://github.com/inokawa/)",
   "license": "MIT",

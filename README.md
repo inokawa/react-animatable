@@ -14,6 +14,7 @@ A simple but powerful animation library for [React](https://github.com/facebook/
   - Composable and declarative APIs based on React hooks.
   - Fully typed with [TypeScript](https://www.typescriptlang.org/).
   - Works well with any CSS-in-JS libraries, like [styled-components](https://github.com/styled-components/styled-components), [emotion](https://github.com/emotion-js/emotion), [stitches](https://github.com/stitchesjs/stitches) and the others.
+  - Support [Next.js](https://github.com/vercel/next.js) and server-side rendering (SSR).
 - [Tiny bundle size (currently about 2kB gzipped)](https://bundlephobia.com/package/react-animatable) and has zero dependencies. Of course treeshakeable
 
 ## Demo
