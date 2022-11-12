@@ -73,9 +73,9 @@ export const useAnimationController = <ID extends string>(
       },
     };
     return [
-      assign((v: Element | null) => {
+      assign((ref: Element | null) => {
         forAllHandle((h) => {
-          h(v);
+          h(ref);
         });
       }, externalHandle),
       () => {
