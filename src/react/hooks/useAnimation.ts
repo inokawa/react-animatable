@@ -22,11 +22,8 @@ import {
   _setTime,
 } from "../../core/waapi";
 
-export type AnimationHandleWithRef = {
-  (ref: Element | null): void;
-} & AnimationHandle;
-
 export type AnimationHandle = {
+  (ref: Element | null): void;
   play: (opts?: PlayOptions) => AnimationHandle;
   reverse: () => AnimationHandle;
   cancel: () => AnimationHandle;
@@ -46,58 +43,61 @@ export const useAnimation = (
     | TypedKeyframe[]
     | ((prev: CSSStyleDeclaration) => TypedKeyframe[]),
   options?: AnimationOptions
-): AnimationHandleWithRef => {
+): AnimationHandle => {
   const keyframeRef = useRef(keyframe);
   const optionsRef = useRef(options);
 
-  const [animation, cleanup] = useState<[AnimationHandleWithRef, () => void]>(
-    () => {
-      let target: Element | null = null;
+  const [animation, cleanup] = useState<[AnimationHandle, () => void]>(() => {
+    let target: Element | null = null;
 
-      const getTarget = () => target;
-      const getKeyframes = () => {
-        if (typeof keyframeRef.current === "function") {
-          return keyframeRef.current(getStyle(getTarget()!));
+    const getTarget = () => target;
+    const getKeyframes = () => {
+      if (typeof keyframeRef.current === "function") {
+        return keyframeRef.current(getStyle(getTarget()!));
+      }
+      return toArray(keyframeRef.current);
+    };
+    const getOptions = () => optionsRef.current;
+
+    let cache:
+      | [
+          animation: Animation,
+          el: Element,
+          keyframes: TypedKeyframe[],
+          options: AnimationOptions | undefined
+        ]
+      | undefined;
+    const initAnimation = (): Animation => {
+      const keyframes = getKeyframes();
+      const options = getOptions();
+      const el = getTarget()!;
+      if (cache) {
+        const [prevAnimation, prevEl, prevKeyframes, prevOptions] = cache;
+        if (
+          el === prevEl &&
+          isSameObjectArray(keyframes, prevKeyframes) &&
+          isSameObject(options, prevOptions)
+        ) {
+          return prevAnimation;
         }
-        return toArray(keyframeRef.current);
-      };
-      const getOptions = () => optionsRef.current;
+        prevAnimation.cancel();
+      }
+      const animation = createAnimation(el, keyframes as Keyframe[], options);
+      cache = [animation, el, keyframes, options];
+      return animation;
+    };
+    const getAnimation = () => cache?.[0];
 
-      let cache:
-        | [
-            animation: Animation,
-            el: Element,
-            keyframes: TypedKeyframe[],
-            options: AnimationOptions | undefined
-          ]
-        | undefined;
-      const initAnimation = (): Animation => {
-        const keyframes = getKeyframes();
-        const options = getOptions();
-        const el = getTarget()!;
-        if (cache) {
-          const [prevAnimation, prevEl, prevKeyframes, prevOptions] = cache;
-          if (
-            el === prevEl &&
-            isSameObjectArray(keyframes, prevKeyframes) &&
-            isSameObject(options, prevOptions)
-          ) {
-            return prevAnimation;
-          }
-          prevAnimation.cancel();
-        }
-        const animation = createAnimation(el, keyframes as Keyframe[], options);
-        cache = [animation, el, keyframes, options];
-        return animation;
-      };
-      const getAnimation = () => cache?.[0];
+    const cancel = () => {
+      _cancel(getAnimation());
+    };
 
-      const cancel = () => {
-        _cancel(getAnimation());
-      };
-
-      const externalHandle: AnimationHandle = {
-        play: (opts) => {
+    const externalHandle: AnimationHandle = assign(
+      (ref: Element | null) => {
+        target = ref;
+      },
+      {
+        play: (opts?: PlayOptions) => {
           _play(initAnimation(), opts);
           return externalHandle;
         },
@@ -121,27 +121,25 @@ export const useAnimation = (
           _persist(getAnimation(), getTarget()!, getKeyframes());
           return externalHandle;
         },
-        setTime: (time) => {
+        setTime: (time: number) => {
           _setTime(getAnimation(), time);
           return externalHandle;
         },
-        setPlaybackRate: (rate) => {
+        setPlaybackRate: (rate: number | ((prevRate: number) => number)) => {
           _setRate(getAnimation(), rate);
           return externalHandle;
         },
         end: () => _end(getAnimation()).then(() => externalHandle),
-      };
+      }
+    );
 
-      return [
-        assign((ref: Element | null) => {
-          target = ref;
-        }, externalHandle),
-        () => {
-          cancel();
-        },
-      ];
-    }
-  )[0];
+    return [
+      externalHandle,
+      () => {
+        cancel();
+      },
+    ];
+  })[0];
 
   useLayoutEffect(() => {
     keyframeRef.current = keyframe;

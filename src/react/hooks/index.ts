@@ -1,10 +1,7 @@
 export { useAnimation } from "./useAnimation";
-export type { AnimationHandle, AnimationHandleWithRef } from "./useAnimation";
+export type { AnimationHandle } from "./useAnimation";
 export { useAnimationController } from "./useAnimationController";
-export type {
-  AnimationController,
-  AnimationControllerWithRef,
-} from "./useAnimationController";
+export type { AnimationController } from "./useAnimationController";
 export { useAnimationFunction } from "./useAnimationFunction";
 export type {
   AnimationFunctionHandle,
