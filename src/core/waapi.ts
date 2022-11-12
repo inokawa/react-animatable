@@ -1,11 +1,12 @@
+import type { CSSProperties } from "react";
 import { getKeys, getStyle, noop, uniqBy } from "./utils";
 
 export type AnimatableCSSProperties = Omit<
-  React.CSSProperties,
+  CSSProperties,
   "offset" | "float"
 > & {
-  cssOffset?: React.CSSProperties["offset"];
-  cssFloat?: React.CSSProperties["float"];
+  cssOffset?: CSSProperties["offset"];
+  cssFloat?: CSSProperties["float"];
   // CSS Motion Path for SVG
   d?: string;
 };
@@ -14,10 +15,7 @@ export type TypedKeyframe = Pick<Keyframe, "composite" | "easing" | "offset"> &
   AnimatableCSSProperties;
 
 export type TypedEasing = NonNullable<
-  Exclude<
-    React.CSSProperties["animationTimingFunction"],
-    React.CSSProperties["all"]
-  >
+  Exclude<CSSProperties["animationTimingFunction"], CSSProperties["all"]>
 >;
 
 export interface AnimationOptions

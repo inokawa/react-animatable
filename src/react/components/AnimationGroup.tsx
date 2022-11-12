@@ -5,18 +5,20 @@ import {
   Children,
   useEffect,
   useState,
+  ReactElement,
+  MutableRefObject,
 } from "react";
 import { noop } from "../../core/utils";
 
-const toMap = (elements: React.ReactElement[]) =>
+const toMap = (elements: ReactElement[]) =>
   elements.reduce((acc, e, i) => {
     acc[e.key || i] = e;
     return acc;
-  }, {} as { [key: string]: React.ReactElement });
+  }, {} as { [key: string]: ReactElement });
 
 export type TransitionState = "update" | "enter" | "exit";
 export const TransitionHasExitContext = createContext<
-  React.MutableRefObject<boolean>
+  MutableRefObject<boolean>
 >(null!);
 export const TransitionStateContext = createContext<TransitionState>("update");
 export const TransitionNotifierContext =
@@ -27,8 +29,8 @@ const Provider = ({
   children,
 }: {
   s: TransitionState;
-  children: React.ReactElement;
-}): React.ReactElement => {
+  children: ReactElement;
+}): ReactElement => {
   const [show, setShow] = useState(true);
   const hasExitRef = useRef(false);
 
@@ -52,13 +54,13 @@ const Provider = ({
 };
 
 export type AnimationGroupProps = {
-  children: React.ReactElement | React.ReactElement[];
+  children: ReactElement | ReactElement[];
 };
 
 export const AnimationGroup = ({
   children,
-}: AnimationGroupProps): React.ReactElement => {
-  const elemsRef = useRef<React.ReactElement[]>(null!);
+}: AnimationGroupProps): ReactElement => {
+  const elemsRef = useRef<ReactElement[]>(null!);
   const prevElems = elemsRef.current || [];
   const elems = Children.map(children, (c) => c);
 
@@ -69,7 +71,7 @@ export const AnimationGroup = ({
   const elemsByKey = toMap(elems);
   const prevElemsByKey = toMap(prevElems);
 
-  const res: React.ReactElement[] = [];
+  const res: ReactElement[] = [];
   prevElems.forEach((v, i) => {
     const key = v.key || i;
     if (elemsByKey[key]) {
