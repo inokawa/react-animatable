@@ -56,64 +56,59 @@ export const createAnimation = (
 
 export type PlayOptions = { reset?: boolean };
 
-export const createHandle = () => {
-  const handle = {
-    _play: (animation: Animation, opts: PlayOptions = {}) => {
-      if (opts.reset) {
-        animation.currentTime = 0;
-      }
-      animation.play();
-    },
-    _reverse: (animation: Animation) => {
-      animation.reverse();
-    },
-    _cancel: (animation: Animation | undefined) => {
-      if (!animation) return;
-      animation.cancel();
-    },
-    _finish: (animation: Animation | undefined) => {
-      if (!animation) return;
-      animation.finish();
-    },
-    _pause: (animation: Animation | undefined) => {
-      if (!animation) return;
-      animation.pause();
-    },
-    _persist: (
-      animation: Animation | undefined,
-      el: HTMLElement,
-      keyframes: TypedKeyframe[]
-    ) => {
-      if (!animation) return;
-      // https://www.w3.org/TR/web-animations-1/#fill-behavior
-      if (animation.commitStyles) {
-        animation.commitStyles();
-      } else {
-        // Fallback for commitStyles
-        const computedStyle = getStyle(el);
-        getKeyframeKeys(keyframes).forEach((k) => {
-          (el.style as any)[k] = (computedStyle as any)[k];
-        });
-      }
-      animation.cancel();
-    },
-    _setTime: (animation: Animation | undefined, time: number) => {
-      if (!animation) return;
-      animation.currentTime = time;
-    },
-    _setRate: (
-      animation: Animation | undefined,
-      arg: number | ((prevRate: number) => number)
-    ) => {
-      if (!animation) return;
-      animation.updatePlaybackRate(
-        typeof arg === "function" ? arg(animation.playbackRate) : arg
-      );
-    },
-    _end: (animation: Animation | undefined) => {
-      if (!animation) return Promise.resolve();
-      return animation.finished.then(noop);
-    },
-  };
-  return handle;
+export const _play = (animation: Animation, opts: PlayOptions = {}) => {
+  if (opts.reset) {
+    animation.currentTime = 0;
+  }
+  animation.play();
+};
+export const _reverse = (animation: Animation) => {
+  animation.reverse();
+};
+export const _cancel = (animation: Animation | undefined) => {
+  if (!animation) return;
+  animation.cancel();
+};
+export const _finish = (animation: Animation | undefined) => {
+  if (!animation) return;
+  animation.finish();
+};
+export const _pause = (animation: Animation | undefined) => {
+  if (!animation) return;
+  animation.pause();
+};
+export const _persist = (
+  animation: Animation | undefined,
+  el: HTMLElement,
+  keyframes: TypedKeyframe[]
+) => {
+  if (!animation) return;
+  // https://www.w3.org/TR/web-animations-1/#fill-behavior
+  if (animation.commitStyles) {
+    animation.commitStyles();
+  } else {
+    // Fallback for commitStyles
+    const computedStyle = getStyle(el);
+    getKeyframeKeys(keyframes).forEach((k) => {
+      (el.style as any)[k] = (computedStyle as any)[k];
+    });
+  }
+  animation.cancel();
+};
+export const _setTime = (animation: Animation | undefined, time: number) => {
+  if (!animation) return;
+  animation.currentTime = time;
+};
+export const _setRate = (
+  animation: Animation | undefined,
+  arg: number | ((prevRate: number) => number)
+) => {
+  if (!animation) return;
+  animation.updatePlaybackRate(
+    typeof arg === "function" ? arg(animation.playbackRate) : arg
+  );
+};
+export const _end = (animation: Animation | undefined) => {
+  if (!animation) return Promise.resolve();
+  return animation.finished.then(noop);
 };

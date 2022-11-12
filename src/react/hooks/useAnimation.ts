@@ -6,13 +6,26 @@ import {
   useRef,
   useState,
 } from "react";
-import { getStyle, isSameObject, isSameObjectArray, toArray } from "../../core/utils";
+import {
+  getStyle,
+  isSameObject,
+  isSameObjectArray,
+  toArray,
+} from "../../core/utils";
 import {
   AnimationOptions,
   createAnimation,
-  createHandle,
   PlayOptions,
   TypedKeyframe,
+  _cancel,
+  _end,
+  _finish,
+  _pause,
+  _persist,
+  _play,
+  _reverse,
+  _setRate,
+  _setTime,
 } from "../../core/waapi";
 
 export type AnimationHandle = {
@@ -80,19 +93,18 @@ export const useAnimation = (
       return animation;
     };
     const getAnimation = () => cache?.[0];
-    const handle = createHandle();
 
     const cancel = () => {
-      handle._cancel(getAnimation());
+      _cancel(getAnimation());
     };
 
     const externalHandle: AnimationHandle = {
       play: (opts) => {
-        handle._play(initAnimation(), opts);
+        _play(initAnimation(), opts);
         return externalHandle;
       },
       reverse: () => {
-        handle._reverse(initAnimation());
+        _reverse(initAnimation());
         return externalHandle;
       },
       cancel: () => {
@@ -100,26 +112,26 @@ export const useAnimation = (
         return externalHandle;
       },
       finish: () => {
-        handle._finish(getAnimation());
+        _finish(getAnimation());
         return externalHandle;
       },
       pause: () => {
-        handle._pause(getAnimation());
+        _pause(getAnimation());
         return externalHandle;
       },
       persist: () => {
-        handle._persist(getAnimation(), getTarget()!, getKeyframes());
+        _persist(getAnimation(), getTarget()!, getKeyframes());
         return externalHandle;
       },
       setTime: (time) => {
-        handle._setTime(getAnimation(), time);
+        _setTime(getAnimation(), time);
         return externalHandle;
       },
       setPlaybackRate: (rate) => {
-        handle._setRate(getAnimation(), rate);
+        _setRate(getAnimation(), rate);
         return externalHandle;
       },
-      end: () => handle._end(getAnimation()).then(() => externalHandle),
+      end: () => _end(getAnimation()).then(() => externalHandle),
       ref,
     };
     return [
