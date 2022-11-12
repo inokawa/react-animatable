@@ -72,10 +72,8 @@ export const App = () => {
     >
       <g transform="translate(50, 50)">
         <text
-          ref={
-            // You have to pass ref to element you want to control
-            animate.ref
-          }
+          // You have to pass animate to element you want to control
+          ref={animate}
         >
           Hello world
         </text>

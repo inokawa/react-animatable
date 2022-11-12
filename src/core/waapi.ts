@@ -38,7 +38,7 @@ export const getKeyframeKeys = (keyframes: TypedKeyframe[]): string[] =>
   }, [] as string[]);
 
 export const createAnimation = (
-  el: HTMLElement | null,
+  el: Element | null,
   keyframes: Keyframe[] | null,
   options: AnimationOptions | undefined
 ): Animation => {
@@ -79,7 +79,7 @@ export const _pause = (animation: Animation | undefined) => {
 };
 export const _persist = (
   animation: Animation | undefined,
-  el: HTMLElement,
+  el: Element,
   keyframes: TypedKeyframe[]
 ) => {
   if (!animation) return;
@@ -90,7 +90,7 @@ export const _persist = (
     // Fallback for commitStyles
     const computedStyle = getStyle(el);
     getKeyframeKeys(keyframes).forEach((k) => {
-      (el.style as any)[k] = (computedStyle as any)[k];
+      ((el as HTMLElement).style as any)[k] = (computedStyle as any)[k];
     });
   }
   animation.cancel();

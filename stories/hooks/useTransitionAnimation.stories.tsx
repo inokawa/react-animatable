@@ -1,5 +1,5 @@
 import { StoryObj } from "@storybook/react";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   AnimationGroup,
   AnimationOptions,
@@ -44,7 +44,7 @@ const Text = ({ children }: { children: string }) => {
 
   return (
     <span
-      ref={animate.ref}
+      ref={animate}
       style={{ display: "inline-block", whiteSpace: "pre", fontSize: 32 }}
     >
       {children}
@@ -106,7 +106,7 @@ const SvgText = ({ children, i }: { children: string; i: number }) => {
   });
 
   return (
-    <text ref={transition.ref} x={x} y={0} fill="#333">
+    <text ref={transition} x={x} y={0} fill="#333">
       {children}
     </text>
   );
@@ -174,7 +174,7 @@ const ExpandRect = ({ i, length }: { i: number; length: number }) => {
 
   return (
     <div
-      ref={transition.ref}
+      ref={transition}
       style={{
         width: "100px",
         height: "100px",

@@ -1,5 +1,5 @@
 import { StoryObj } from "@storybook/react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AnimationOptions,
   TypedEasing,
@@ -69,7 +69,7 @@ export const Playground: StoryObj = {
       <div>
         <svg width={600} height={300} viewBox="0 0 600 300">
           <g transform="translate(100, 100)">
-            <g ref={animate.ref} fontSize="24px" fill="dimgray">
+            <g ref={animate} fontSize="24px" fill="dimgray">
               <text>Hello world</text>
             </g>
           </g>
@@ -320,7 +320,7 @@ const Bar = ({
 
   return (
     <rect
-      ref={animate.ref}
+      ref={animate}
       x={i * 20}
       y={height}
       width={18}
@@ -402,7 +402,7 @@ export const Square: StoryObj = {
 
     return (
       <div
-        ref={animate.ref}
+        ref={animate}
         onMouseEnter={() => {
           animate.pause();
         }}
@@ -435,7 +435,7 @@ export const Toggle: StoryObj = {
       <div>
         <button onClick={animate.reverse}>Toggle</button>
         <div className="rail">
-          <div ref={animate.ref} className="block" />
+          <div ref={animate} className="block" />
         </div>
         <style>
           {`
@@ -485,7 +485,7 @@ export const Path: StoryObj = {
 
     return (
       <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
-        <path ref={animate.ref} fill="orange" />
+        <path ref={animate} fill="orange" />
       </svg>
     );
   },
@@ -519,7 +519,7 @@ export const ThreeDimentional: StoryObj = {
     return (
       <>
         <div
-          ref={animate.ref}
+          ref={animate}
           style={{
             width: 100,
             height: 100,

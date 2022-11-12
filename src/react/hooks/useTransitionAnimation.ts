@@ -5,9 +5,9 @@ import {
   TransitionState,
   TransitionStateContext,
 } from "../components/AnimationGroup";
-import type { AnimationHandle } from "./useAnimation";
+import type { AnimationHandleWithRef } from "./useAnimation";
 import {
-  AnimationController,
+  AnimationControllerWithRef,
   useAnimationController,
 } from "./useAnimationController";
 import { getKeys } from "../../core/utils";
@@ -15,9 +15,9 @@ import { usePrevious } from "./usePrevious";
 
 export const useTransitionAnimation = <T extends TransitionState>(
   definitions: {
-    [key in T]: AnimationHandle;
+    [key in T]: AnimationHandleWithRef;
   }
-): AnimationController<T> => {
+): AnimationControllerWithRef<T> => {
   const animation = useAnimationController(definitions);
   const currentState = useContext(TransitionStateContext);
   const setShow = useContext(TransitionNotifierContext);
