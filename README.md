@@ -65,10 +65,8 @@ export const App = () => {
       width={600}
       height={400}
       viewBox="0 0 600 400"
-      onClick={
-        // The return value of useAnimation and its methods are memoized
-        animate.pause
-      }
+      // The return value of useAnimation and its methods are memoized
+      onClick={animate.pause}
     >
       <g transform="translate(50, 50)">
         <text
