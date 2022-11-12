@@ -1,7 +1,8 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { assign, getKeys } from "../../core/utils";
 import type { PlayOptions } from "../../core/waapi";
 import type { AnimationHandle } from "./useAnimation";
+import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
 
 export type AnimationController<ID extends string> = {
   (ref: Element | null): void;
@@ -84,7 +85,7 @@ export const useAnimationController = <ID extends string>(
     }
   )[0];
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     definitionsRef.current = definitions;
   });
 

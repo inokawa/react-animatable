@@ -2,7 +2,7 @@ export const noop = () => {};
 export const getKeys = Object.keys;
 export const assign = Object.assign;
 export const isArray = Array.isArray;
-export const getStyle = getComputedStyle;
+export const getStyle = (e: Element) => getComputedStyle(e);
 
 export const isSameObject = (
   target: object = {},

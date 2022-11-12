@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   assign,
   getStyle,
@@ -21,6 +21,7 @@ import {
   _setRate,
   _setTime,
 } from "../../core/waapi";
+import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
 
 export type AnimationHandle = {
   (ref: Element | null): void;
@@ -141,7 +142,7 @@ export const useAnimation = (
     ];
   })[0];
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     keyframeRef.current = keyframe;
     optionsRef.current = options;
   });

@@ -1,4 +1,4 @@
-import { useContext, useLayoutEffect } from "react";
+import { useContext } from "react";
 import {
   TransitionHasExitContext,
   TransitionNotifierContext,
@@ -12,6 +12,7 @@ import {
 } from "./useAnimationController";
 import { getKeys } from "../../core/utils";
 import { usePrevious } from "./usePrevious";
+import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
 
 export const useTransitionAnimation = <T extends TransitionState>(
   definitions: {
@@ -24,13 +25,13 @@ export const useTransitionAnimation = <T extends TransitionState>(
   const hasExitRef = useContext(TransitionHasExitContext);
 
   const keys = getKeys(definitions);
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     // Decide if the parent should animate children on exit or not
     // State must change like enter (-> update) -> exit so it's ok to use ref
     hasExitRef.current = keys.includes("exit");
   }, keys);
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (currentState !== "update") return;
     const handle = definitions[currentState as T];
     if (!handle) return;
@@ -42,7 +43,7 @@ export const useTransitionAnimation = <T extends TransitionState>(
 
   const prevState = usePrevious(currentState);
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (currentState === "update") return;
     const handle = definitions[currentState as T];
     if (!handle) return;

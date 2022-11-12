@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { isSameObject } from "../../core/utils";
 import {
   AnimationOptions,
@@ -13,6 +13,7 @@ import {
   _setRate,
   _setTime,
 } from "../../core/waapi";
+import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
 
 export type AnimationFunctionHandle = {
   play: (opts?: PlayOptions) => AnimationFunctionHandle;
@@ -128,7 +129,7 @@ export const useAnimationFunction = (
     }
   )[0];
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     onUpdateRef.current = onUpdate;
     optionsRef.current = options;
   });
