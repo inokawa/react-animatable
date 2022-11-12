@@ -9,9 +9,11 @@ A small but powerful animation library for [React](https://github.com/facebook/r
 ## Features
 
 - Performant animation driven by native [Web Animations API (WAAPI)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API), but with minimal stress integrating it to React.
-- HTML, SVG, Canvas and other things can be animated.
-- [TypeScript](https://www.typescriptlang.org/) centric design for modern web application development.
-- Composable and declarative APIs based on React hooks.
+- HTML, SVG, Canvas and anything can be animated.
+- Designed for modern web application development.
+  - Composable and declarative APIs based on React hooks.
+  - Fully typed with [TypeScript](https://www.typescriptlang.org/).
+  - Works well with any CSS-in-JS libraries, like [styled-components](https://github.com/styled-components/styled-components), [emotion](https://github.com/emotion-js/emotion), [stitches](https://github.com/stitchesjs/stitches) and the others.
 - [Tiny bundle size (currently about 2kB gzipped)](https://bundlephobia.com/package/react-animatable) and has zero dependencies. Of course treeshakeable
 
 ## Demo
