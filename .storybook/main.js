@@ -26,6 +26,19 @@ module.exports = {
         },
       ],
     });
+    // for compiled
+    config.module.rules.push({
+      test: /\/compiled\.stories.tsx$/,
+      use: [
+        {
+          loader: "@compiled/webpack-loader",
+          options: {
+            parserBabelPlugins: ["jsx", "typescript"],
+            importReact: false,
+          },
+        },
+      ],
+    });
     return config;
   },
 };
