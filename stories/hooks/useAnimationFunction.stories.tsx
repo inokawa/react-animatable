@@ -42,6 +42,33 @@ export const Text: StoryObj = {
   },
 };
 
+export const Progress: StoryObj = {
+  render: () => {
+    const [value, setValue] = useState(0);
+
+    const animate = useAnimationFunction(
+      ({ progress }) => {
+        setValue(progress * 100);
+      },
+      {
+        duration: 800,
+        easing: "ease-in-out",
+      }
+    );
+    useEffect(() => {
+      animate.play();
+    }, []);
+
+    return (
+      <>
+        <div>
+          <progress value={value} max={100} />
+        </div>
+      </>
+    );
+  },
+};
+
 export const Canvas: StoryObj = {
   render: () => {
     const ref = useRef<HTMLCanvasElement>(null);
