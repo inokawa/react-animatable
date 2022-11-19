@@ -1,5 +1,11 @@
 import { StoryObj } from "@storybook/react";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   AnimationOptions,
   TypedEasing,
@@ -7,6 +13,19 @@ import {
   useAnimation,
 } from "../../src";
 import { mergeRefs } from "react-merge-refs";
+
+const debounce = <T extends (...args: any[]) => void>(fn: T, ms: number) => {
+  let id: NodeJS.Timeout | null = null;
+  return (...args: Parameters<T>) => {
+    if (id != null) {
+      clearTimeout(id);
+    }
+    id = setTimeout(() => {
+      id = null;
+      fn(...args);
+    }, ms);
+  };
+};
 
 export default { component: useAnimation };
 
@@ -382,9 +401,9 @@ export const Bars: StoryObj = {
   },
 };
 
-export const Square: StoryObj = {
+export const Mouse: StoryObj = {
   render: () => {
-    const animate = useAnimation(
+    const rotate = useAnimation(
       [
         { transform: "rotate(0deg)", borderRadius: "1rem" },
         { transform: "rotate(360deg)", borderRadius: "50%" },
@@ -396,27 +415,43 @@ export const Square: StoryObj = {
         easing: "ease-in-out",
       }
     );
+    const move = useAnimation<{ x: number; y: number }>(
+      (prev, pos) => [
+        { transform: prev.transform },
+        { transform: `translate(${pos.x}px, ${pos.y}px)` },
+      ],
+      {
+        duration: 400,
+        easing: "ease-in-out",
+      }
+    );
 
     useEffect(() => {
-      animate.play();
+      rotate.play();
+
+      const onPointerMove = debounce((e: PointerEvent) => {
+        move.play({ args: { x: e.clientX, y: e.clientY } });
+      }, 200);
+      window.addEventListener("pointermove", onPointerMove);
+      return () => {
+        window.removeEventListener("pointermove", onPointerMove);
+      };
     }, []);
 
     return (
-      <div
-        ref={animate}
-        onMouseEnter={() => {
-          animate.pause();
-        }}
-        onMouseLeave={() => {
-          animate.play();
-        }}
-        style={{
-          border: "solid 0.1rem #135569",
-          height: "6rem",
-          width: "6rem",
-          margin: "2rem 0 2rem 2rem",
-        }}
-      />
+      <div ref={move}>
+        <div
+          ref={rotate}
+          style={{
+            position: "fixed",
+            border: "solid 0.1rem #135569",
+            height: "6rem",
+            width: "6rem",
+            top: "-3rem",
+            left: "-3rem",
+          }}
+        />
+      </div>
     );
   },
 };
@@ -435,7 +470,6 @@ export const Scroll: StoryObj = {
     );
 
     const scrollRef = useRef<HTMLDivElement>(null);
-    const timer = useRef<NodeJS.Timeout | null>(null);
 
     return (
       <div
@@ -445,15 +479,14 @@ export const Scroll: StoryObj = {
           width: "100vw",
           height: "100vh",
         }}
-        onScroll={() => {
-          if (timer.current) {
-            clearTimeout(timer.current);
-          }
-          timer.current = setTimeout(() => {
-            if (!scrollRef.current) return;
-            animate.play({ reset: true, args: scrollRef.current.scrollTop });
-          }, 100);
-        }}
+        onScroll={useMemo(
+          () =>
+            debounce(() => {
+              if (!scrollRef.current) return;
+              animate.play({ reset: true, args: scrollRef.current.scrollTop });
+            }, 100),
+          []
+        )}
       >
         <div
           style={{
