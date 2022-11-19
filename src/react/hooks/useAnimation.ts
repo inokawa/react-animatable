@@ -15,7 +15,6 @@ import {
   _end,
   _finish,
   _pause,
-  _persist,
   _play,
   _reverse,
   _setRate,
@@ -30,7 +29,6 @@ export type AnimationHandle = {
   cancel: () => AnimationHandle;
   finish: () => AnimationHandle;
   pause: () => AnimationHandle;
-  persist: () => AnimationHandle;
   setTime: (time: number) => AnimationHandle;
   setPlaybackRate: (
     rate: number | ((prevRate: number) => number)
@@ -116,10 +114,6 @@ export const useAnimation = (
         },
         pause: () => {
           _pause(getAnimation());
-          return externalHandle;
-        },
-        persist: () => {
-          _persist(getAnimation(), getTarget()!, getKeyframes());
           return externalHandle;
         },
         setTime: (time: number) => {

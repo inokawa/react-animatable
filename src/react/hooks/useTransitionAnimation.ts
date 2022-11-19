@@ -11,7 +11,6 @@ import {
   useAnimationController,
 } from "./useAnimationController";
 import { getKeys } from "../../core/utils";
-import { usePrevious } from "./usePrevious";
 import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
 
 export const useTransitionAnimation = <T extends TransitionState>(
@@ -41,15 +40,11 @@ export const useTransitionAnimation = <T extends TransitionState>(
     };
   });
 
-  const prevState = usePrevious(currentState);
-
   useIsomorphicLayoutEffect(() => {
     if (currentState === "update") return;
     const handle = definitions[currentState as T];
     if (!handle) return;
-    animation.get(prevState as T).persist();
     animation
-      .cancelAll()
       .get(currentState as T)
       .play()
       .end()
