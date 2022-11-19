@@ -13,6 +13,8 @@ import {
 import { getKeys } from "../../core/utils";
 import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
 
+export type { AnimationController };
+
 export const useTransitionAnimation = <T extends TransitionState>(
   definitions: {
     [key in T]: AnimationHandle;

@@ -92,12 +92,6 @@ A basic hook to use Web Animations API.
 
 [Examples](./stories/hooks/useAnimation.stories.tsx)
 
-### useAnimationController
-
-A hook to compose multiple [useAnimation](#useanimation) and orchestrate their animations.
-
-[Examples](./stories/hooks/useAnimationController.stories.tsx)
-
 ### useAnimationFunction
 
 Same as [useAnimation](#useanimation), but it drives function not React element.

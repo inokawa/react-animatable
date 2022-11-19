@@ -1,6 +1,12 @@
 import { StoryObj } from "@storybook/react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { TypedEasing, TypedKeyframe, useAnimation } from "../../src";
+import {
+  AnimationOptions,
+  TypedEasing,
+  TypedKeyframe,
+  useAnimation,
+} from "../../src";
+import { mergeRefs } from "react-merge-refs";
 
 export default { component: useAnimation };
 
@@ -683,6 +689,222 @@ export const Sequence: StoryObj = {
           </button>
           <button onClick={onClickAll}>All</button>
         </div>
+      </div>
+    );
+  },
+};
+
+const WavedRect = ({ i }: { i: number }) => {
+  const baseTiming: AnimationOptions = {
+    easing: "ease-in-out",
+    iterations: Infinity,
+    direction: "alternate",
+    delay: i * 98,
+  };
+  const move = useAnimation(
+    [
+      { transform: "translateY(0) scaleX(.8)" },
+      { transform: "translateY(95vh) scaleX(1)" },
+    ],
+    { ...baseTiming, duration: 2500 }
+  );
+  const opacity = useAnimation([{ opacity: 1 }, { opacity: 0 }], {
+    ...baseTiming,
+    duration: 2000,
+  });
+  const color = useAnimation(
+    [{ backgroundColor: "rgb(239, 239, 255)" }, { backgroundColor: "#e4c349" }],
+    { ...baseTiming, duration: 3000 }
+  );
+
+  useEffect(() => {
+    move.play();
+    opacity.play();
+    color.play();
+  }, []);
+
+  return (
+    <div
+      ref={mergeRefs([move, opacity, color])}
+      style={{
+        width: "5vw",
+        height: "2.5vh",
+        background: "#efefff",
+        borderRadius: "1vh",
+      }}
+    />
+  );
+};
+
+export const Wave: StoryObj = {
+  render: () => {
+    const [rects] = useState(() => Array.from({ length: 20 }).map((_, i) => i));
+
+    return (
+      <div
+        style={{
+          background: "#e45349",
+          width: "100vw",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        {rects.map((i) => (
+          <WavedRect key={i} i={i} />
+        ))}
+      </div>
+    );
+  },
+};
+
+export const Countdown: StoryObj = {
+  render: () => {
+    const [count, setCount] = useState(10);
+    const countAnimation = useAnimation(
+      [
+        { opacity: 1, transform: "scale(.6)" },
+        { opacity: 0.5, transform: "scale(1)" },
+      ],
+      {
+        duration: 500,
+        easing: "linear",
+        delay: 0,
+        iterations: 1000,
+        direction: "alternate",
+      }
+    );
+    const boomAnimation = useAnimation(
+      [
+        {
+          opacity: 0,
+          transform: "scale(.01) rotate(0deg)",
+          color: "white",
+          offset: 0,
+        },
+        {
+          opacity: 1,
+          transform: "scale(6) rotate(360deg)",
+          color: "orange",
+          offset: 0.8,
+        },
+        {
+          opacity: 1,
+          transform: "scale(1) rotate(720deg)",
+          color: "white",
+          offset: 1,
+        },
+      ],
+      {
+        duration: 2000,
+        easing: "ease-out",
+        delay: 0,
+        iterations: 1,
+      }
+    );
+
+    useEffect(() => {
+      countAnimation.play();
+      let startCount = count;
+
+      const id = setInterval(() => {
+        startCount -= 1;
+        setCount((p) => p - 1);
+
+        if (startCount > 0) {
+          countAnimation.setPlaybackRate((prev) => Math.min(prev * 1.15, 6));
+        } else {
+          clearInterval(id);
+          boomAnimation.play();
+        }
+      }, 1000);
+
+      return () => {
+        clearInterval(id);
+      };
+    }, []);
+    return (
+      <div
+        style={{
+          background: "gray",
+          width: 400,
+          height: 400,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <span
+          ref={mergeRefs([countAnimation, boomAnimation])}
+          style={{ color: "white", fontSize: 64, fontWeight: "bold" }}
+        >
+          {count}
+        </span>
+      </div>
+    );
+  },
+};
+
+const Block = ({ i, length: n }: { i: number; length: number }) => {
+  const timing: AnimationOptions = {
+    duration: 250,
+  };
+  const one = useAnimation(
+    [{ backgroundColor: "#eee" }, { backgroundColor: "steelblue" }],
+    { ...timing, endDelay: 1000 }
+  );
+  const two = useAnimation(
+    [{ backgroundColor: "steelblue" }, { backgroundColor: "orange" }],
+    { ...timing, endDelay: 1000 }
+  );
+  const three = useAnimation(
+    [{ backgroundColor: "orange" }, { backgroundColor: "#eee" }],
+    { ...timing, endDelay: n }
+  );
+
+  useEffect(() => {
+    one.cancel();
+    two.cancel();
+    three.cancel();
+    const run = async () => {
+      try {
+        await one.play().end();
+        one.cancel();
+        await two.play().end();
+        two.cancel();
+        await three.play().end();
+        three.cancel();
+        run();
+      } catch (e) {
+        // ignore uncaught promise error
+      }
+    };
+    setTimeout(run, i + (Math.random() * n) / 4);
+  }, []);
+
+  return (
+    <div
+      ref={mergeRefs([one, two, three])}
+      style={{
+        width: 10,
+        height: 10,
+        margin: " 1px 0 0 1px",
+        float: "left",
+        background: "#eee",
+        display: "inline-block",
+      }}
+    />
+  );
+};
+
+export const Chained: StoryObj = {
+  render: () => {
+    const length = 4002;
+    return (
+      <div style={{ maxWidth: 960 }}>
+        {Array.from({ length: length }).map((_, i) => (
+          <Block key={i} i={i} length={length} />
+        ))}
       </div>
     );
   },
