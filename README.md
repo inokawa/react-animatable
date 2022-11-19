@@ -84,6 +84,57 @@ export const App = () => {
 };
 ```
 
+### Dynamic keyframe
+
+```tsx
+import { useEffect } from "react";
+import { useAnimation } from "react-animatable";
+
+export const App = () => {
+  // Define argument type
+  const animate = useAnimation<{ x: number; y: number }>(
+    (prev, pos) => [
+      // You can get current style from 1st argument
+      { transform: prev.transform },
+      // Get passed position from 2nd argument
+      { transform: `translate(${pos.x}px, ${pos.y}px)` },
+    ],
+    {
+      duration: 400,
+      easing: "ease-in-out",
+    }
+  );
+
+  useEffect(() => {
+    // If you click somewhere, the circle follows you!
+
+    const onClick = (e: MouseEvent) => {
+      // Pass mouse position when animate
+      move.play({ args: { x: e.clientX, y: e.clientY } });
+    };
+    window.addEventListener("click", onClick);
+    return () => {
+      window.removeEventListener("click", onClick);
+    };
+  }, []);
+
+  return (
+    <div
+      ref={animate}
+      style={{
+        position: "fixed",
+        border: "solid 0.1rem #135569",
+        borderRadius: "50%",
+        height: "6rem",
+        width: "6rem",
+        top: "-3rem",
+        left: "-3rem",
+      }}
+    />
+  );
+};
+```
+
 ## API
 
 ### useAnimation
