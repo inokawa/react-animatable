@@ -66,6 +66,7 @@
     "react",
     "react-component",
     "react-hooks",
+    "hooks",
     "animation",
     "tween",
     "transition",
