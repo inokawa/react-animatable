@@ -45,24 +45,40 @@ export const Text: StoryObj = {
 export const Progress: StoryObj = {
   render: () => {
     const [value, setValue] = useState(0);
-
-    const animate = useAnimationFunction(
-      ({ progress }) => {
-        setValue(progress * 100);
+    const animate = useAnimationFunction<{ start: number; end: number }>(
+      ({ progress }, arg) => {
+        setValue(arg.start * (1 - progress) + progress * arg.end);
       },
       {
-        duration: 800,
+        duration: 600,
         easing: "ease-in-out",
       }
     );
     useEffect(() => {
-      animate.play();
+      animate.play({ args: { start: value, end: Math.random() * 100 } });
     }, []);
 
     return (
       <>
         <div>
-          <progress value={value} max={100} />
+          <progress value={value} max={100} style={{ width: 600 }} />
+        </div>
+        <div>
+          <button
+            onClick={() => animate.play({ args: { start: value, end: 0 } })}
+          >
+            0%
+          </button>
+          <button
+            onClick={() => animate.play({ args: { start: value, end: 50 } })}
+          >
+            50%
+          </button>
+          <button
+            onClick={() => animate.play({ args: { start: value, end: 100 } })}
+          >
+            100%
+          </button>
         </div>
       </>
     );
