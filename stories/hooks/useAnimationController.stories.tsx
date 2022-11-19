@@ -1,5 +1,5 @@
 import { StoryObj } from "@storybook/react";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AnimationOptions,
   useAnimation,
@@ -218,65 +218,6 @@ export const Chained: StoryObj = {
         {Array.from({ length: length }).map((_, i) => (
           <Block key={i} i={i} length={length} />
         ))}
-      </div>
-    );
-  },
-};
-
-export const Sequence: StoryObj = {
-  render: () => {
-    const timing: AnimationOptions = { duration: 600, easing: "ease-out" };
-    const red = useAnimation(
-      (prev) => [{ fill: prev.fill }, { fill: "red" }],
-      timing
-    );
-    const blue = useAnimation(
-      (prev) => [{ fill: prev.fill }, { fill: "blue" }],
-      timing
-    );
-    const green = useAnimation(
-      (prev) => [{ fill: prev.fill }, { fill: "green" }],
-      timing
-    );
-    const animate = useAnimationController({ red, blue, green });
-
-    const onClickRed = useCallback(async () => {
-      await animate.get("red").play().end();
-    }, []);
-    const onClickBlue = useCallback(async () => {
-      await animate.get("blue").play().end();
-    }, []);
-    const onClickGreen = useCallback(async () => {
-      await animate.get("green").play().end();
-    }, []);
-    const onClickAll = useCallback(async () => {
-      try {
-        await onClickRed();
-        await onClickBlue();
-        await onClickGreen();
-      } catch (e) {
-        // ignore uncaught promise error
-      }
-    }, []);
-
-    useEffect(() => {
-      onClickAll();
-    }, []);
-
-    return (
-      <div>
-        <svg width={150} height={150}>
-          <path
-            ref={animate}
-            d="M 10,30 A 20,20 0,0,1 50,30 A 20,20 0,0,1 90,30 Q 90,60 50,90 Q 10,60 10,30 z"
-          />
-        </svg>
-        <div>
-          <button onClick={onClickRed}>Red</button>
-          <button onClick={onClickBlue}>Blue</button>
-          <button onClick={onClickGreen}>Green</button>
-          <button onClick={onClickAll}>All</button>
-        </div>
       </div>
     );
   },

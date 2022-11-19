@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import type { Expand } from "../../core/types";
 import {
   assign,
   getStyle,
@@ -9,7 +10,9 @@ import {
 import {
   AnimationOptions,
   createAnimation,
+  GetKeyframeFunction,
   PlayOptions,
+  ReverseOptions,
   TypedKeyframe,
   _cancel,
   _end,
@@ -22,119 +25,125 @@ import {
 } from "../../core/waapi";
 import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
 
-export type AnimationHandle = {
+type PlayArgs<Args = void> = Args extends void
+  ? [PlayOptions?]
+  : [Expand<PlayOptions & (Args extends void ? {} : { args: Args })>];
+
+type ReverseArgs<Args = void> = Args extends void
+  ? [ReverseOptions?]
+  : [Expand<ReverseOptions & (Args extends void ? {} : { args: Args })>];
+
+export type AnimationHandle<Args = void> = {
   (ref: Element | null): void;
-  play: (opts?: PlayOptions) => AnimationHandle;
-  reverse: () => AnimationHandle;
-  cancel: () => AnimationHandle;
-  finish: () => AnimationHandle;
-  pause: () => AnimationHandle;
-  setTime: (time: number) => AnimationHandle;
+  play: (...opts: PlayArgs<Args>) => AnimationHandle<Args>;
+  reverse: (...opts: ReverseArgs<Args>) => AnimationHandle<Args>;
+  cancel: () => AnimationHandle<Args>;
+  finish: () => AnimationHandle<Args>;
+  pause: () => AnimationHandle<Args>;
+  setTime: (time: number) => AnimationHandle<Args>;
   setPlaybackRate: (
     rate: number | ((prevRate: number) => number)
-  ) => AnimationHandle;
-  end: () => Promise<AnimationHandle>;
+  ) => AnimationHandle<Args>;
+  end: () => Promise<AnimationHandle<Args>>;
 };
 
-export const useAnimation = (
-  keyframe:
-    | TypedKeyframe
-    | TypedKeyframe[]
-    | ((prev: CSSStyleDeclaration) => TypedKeyframe[]),
+export const useAnimation = <Args = void>(
+  keyframe: TypedKeyframe | TypedKeyframe[] | GetKeyframeFunction<Args>,
   options?: AnimationOptions
-): AnimationHandle => {
+): AnimationHandle<Args> => {
   const keyframeRef = useRef(keyframe);
   const optionsRef = useRef(options);
 
-  const [animation, cleanup] = useState<[AnimationHandle, () => void]>(() => {
-    let target: Element | null = null;
+  const [animation, cleanup] = useState<[AnimationHandle<Args>, () => void]>(
+    () => {
+      let target: Element | null = null;
 
-    const getTarget = () => target;
-    const getKeyframes = () => {
-      if (typeof keyframeRef.current === "function") {
-        return keyframeRef.current(getStyle(getTarget()!));
-      }
-      return toArray(keyframeRef.current);
-    };
-    const getOptions = () => optionsRef.current;
-
-    let cache:
-      | [
-          animation: Animation,
-          el: Element,
-          keyframes: TypedKeyframe[],
-          options: AnimationOptions | undefined
-        ]
-      | undefined;
-    const initAnimation = (): Animation => {
-      const keyframes = getKeyframes();
-      const options = getOptions();
-      const el = getTarget()!;
-      if (cache) {
-        const [prevAnimation, prevEl, prevKeyframes, prevOptions] = cache;
-        if (
-          el === prevEl &&
-          isSameObjectArray(keyframes, prevKeyframes) &&
-          isSameObject(options, prevOptions)
-        ) {
-          return prevAnimation;
+      const getTarget = () => target;
+      const getKeyframes = (args: Args) => {
+        if (typeof keyframeRef.current === "function") {
+          return keyframeRef.current(getStyle(getTarget()!), args);
         }
-        prevAnimation.cancel();
-      }
-      const animation = createAnimation(el, keyframes as Keyframe[], options);
-      cache = [animation, el, keyframes, options];
-      return animation;
-    };
-    const getAnimation = () => cache?.[0];
+        return toArray(keyframeRef.current);
+      };
 
-    const cancel = () => {
-      _cancel(getAnimation());
-    };
+      let cache:
+        | [
+            animation: Animation,
+            el: Element,
+            keyframes: TypedKeyframe[],
+            options: AnimationOptions | undefined
+          ]
+        | undefined;
+      const initAnimation = (opts: { args?: Args } = {}): Animation => {
+        const keyframes = getKeyframes(opts.args!);
+        const options = optionsRef.current;
+        const el = getTarget()!;
+        if (cache) {
+          const [prevAnimation, prevEl, prevKeyframes, prevOptions] = cache;
+          if (
+            el === prevEl &&
+            isSameObjectArray(keyframes, prevKeyframes) &&
+            isSameObject(options, prevOptions)
+          ) {
+            return prevAnimation;
+          }
+          prevAnimation.cancel();
+        }
+        const animation = createAnimation(el, keyframes as Keyframe[], options);
+        cache = [animation, el, keyframes, options];
+        return animation;
+      };
+      const getAnimation = () => cache?.[0];
 
-    const externalHandle: AnimationHandle = assign(
-      (ref: Element | null) => {
-        target = ref;
-      },
-      {
-        play: (opts?: PlayOptions) => {
-          _play(initAnimation(), opts);
-          return externalHandle;
+      const cancel = () => {
+        _cancel(getAnimation());
+      };
+
+      const externalHandle: AnimationHandle<Args> = assign(
+        (ref: Element | null) => {
+          target = ref;
         },
-        reverse: () => {
-          _reverse(initAnimation());
-          return externalHandle;
-        },
-        cancel: () => {
+        {
+          play: (...opts: PlayArgs<Args>) => {
+            _play(initAnimation(opts[0] as { args?: Args }), opts[0]);
+            return externalHandle;
+          },
+          reverse: (...opts: ReverseArgs<Args>) => {
+            _reverse(initAnimation(opts[0]));
+            return externalHandle;
+          },
+          cancel: () => {
+            cancel();
+            return externalHandle;
+          },
+          finish: () => {
+            _finish(getAnimation());
+            return externalHandle;
+          },
+          pause: () => {
+            _pause(getAnimation());
+            return externalHandle;
+          },
+          setTime: (time: number) => {
+            _setTime(getAnimation(), time);
+            return externalHandle;
+          },
+          setPlaybackRate: (rate: number | ((prevRate: number) => number)) => {
+            _setRate(getAnimation(), rate);
+            return externalHandle;
+          },
+          end: () => _end(getAnimation()).then(() => externalHandle),
+        }
+      );
+
+      return [
+        externalHandle,
+        () => {
           cancel();
-          return externalHandle;
         },
-        finish: () => {
-          _finish(getAnimation());
-          return externalHandle;
-        },
-        pause: () => {
-          _pause(getAnimation());
-          return externalHandle;
-        },
-        setTime: (time: number) => {
-          _setTime(getAnimation(), time);
-          return externalHandle;
-        },
-        setPlaybackRate: (rate: number | ((prevRate: number) => number)) => {
-          _setRate(getAnimation(), rate);
-          return externalHandle;
-        },
-        end: () => _end(getAnimation()).then(() => externalHandle),
-      }
-    );
-
-    return [
-      externalHandle,
-      () => {
-        cancel();
-      },
-    ];
-  })[0];
+      ];
+    }
+  )[0];
 
   useIsomorphicLayoutEffect(() => {
     keyframeRef.current = keyframe;
