@@ -155,13 +155,29 @@ const ExpandRect = ({ i, length }: { i: number; length: number }) => {
     duration: 1000,
   };
 
+  const startStyle = (s: CSSStyleDeclaration, defaultScale: number) => {
+    const transform = s.transform;
+    const scale =
+      transform.slice("matrix".length + 1, transform.indexOf(",") - 1) ||
+      defaultScale;
+    return {
+      backgroundColor: s.backgroundColor,
+      transform: `scale(${scale})`,
+      opacity: s.opacity,
+    };
+  };
+
   const transition = useTransitionAnimation({
     enter: useAnimation(
-      [{ backgroundColor: "skyblue", transform: "scale(1)", opacity: 1 }],
+      (prev) => [
+        startStyle(prev, 0),
+        { backgroundColor: "skyblue", transform: "scale(1)", opacity: 1 },
+      ],
       { ...timing, delay: i * 100 }
     ),
     exit: useAnimation(
-      [
+      (prev) => [
+        startStyle(prev, 1),
         {
           backgroundColor: "limegreen",
           transform: "scale(0)",

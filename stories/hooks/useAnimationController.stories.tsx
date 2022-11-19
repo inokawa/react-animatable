@@ -226,34 +226,28 @@ export const Chained: StoryObj = {
 export const Sequence: StoryObj = {
   render: () => {
     const timing: AnimationOptions = { duration: 600, easing: "ease-out" };
-    const red = useAnimation({ fill: "red" }, timing);
-    const blue = useAnimation({ fill: "blue" }, timing);
-    const green = useAnimation({ fill: "green" }, timing);
+    const red = useAnimation(
+      (prev) => [{ fill: prev.fill }, { fill: "red" }],
+      timing
+    );
+    const blue = useAnimation(
+      (prev) => [{ fill: prev.fill }, { fill: "blue" }],
+      timing
+    );
+    const green = useAnimation(
+      (prev) => [{ fill: prev.fill }, { fill: "green" }],
+      timing
+    );
     const animate = useAnimationController({ red, blue, green });
 
     const onClickRed = useCallback(async () => {
-      const handle = animate.get("red");
-      try {
-        await handle.play().end();
-      } finally {
-        handle.persist();
-      }
+      await animate.get("red").play().end();
     }, []);
     const onClickBlue = useCallback(async () => {
-      const handle = animate.get("blue");
-      try {
-        await handle.play().end();
-      } finally {
-        handle.persist();
-      }
+      await animate.get("blue").play().end();
     }, []);
     const onClickGreen = useCallback(async () => {
-      const handle = animate.get("green");
-      try {
-        await handle.play().end();
-      } finally {
-        handle.persist();
-      }
+      await animate.get("green").play().end();
     }, []);
     const onClickAll = useCallback(async () => {
       try {
