@@ -1,11 +1,4 @@
-export { useAnimation } from "./useAnimation";
-export type { AnimationHandle } from "./useAnimation";
-export { useAnimationController } from "./useAnimationController";
-export type { AnimationController } from "./useAnimationController";
-export { useAnimationFunction } from "./useAnimationFunction";
-export type {
-  AnimationFunctionHandle,
-  AnimationFunction,
-  ComputedTimingContext,
-} from "./useAnimationFunction";
-export { useTransitionAnimation } from "./useTransitionAnimation";
+export * from "./useAnimation";
+export * from "./useAnimationController";
+export * from "./useAnimationFunction";
+export * from "./useTransitionAnimation";

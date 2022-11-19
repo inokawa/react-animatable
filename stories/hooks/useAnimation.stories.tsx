@@ -1,11 +1,6 @@
 import { StoryObj } from "@storybook/react";
-import React, { useEffect, useState } from "react";
-import {
-  AnimationOptions,
-  TypedEasing,
-  TypedKeyframe,
-  useAnimation,
-} from "../../src";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { TypedEasing, TypedKeyframe, useAnimation } from "../../src";
 
 export default { component: useAnimation };
 
@@ -420,6 +415,62 @@ export const Square: StoryObj = {
   },
 };
 
+export const Scroll: StoryObj = {
+  render: () => {
+    const animate = useAnimation<number>(
+      (prev, top) => [
+        { transform: prev.transform },
+        { transform: `translate(0px,${top}px)` },
+      ],
+      {
+        duration: 500,
+        easing: "ease-in-out",
+      }
+    );
+
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const timer = useRef<NodeJS.Timeout | null>(null);
+
+    return (
+      <div
+        ref={scrollRef}
+        style={{
+          overflowY: "scroll",
+          width: "100vw",
+          height: "100vh",
+        }}
+        onScroll={() => {
+          if (timer.current) {
+            clearTimeout(timer.current);
+          }
+          timer.current = setTimeout(() => {
+            if (!scrollRef.current) return;
+            animate.play({ reset: true, args: scrollRef.current.scrollTop });
+          }, 100);
+        }}
+      >
+        <div
+          style={{
+            position: "relative",
+            height: 100000,
+          }}
+        >
+          Please scroll down!
+          <div
+            ref={animate}
+            style={{
+              position: "absolute",
+              background: "pink",
+              height: "6rem",
+              width: "6rem",
+            }}
+          />
+        </div>
+      </div>
+    );
+  },
+};
+
 export const Toggle: StoryObj = {
   render: () => {
     const animate = useAnimation(
@@ -577,4 +628,62 @@ export const ThreeDimentional: StoryObj = {
     );
   },
   name: "3D",
+};
+
+export const Sequence: StoryObj = {
+  render: () => {
+    const animate = useAnimation<string>(
+      (prev, color) => [{ fill: prev.fill }, { fill: color }],
+      { duration: 600, easing: "ease-out" }
+    );
+
+    const onClickAll = useCallback(async () => {
+      try {
+        await animate.play({ args: "red" }).end();
+        await animate.play({ args: "blue" }).end();
+        await animate.play({ args: "green" }).end();
+      } catch (e) {
+        // ignore uncaught promise error
+      }
+    }, []);
+
+    useEffect(() => {
+      onClickAll();
+    }, []);
+
+    return (
+      <div>
+        <svg width={150} height={150}>
+          <path
+            ref={animate}
+            d="M 10,30 A 20,20 0,0,1 50,30 A 20,20 0,0,1 90,30 Q 90,60 50,90 Q 10,60 10,30 z"
+          />
+        </svg>
+        <div>
+          <button
+            onClick={() => {
+              animate.play({ args: "red" });
+            }}
+          >
+            Red
+          </button>
+          <button
+            onClick={() => {
+              animate.play({ args: "blue" });
+            }}
+          >
+            Blue
+          </button>
+          <button
+            onClick={() => {
+              animate.play({ args: "green" });
+            }}
+          >
+            Green
+          </button>
+          <button onClick={onClickAll}>All</button>
+        </div>
+      </div>
+    );
+  },
 };

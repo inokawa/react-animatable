@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import { getKeys, getStyle, noop, uniqBy } from "./utils";
+import { getKeys, noop, uniqBy } from "./utils";
 
 export type AnimatableCSSProperties = Omit<
   CSSProperties,
@@ -17,6 +17,10 @@ export type TypedKeyframe = Pick<Keyframe, "composite" | "easing" | "offset"> &
 export type TypedEasing = NonNullable<
   Exclude<CSSProperties["animationTimingFunction"], CSSProperties["all"]>
 >;
+
+export type GetKeyframeFunction<Args = void> = Args extends void
+  ? (prev: CSSStyleDeclaration) => TypedKeyframe[]
+  : (prev: CSSStyleDeclaration, args: Args) => TypedKeyframe[];
 
 export interface AnimationOptions
   extends Omit<KeyframeEffectOptions, "easing"> {
@@ -56,6 +60,8 @@ export const createAnimation = (
 
 export type PlayOptions = { reset?: boolean };
 
+export type ReverseOptions = {};
+
 export const _play = (animation: Animation, opts: PlayOptions = {}) => {
   if (opts.reset) {
     animation.currentTime = 0;
@@ -77,24 +83,24 @@ export const _pause = (animation: Animation | undefined) => {
   if (!animation) return;
   animation.pause();
 };
-export const _persist = (
-  animation: Animation | undefined,
-  el: Element,
-  keyframes: TypedKeyframe[]
-) => {
-  if (!animation) return;
-  // https://www.w3.org/TR/web-animations-1/#fill-behavior
-  if (animation.commitStyles) {
-    animation.commitStyles();
-  } else {
-    // Fallback for commitStyles
-    const computedStyle = getStyle(el);
-    getKeyframeKeys(keyframes).forEach((k) => {
-      ((el as HTMLElement).style as any)[k] = (computedStyle as any)[k];
-    });
-  }
-  animation.cancel();
-};
+// export const _persist = (
+//   animation: Animation | undefined,
+//   el: Element,
+//   keyframes: TypedKeyframe[]
+// ) => {
+//   if (!animation) return;
+//   // https://www.w3.org/TR/web-animations-1/#fill-behavior
+//   if (animation.commitStyles) {
+//     animation.commitStyles();
+//   } else {
+//     // Fallback for commitStyles
+//     const computedStyle = getStyle(el);
+//     getKeyframeKeys(keyframes).forEach((k) => {
+//       ((el as HTMLElement).style as any)[k] = (computedStyle as any)[k];
+//     });
+//   }
+//   animation.cancel();
+// };
 export const _setTime = (animation: Animation | undefined, time: number) => {
   if (!animation) return;
   animation.currentTime = time;
