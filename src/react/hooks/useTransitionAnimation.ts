@@ -4,7 +4,7 @@ import {
   TransitionNotifierContext,
   TransitionState,
   TransitionStateContext,
-} from "../components/AnimationGroup";
+} from "../components/TransitionGroup";
 import type { AnimationHandle } from "./useAnimation";
 import {
   AnimationController,

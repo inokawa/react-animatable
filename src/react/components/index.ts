@@ -1,2 +1,2 @@
-export { AnimationGroup } from "./AnimationGroup";
-export type { AnimationGroupProps } from "./AnimationGroup";
+export { TransitionGroup } from "./TransitionGroup";
+export type { TransitionGroupProps } from "./TransitionGroup";

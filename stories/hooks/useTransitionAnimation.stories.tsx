@@ -1,7 +1,7 @@
 import { StoryObj } from "@storybook/react";
 import React, { useEffect, useRef, useState } from "react";
 import {
-  AnimationGroup,
+  TransitionGroup,
   AnimationOptions,
   useAnimation,
   useTransitionAnimation,
@@ -61,11 +61,11 @@ export const Input: StoryObj = {
           <input value={value} onChange={(e) => setValue(e.target.value)} />
         </div>
         <div>
-          <AnimationGroup>
+          <TransitionGroup>
             {value.split("").map((t, i) => (
               <Text key={i}>{t}</Text>
             ))}
-          </AnimationGroup>
+          </TransitionGroup>
         </div>
       </div>
     );
@@ -133,13 +133,13 @@ export const Alphabet: StoryObj = {
       <>
         <svg width={600} height={400}>
           <g transform={`translate(${25},${50})`}>
-            <AnimationGroup>
+            <TransitionGroup>
               {texts.map((t, i) => (
                 <SvgText key={t} i={i}>
                   {t}
                 </SvgText>
               ))}
-            </AnimationGroup>
+            </TransitionGroup>
           </g>
         </svg>
         <style>{`text { font: bold 28px monospace; }`}</style>
@@ -230,11 +230,11 @@ export const Expand: StoryObj = {
             alignContent: "flex-start",
           }}
         >
-          <AnimationGroup>
+          <TransitionGroup>
             {expanded
               ? rects.map((i) => <ExpandRect key={i} i={i} length={length} />)
               : []}
-          </AnimationGroup>
+          </TransitionGroup>
         </div>
       </>
     );
