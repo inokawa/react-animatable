@@ -2,7 +2,7 @@
 
 ![npm](https://img.shields.io/npm/v/react-animatable) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/react-animatable) [![check](https://github.com/inokawa/react-animatable/actions/workflows/check.yml/badge.svg)](https://github.com/inokawa/react-animatable/actions/workflows/check.yml) [![demo](https://github.com/inokawa/react-animatable/actions/workflows/demo.yml/badge.svg)](https://github.com/inokawa/react-animatable/actions/workflows/demo.yml)
 
-A powerful composable animation library for [React](https://github.com/facebook/react), built on [Web Animations API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API) and React hooks.
+A powerful composable animation library for [React](https://github.com/facebook/react), built on [Web Animations API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API) and React hook.
 
 <img src="./demo.gif" width="600px" />
 
@@ -11,7 +11,7 @@ A powerful composable animation library for [React](https://github.com/facebook/
 - Performant animation driven by native [Web Animations API (WAAPI)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API), but with minimal stress integrating it to React.
 - HTML, SVG, Canvas and anything can be animated.
 - Designed for modern web application development.
-  - Composable and declarative APIs based on React hooks.
+  - Composable and declarative APIs based on React hook.
   - Fully typed with [TypeScript](https://www.typescriptlang.org/).
   - Easy integration with any CSS-in-JS libraries, like [styled-components](https://github.com/styled-components/styled-components), [emotion](https://github.com/emotion-js/emotion), [stitches](https://github.com/stitchesjs/stitches), [vanilla-extract](https://github.com/vanilla-extract-css/vanilla-extract), [linaria](https://github.com/callstack/linaria), [compiled](https://github.com/atlassian-labs/compiled) and the others.
   - Support [Next.js](https://github.com/vercel/next.js) and server-side rendering (SSR).
