@@ -1,19 +1,106 @@
-import { useContext } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import {
-  TransitionHasExitContext,
+  EXITED,
+  EXITING,
+  NOT_EXIT,
   TransitionNotifierContext,
   TransitionState,
   TransitionStateContext,
 } from "../components/TransitionGroup";
 import type { AnimationHandle } from "./useAnimation";
-import {
-  AnimationController,
-  useAnimationController,
-} from "./useAnimationController";
-import { getKeys } from "../../core/utils";
+import { assign, getKeys } from "../../core/utils";
 import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
+import type { PlayOptions } from "../../core";
 
-export type { AnimationController };
+export type AnimationController<ID extends string> = {
+  (ref: Element | null): void;
+  get: (name: ID) => AnimationHandle;
+  playAll: (opts?: PlayOptions) => AnimationController<ID>;
+  reverseAll: () => AnimationController<ID>;
+  cancelAll: () => AnimationController<ID>;
+  finishAll: () => AnimationController<ID>;
+  pauseAll: () => AnimationController<ID>;
+};
+
+const useAnimationController = <ID extends string>(
+  definitions: {
+    [key in ID]: AnimationHandle;
+  }
+): AnimationController<ID> => {
+  const definitionsRef = useRef(definitions);
+
+  const [animation, cleanup] = useState<[AnimationController<ID>, () => void]>(
+    () => {
+      const getHandle = (name: ID): AnimationHandle => {
+        return definitionsRef.current[name];
+      };
+      const forAllHandle = (fn: (handle: AnimationHandle) => void) => {
+        getKeys(definitionsRef.current).forEach((name) =>
+          fn(getHandle(name as ID))
+        );
+      };
+
+      const cancelAll = () => {
+        forAllHandle((handle) => {
+          handle.cancel();
+        });
+      };
+
+      const externalHandle: AnimationController<ID> = assign(
+        (ref: Element | null) => {
+          forAllHandle((h) => {
+            h(ref);
+          });
+        },
+        {
+          get: getHandle,
+          playAll: (opts?: PlayOptions) => {
+            forAllHandle((handle) => {
+              handle.play(opts);
+            });
+            return externalHandle;
+          },
+          reverseAll: () => {
+            forAllHandle((handle) => {
+              handle.reverse();
+            });
+            return externalHandle;
+          },
+          cancelAll: () => {
+            cancelAll();
+            return externalHandle;
+          },
+          finishAll: () => {
+            forAllHandle((handle) => {
+              handle.finish();
+            });
+            return externalHandle;
+          },
+          pauseAll: () => {
+            forAllHandle((handle) => {
+              handle.pause();
+            });
+            return externalHandle;
+          },
+        }
+      );
+      return [
+        externalHandle,
+        () => {
+          cancelAll();
+        },
+      ];
+    }
+  )[0];
+
+  useIsomorphicLayoutEffect(() => {
+    definitionsRef.current = definitions;
+  });
+
+  useEffect(() => cleanup, []);
+
+  return animation;
+};
 
 export const useTransitionAnimation = <T extends TransitionState>(
   definitions: {
@@ -22,14 +109,17 @@ export const useTransitionAnimation = <T extends TransitionState>(
 ): AnimationController<T> => {
   const animation = useAnimationController(definitions);
   const currentState = useContext(TransitionStateContext);
-  const setShow = useContext(TransitionNotifierContext);
-  const hasExitRef = useContext(TransitionHasExitContext);
+  const notify = useContext(TransitionNotifierContext);
 
   const keys = getKeys(definitions);
   useIsomorphicLayoutEffect(() => {
     // Decide if the parent should animate children on exit or not
     // State must change like enter (-> update) -> exit so it's ok to use ref
-    hasExitRef.current = keys.includes("exit");
+    if (keys.includes("exit")) {
+      notify(EXITING);
+    } else {
+      notify(NOT_EXIT);
+    }
   }, keys);
 
   useIsomorphicLayoutEffect(() => {
@@ -52,7 +142,7 @@ export const useTransitionAnimation = <T extends TransitionState>(
       .end()
       .then(() => {
         if (currentState === "exit") {
-          setShow(false);
+          notify(EXITED);
         }
       })
       .catch(() => {

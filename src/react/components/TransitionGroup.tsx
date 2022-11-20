@@ -6,7 +6,7 @@ import {
   useEffect,
   useState,
   ReactElement,
-  MutableRefObject,
+  useCallback,
 } from "react";
 import { noop } from "../../core/utils";
 
@@ -17,12 +17,17 @@ const toMap = (elements: ReactElement[]) =>
   }, {} as { [key: string]: ReactElement });
 
 export type TransitionState = "update" | "enter" | "exit";
-export const TransitionHasExitContext = createContext<
-  MutableRefObject<boolean>
->(null!);
 export const TransitionStateContext = createContext<TransitionState>("update");
+
+export const NOT_EXIT = 0;
+export const EXITING = 1;
+export const EXITED = 2;
+export type TransitionExitState =
+  | typeof NOT_EXIT
+  | typeof EXITING
+  | typeof EXITED;
 export const TransitionNotifierContext =
-  createContext<(show: boolean) => void>(noop);
+  createContext<(state: TransitionExitState) => void>(noop);
 
 const Provider = ({
   _state: state,
@@ -44,10 +49,16 @@ const Provider = ({
   }, [state]);
   return (
     <TransitionStateContext.Provider value={state}>
-      <TransitionNotifierContext.Provider value={setShow}>
-        <TransitionHasExitContext.Provider value={hasExitRef}>
-          {showChildren ? element : null}
-        </TransitionHasExitContext.Provider>
+      <TransitionNotifierContext.Provider
+        value={useCallback((s) => {
+          if (s === EXITED) {
+            setShow(false);
+          } else {
+            hasExitRef.current = s === EXITING;
+          }
+        }, [])}
+      >
+        {showChildren ? element : null}
       </TransitionNotifierContext.Provider>
     </TransitionStateContext.Provider>
   );
