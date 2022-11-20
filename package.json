@@ -78,6 +78,7 @@
     "visualization",
     "svg",
     "css",
+    "canvas",
     "d3",
     "web-animations",
     "nextjs"
