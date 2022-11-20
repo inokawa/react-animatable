@@ -439,18 +439,21 @@ export const Mouse: StoryObj = {
     }, []);
 
     return (
-      <div ref={move}>
-        <div
-          ref={rotate}
-          style={{
-            position: "fixed",
-            border: "solid 0.1rem #135569",
-            height: "6rem",
-            width: "6rem",
-            top: "-3rem",
-            left: "-3rem",
-          }}
-        />
+      <div>
+        <div>Move mouse cursor.</div>
+        <div ref={move}>
+          <div
+            ref={rotate}
+            style={{
+              position: "fixed",
+              border: "solid 0.1rem #135569",
+              height: "6rem",
+              width: "6rem",
+              top: "-3rem",
+              left: "-3rem",
+            }}
+          />
+        </div>
       </div>
     );
   },
@@ -458,10 +461,10 @@ export const Mouse: StoryObj = {
 
 export const Scroll: StoryObj = {
   render: () => {
-    const animate = useAnimation<number>(
-      (prev, top) => [
+    const animate = useAnimation<{ top: number; left: number }>(
+      (prev, pos) => [
         { transform: prev.transform },
-        { transform: `translate(0px,${top}px)` },
+        { transform: `translate(${pos.left}px,${pos.top}px)` },
       ],
       {
         duration: 500,
@@ -475,7 +478,7 @@ export const Scroll: StoryObj = {
       <div
         ref={scrollRef}
         style={{
-          overflowY: "scroll",
+          overflow: "scroll",
           width: "100vw",
           height: "100vh",
         }}
@@ -483,7 +486,13 @@ export const Scroll: StoryObj = {
           () =>
             debounce(() => {
               if (!scrollRef.current) return;
-              animate.play({ reset: true, args: scrollRef.current.scrollTop });
+              animate.play({
+                reset: true,
+                args: {
+                  top: scrollRef.current.scrollTop,
+                  left: scrollRef.current.scrollLeft,
+                },
+              });
             }, 100),
           []
         )}
@@ -491,10 +500,11 @@ export const Scroll: StoryObj = {
         <div
           style={{
             position: "relative",
+            width: 100000,
             height: 100000,
           }}
         >
-          Please scroll down!
+          Please scroll!
           <div
             ref={animate}
             style={{
