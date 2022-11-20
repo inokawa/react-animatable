@@ -41,7 +41,7 @@ And in some legacy browsers that does not support Web Animations API, [you may n
 
 > The hooks accepts [canonical keyframe format objects](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API/Keyframe_Formats#syntax) and [KeyframeEffect's options](https://developer.mozilla.org/en-US/docs/Web/API/KeyframeEffect/KeyframeEffect#parameters) as arguments, so check them before using this library.
 
-2. Pass the return value of `useAnimation` to element you want to control.
+2. Pass the return value of `useAnimation` to `ref` of element you want to control.
 
 3. Call `play()`!
 
