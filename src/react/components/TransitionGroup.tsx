@@ -53,13 +53,13 @@ const Provider = ({
   );
 };
 
-export type AnimationGroupProps = {
+export type TransitionGroupProps = {
   children: ReactElement | ReactElement[];
 };
 
-export const AnimationGroup = ({
+export const TransitionGroup = ({
   children,
-}: AnimationGroupProps): ReactElement => {
+}: TransitionGroupProps): ReactElement => {
   const elemsRef = useRef<ReactElement[]>(null!);
   const prevElems = elemsRef.current || [];
   const elems = Children.map(children, (c) => c);
