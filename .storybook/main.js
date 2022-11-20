@@ -39,6 +39,25 @@ module.exports = {
         },
       ],
     });
+    // for linaria
+    config.module.rules.push({
+      test: /\/linaria\.stories.tsx$/,
+      use: [
+        {
+          loader: "@linaria/webpack-loader",
+          options: {
+            sourceMap: false,
+            babelOptions: {
+              presets: [
+                "@babel/preset-typescript",
+                "@babel/preset-react",
+                "@linaria/babel-preset",
+              ],
+            },
+          },
+        },
+      ],
+    });
     return config;
   },
 };
