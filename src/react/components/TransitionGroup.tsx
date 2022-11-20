@@ -25,11 +25,11 @@ export const TransitionNotifierContext =
   createContext<(show: boolean) => void>(noop);
 
 const Provider = ({
-  s: state,
-  children,
+  _state: state,
+  _element: element,
 }: {
-  s: TransitionState;
-  children: ReactElement;
+  _state: TransitionState;
+  _element: ReactElement;
 }): ReactElement => {
   const [show, setShow] = useState(true);
   const hasExitRef = useRef(false);
@@ -46,7 +46,7 @@ const Provider = ({
     <TransitionStateContext.Provider value={state}>
       <TransitionNotifierContext.Provider value={setShow}>
         <TransitionHasExitContext.Provider value={hasExitRef}>
-          {showChildren ? children : null}
+          {showChildren ? element : null}
         </TransitionHasExitContext.Provider>
       </TransitionNotifierContext.Provider>
     </TransitionStateContext.Provider>
@@ -77,17 +77,11 @@ export const TransitionGroup = ({
     if (elemsByKey[key]) {
       // update
       res.push(
-        <Provider key={key} s="update">
-          {elemsByKey[key]!}
-        </Provider>
+        <Provider key={key} _state="update" _element={elemsByKey[key]!} />
       );
     } else {
       // exit
-      res.push(
-        <Provider key={key} s="exit">
-          {v}
-        </Provider>
-      );
+      res.push(<Provider key={key} _state="exit" _element={v} />);
     }
   });
   elems.forEach((v, i) => {
@@ -96,11 +90,7 @@ export const TransitionGroup = ({
       // update
     } else {
       // enter
-      res.push(
-        <Provider key={key} s="enter">
-          {v}
-        </Provider>
-      );
+      res.push(<Provider key={key} _state="enter" _element={v} />);
     }
   });
 
