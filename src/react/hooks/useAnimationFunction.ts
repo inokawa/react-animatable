@@ -25,7 +25,7 @@ type ReverseArgs<Args = void> = Args extends void
   ? [ReverseOptions?]
   : [Expand<ReverseOptions & (Args extends void ? {} : { args: Args })>];
 
-export type AnimationFunctionHandle<Args> = {
+export type AnimationFunctionHandle<Args = void> = {
   play: (...opts: PlayArgs<Args>) => AnimationFunctionHandle<Args>;
   reverse: (...opts: ReverseArgs<Args>) => AnimationFunctionHandle<Args>;
   cancel: () => AnimationFunctionHandle<Args>;
