@@ -93,11 +93,11 @@ import { useAnimation } from "react-animatable";
 export const App = () => {
   // Define argument type
   const animate = useAnimation<{ x: number; y: number }>(
-    (prev, pos) => [
+    (prev, args) => [
       // You can get current style from 1st argument
       { transform: prev.transform },
       // Get passed position from 2nd argument
-      { transform: `translate(${pos.x}px, ${pos.y}px)` },
+      { transform: `translate(${args.x}px, ${args.y}px)` },
     ],
     {
       duration: 400,
@@ -110,7 +110,7 @@ export const App = () => {
 
     const onClick = (e: MouseEvent) => {
       // Pass mouse position when animate
-      move.play({ args: { x: e.clientX, y: e.clientY } });
+      animate.play({ args: { x: e.clientX, y: e.clientY } });
     };
     window.addEventListener("click", onClick);
     return () => {
