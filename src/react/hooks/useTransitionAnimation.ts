@@ -10,33 +10,27 @@ import {
 import type { AnimationHandle } from "./useAnimation";
 import { assign, getKeys } from "../../core/utils";
 import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
-import type { PlayOptions } from "../../core";
 
 export type AnimationController<ID extends string> = {
   (ref: Element | null): void;
   get: (name: ID) => AnimationHandle;
-  playAll: (opts?: PlayOptions) => AnimationController<ID>;
-  reverseAll: () => AnimationController<ID>;
-  cancelAll: () => AnimationController<ID>;
-  finishAll: () => AnimationController<ID>;
-  pauseAll: () => AnimationController<ID>;
 };
 
-const useAnimationController = <ID extends string>(
+export const useTransitionAnimation = <T extends TransitionState>(
   definitions: {
-    [key in ID]: AnimationHandle;
+    [key in T]: AnimationHandle;
   }
-): AnimationController<ID> => {
+): AnimationController<T> => {
   const definitionsRef = useRef(definitions);
 
-  const [animation, cleanup] = useState<[AnimationController<ID>, () => void]>(
+  const [animation, cleanup] = useState<[AnimationController<T>, () => void]>(
     () => {
-      const getHandle = (name: ID): AnimationHandle => {
+      const getHandle = (name: T): AnimationHandle => {
         return definitionsRef.current[name];
       };
       const forAllHandle = (fn: (handle: AnimationHandle) => void) => {
         getKeys(definitionsRef.current).forEach((name) =>
-          fn(getHandle(name as ID))
+          fn(getHandle(name as T))
         );
       };
 
@@ -46,7 +40,7 @@ const useAnimationController = <ID extends string>(
         });
       };
 
-      const externalHandle: AnimationController<ID> = assign(
+      const externalHandle: AnimationController<T> = assign(
         (ref: Element | null) => {
           forAllHandle((h) => {
             h(ref);
@@ -54,34 +48,6 @@ const useAnimationController = <ID extends string>(
         },
         {
           get: getHandle,
-          playAll: (opts?: PlayOptions) => {
-            forAllHandle((handle) => {
-              handle.play(opts);
-            });
-            return externalHandle;
-          },
-          reverseAll: () => {
-            forAllHandle((handle) => {
-              handle.reverse();
-            });
-            return externalHandle;
-          },
-          cancelAll: () => {
-            cancelAll();
-            return externalHandle;
-          },
-          finishAll: () => {
-            forAllHandle((handle) => {
-              handle.finish();
-            });
-            return externalHandle;
-          },
-          pauseAll: () => {
-            forAllHandle((handle) => {
-              handle.pause();
-            });
-            return externalHandle;
-          },
         }
       );
       return [
@@ -99,15 +65,6 @@ const useAnimationController = <ID extends string>(
 
   useEffect(() => cleanup, []);
 
-  return animation;
-};
-
-export const useTransitionAnimation = <T extends TransitionState>(
-  definitions: {
-    [key in T]: AnimationHandle;
-  }
-): AnimationController<T> => {
-  const animation = useAnimationController(definitions);
   const currentState = useContext(TransitionStateContext);
   const notify = useContext(TransitionNotifierContext);
 
