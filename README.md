@@ -37,14 +37,20 @@ And in some legacy browsers that does not support Web Animations API, [you may n
 
 ## Usage
 
-The hooks accepts [canonical keyframe format objects](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API/Keyframe_Formats#syntax) and [KeyframeEffect's options](https://developer.mozilla.org/en-US/docs/Web/API/KeyframeEffect/KeyframeEffect#parameters) as arguments, so check them before using this library.
+1. Define your animation with `useAnimation` hook.
+
+> The hooks accepts [canonical keyframe format objects](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API/Keyframe_Formats#syntax) and [KeyframeEffect's options](https://developer.mozilla.org/en-US/docs/Web/API/KeyframeEffect/KeyframeEffect#parameters) as arguments, so check them before using this library.
+
+2. Pass the return value of `useAnimation` to element you want to control.
+
+3. Call `play()`!
 
 ```tsx
 import { useEffect } from "react";
 import { useAnimation } from "react-animatable";
 
 export const App = () => {
-  // Define your animation in WAAPI way
+  // 1. Define your animation in WAAPI way
   const animate = useAnimation(
     [
       { fill: "red", fontSize: "24px" },
@@ -59,7 +65,7 @@ export const App = () => {
   );
 
   useEffect(() => {
-    // And play it!
+    // 3. And play it!
     animate.play();
   }, []);
 
@@ -73,7 +79,7 @@ export const App = () => {
     >
       <g transform="translate(50, 50)">
         <text
-          // You have to pass animate to element you want to control
+          // 2. You have to pass animate to element you want to control
           ref={animate}
         >
           Hello world
@@ -85,6 +91,8 @@ export const App = () => {
 ```
 
 ### Dynamic keyframe
+
+Use `prev` and `args` for dynamic keyframe generation.
 
 ```tsx
 import { useEffect } from "react";
@@ -132,6 +140,34 @@ export const App = () => {
       }}
     />
   );
+};
+```
+
+### Animation without CSS
+
+Use `useAnimationFunction` for JS only animation.
+
+```tsx
+import { useState } from "react";
+import { useAnimationFunction } from "react-animatable";
+
+export const App = () => {
+  const [value, setValue] = useState(0);
+  const animate = useAnimationFunction<number>(
+    ({ progress }, arg) => {
+      // Do anything here!
+      setValue(progress * arg);
+    },
+    {
+      duration: 600,
+      easing: "ease-in-out",
+    }
+  );
+  useEffect(() => {
+    animate.play({ args: 100 });
+  }, []);
+
+  return <progress value={value} max={100} style={{ width: 600 }} />;
 };
 ```
 
