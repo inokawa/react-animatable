@@ -1,5 +1,5 @@
 export const noop = () => {};
-export const getKeys = Object.keys;
+export const getKeys: <T extends object>(item: T) => (keyof T)[] = Object.keys;
 export const assign = Object.assign;
 export const isArray = Array.isArray;
 export const getStyle = (e: Element) => getComputedStyle(e);

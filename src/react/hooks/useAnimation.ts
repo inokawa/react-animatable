@@ -1,16 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import type { Expand } from "../../core/types";
-import {
-  assign,
-  getStyle,
-  isSameObject,
-  isSameObjectArray,
-  toArray,
-} from "../../core/utils";
+import { assign, isSameObject, isSameObjectArray } from "../../core/utils";
 import {
   AnimationOptions,
   createAnimation,
   GetKeyframeFunction,
+  normalizeKeyframe,
   PlayOptions,
   ReverseOptions,
   TypedKeyframe,
@@ -57,15 +52,6 @@ export const useAnimation = <Args = void>(
   const [animation, cleanup] = useState<[AnimationHandle<Args>, () => void]>(
     () => {
       let target: Element | null = null;
-
-      const getTarget = () => target;
-      const getKeyframes = (args: Args) => {
-        if (typeof keyframeRef.current === "function") {
-          return keyframeRef.current(getStyle(getTarget()!), args);
-        }
-        return toArray(keyframeRef.current);
-      };
-
       let cache:
         | [
             animation: Animation,
@@ -74,8 +60,14 @@ export const useAnimation = <Args = void>(
             options: AnimationOptions | undefined
           ]
         | undefined;
+
+      const getTarget = () => target;
       const initAnimation = (opts: { args?: Args } = {}): Animation => {
-        const keyframes = getKeyframes(opts.args!);
+        const keyframes = normalizeKeyframe(
+          getTarget()!,
+          keyframeRef.current,
+          opts.args!
+        );
         const options = optionsRef.current;
         const el = getTarget()!;
         if (cache) {

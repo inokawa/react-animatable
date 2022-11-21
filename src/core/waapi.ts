@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import { getKeys, noop, uniqBy } from "./utils";
+import { getKeys, getStyle, noop, toArray, uniqBy } from "./utils";
 
 export type AnimatableCSSProperties = Omit<
   CSSProperties,
@@ -26,6 +26,17 @@ export interface AnimationOptions
   extends Omit<KeyframeEffectOptions, "easing"> {
   easing?: TypedEasing;
 }
+
+export const normalizeKeyframe = <Args>(
+  el: Element,
+  keyframe: TypedKeyframe | TypedKeyframe[] | GetKeyframeFunction<Args>,
+  args: Args
+): TypedKeyframe[] => {
+  if (typeof keyframe === "function") {
+    return keyframe(getStyle(el), args);
+  }
+  return toArray(keyframe);
+};
 
 export const getKeyframeKeys = (keyframes: TypedKeyframe[]): string[] =>
   uniqBy(keyframes.flatMap(getKeys)).reduce((acc, k) => {
