@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   TransitionGroup,
   AnimationOptions,
-  useAnimation,
   useTransitionAnimation,
 } from "../../src";
 
@@ -22,24 +21,24 @@ const Text = ({ children }: { children: string }) => {
 
   const timing = { duration: 800, easing: "ease-out" };
   const animate = useTransitionAnimation({
-    enter: useAnimation(
+    enter: [
       [
         { transform: "translateY(-20px)", opacity: 0.2 },
         { transform: "translateY(0px)", opacity: 1 },
       ],
-      timing
-    ),
-    exit: useAnimation(
+      timing,
+    ],
+    exit: [
       [
         { transform: "translateY(0px)", opacity: 1 },
         { transform: "translateY(20px)", opacity: 0.2 },
       ],
-      timing
-    ),
-    update: useAnimation(
+      timing,
+    ],
+    update: [
       [{ transform: "rotateX(360deg)" }, { transform: "rotateX(0deg)" }],
-      children !== prev ? timing : undefined
-    ),
+      children !== prev ? timing : undefined,
+    ],
   });
 
   return (
@@ -85,24 +84,24 @@ const SvgText = ({ children, i }: { children: string; i: number }) => {
   const prevX = usePrevious(x);
   const timing = { duration: 800, easing: "ease-in-out" };
   const transition = useTransitionAnimation({
-    update: useAnimation(
-      [
-        { transform: `translateX(${prevX - x}px)` },
-        { transform: `translateX(0px)` },
+    update: [
+      (prev) => [
+        { fill: prev.fill, transform: `translateX(${prevX - x}px)` },
+        { fill: "#333", transform: `translateX(0px)` },
       ],
-      timing
-    ),
-    enter: useAnimation(
+      timing,
+    ],
+    enter: [
       [
         { fill: "green", fillOpacity: "0", transform: "translateY(-20px)" },
         { fill: "green", fillOpacity: "1", transform: "translateY(0px)" },
       ],
-      timing
-    ),
-    exit: useAnimation(
+      timing,
+    ],
+    exit: [
       { fill: "brown", fillOpacity: "0", transform: "translateY(20px)" },
-      timing
-    ),
+      timing,
+    ],
   });
 
   return (
@@ -168,14 +167,14 @@ const ExpandRect = ({ i, length }: { i: number; length: number }) => {
   };
 
   const transition = useTransitionAnimation({
-    enter: useAnimation(
+    enter: [
       (prev) => [
         startStyle(prev, 0),
         { backgroundColor: "skyblue", transform: "scale(1)", opacity: 1 },
       ],
-      { ...timing, delay: i * 100 }
-    ),
-    exit: useAnimation(
+      { ...timing, delay: i * 100 },
+    ],
+    exit: [
       (prev) => [
         startStyle(prev, 1),
         {
@@ -184,8 +183,8 @@ const ExpandRect = ({ i, length }: { i: number; length: number }) => {
           opacity: 0,
         },
       ],
-      { ...timing, delay: (length - i) * 100 }
-    ),
+      { ...timing, delay: (length - i) * 100 },
+    ],
   });
 
   return (

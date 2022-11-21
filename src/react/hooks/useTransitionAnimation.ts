@@ -7,60 +7,65 @@ import {
   TransitionState,
   TransitionStateContext,
 } from "../components/TransitionGroup";
-import type { AnimationHandle } from "./useAnimation";
-import { assign, getKeys } from "../../core/utils";
+import { AnimationHandle, useAnimation } from "./useAnimation";
+import { getKeys } from "../../core/utils";
 import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
+import type {
+  AnimationOptions,
+  GetKeyframeFunction,
+  TypedKeyframe,
+} from "../../core";
 
-export type AnimationController<ID extends string> = {
+export type TransitionAnimationHandle = {
   (ref: Element | null): void;
-  get: (name: ID) => AnimationHandle;
 };
 
-export const useTransitionAnimation = <T extends TransitionState>(
-  definitions: {
-    [key in T]: AnimationHandle;
-  }
-): AnimationController<T> => {
-  const definitionsRef = useRef(definitions);
+export type TransitionAnimationDefinition = [
+  keyframe: TypedKeyframe | TypedKeyframe[] | GetKeyframeFunction,
+  options?: AnimationOptions
+];
 
-  const [animation, cleanup] = useState<[AnimationController<T>, () => void]>(
-    () => {
-      const getHandle = (name: T): AnimationHandle => {
-        return definitionsRef.current[name];
-      };
-      const forAllHandle = (fn: (handle: AnimationHandle) => void) => {
-        getKeys(definitionsRef.current).forEach((name) =>
-          fn(getHandle(name as T))
-        );
-      };
+export const useTransitionAnimation = (keyframes: {
+  enter?: TransitionAnimationDefinition;
+  update?: TransitionAnimationDefinition;
+  exit?: TransitionAnimationDefinition;
+}): TransitionAnimationHandle => {
+  const keys = getKeys(keyframes);
+  const animations = keys.reduce((acc, k) => {
+    const def = keyframes[k];
+    if (!def) return acc;
+    acc[k] = useAnimation(def[0], def[1]);
+    return acc;
+  }, {} as { [key in TransitionState]: AnimationHandle | undefined });
 
-      const cancelAll = () => {
+  const animationsRef = useRef(animations);
+
+  const [animation, cleanup] = useState<
+    [TransitionAnimationHandle, () => void]
+  >(() => {
+    const forAllHandle = (fn: (handle: AnimationHandle) => void) => {
+      getKeys(animationsRef.current).forEach((name) =>
+        fn(animationsRef.current[name]!)
+      );
+    };
+
+    const externalHandle: TransitionAnimationHandle = (ref: Element | null) => {
+      forAllHandle((h) => {
+        h(ref);
+      });
+    };
+    return [
+      externalHandle,
+      () => {
         forAllHandle((handle) => {
           handle.cancel();
         });
-      };
-
-      const externalHandle: AnimationController<T> = assign(
-        (ref: Element | null) => {
-          forAllHandle((h) => {
-            h(ref);
-          });
-        },
-        {
-          get: getHandle,
-        }
-      );
-      return [
-        externalHandle,
-        () => {
-          cancelAll();
-        },
-      ];
-    }
-  )[0];
+      },
+    ];
+  })[0];
 
   useIsomorphicLayoutEffect(() => {
-    definitionsRef.current = definitions;
+    animationsRef.current = animations;
   });
 
   useEffect(() => cleanup, []);
@@ -68,7 +73,6 @@ export const useTransitionAnimation = <T extends TransitionState>(
   const currentState = useContext(TransitionStateContext);
   const notify = useContext(TransitionNotifierContext);
 
-  const keys = getKeys(definitions);
   useIsomorphicLayoutEffect(() => {
     // Decide if the parent should animate children on exit or not
     // State must change like enter (-> update) -> exit so it's ok to use ref
@@ -81,21 +85,15 @@ export const useTransitionAnimation = <T extends TransitionState>(
 
   useIsomorphicLayoutEffect(() => {
     if (currentState !== "update") return;
-    const handle = definitions[currentState as T];
-    if (!handle) return;
-    animation.get(currentState as T).play();
-    return () => {
-      animation.get(currentState as T).cancel();
-    };
+
+    animationsRef.current[currentState]?.play();
   });
 
   useIsomorphicLayoutEffect(() => {
     if (currentState === "update") return;
-    const handle = definitions[currentState as T];
-    if (!handle) return;
-    animation
-      .get(currentState as T)
-      .play()
+
+    animationsRef.current[currentState]
+      ?.play()
       .end()
       .then(() => {
         if (currentState === "exit") {
