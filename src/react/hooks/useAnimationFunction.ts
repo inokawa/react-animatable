@@ -7,13 +7,14 @@ import {
   PlayOptions,
   ReverseOptions,
   _cancel,
-  _end,
+  _waitFor,
   _finish,
   _pause,
   _play,
   _reverse,
   _setRate,
   _setTime,
+  WaitingAnimationEventName,
 } from "../../core/waapi";
 import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
 
@@ -35,7 +36,9 @@ export type AnimationFunctionHandle<Args = void> = {
   setPlaybackRate: (
     rate: number | ((prevRate: number) => number)
   ) => AnimationFunctionHandle<Args>;
-  end: () => Promise<AnimationFunctionHandle<Args>>;
+  waitFor: (
+    event: WaitingAnimationEventName
+  ) => Promise<AnimationFunctionHandle<Args>>;
 };
 
 export type ComputedTimingContext = Required<
@@ -137,7 +140,8 @@ export const useAnimationFunction = <Args = void>(
         _setRate(getAnimation(), rate);
         return externalHandle;
       },
-      end: () => _end(getAnimation()).then(() => externalHandle),
+      waitFor: (event: WaitingAnimationEventName) =>
+        _waitFor(getAnimation(), event).then(() => externalHandle),
     };
     return [
       externalHandle,

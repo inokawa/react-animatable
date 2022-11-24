@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import { getKeys, getStyle, noop, toArray, uniqBy } from "./utils";
+import { getKeys, getStyle, toArray, uniqBy } from "./utils";
 
 export type AnimatableCSSProperties = Omit<
   CSSProperties,
@@ -125,7 +125,22 @@ export const _setRate = (
     typeof arg === "function" ? arg(animation.playbackRate) : arg
   );
 };
-export const _end = (animation: Animation | undefined) => {
+
+export type WaitingAnimationEventName = "finish" | "reverseFinish";
+export const _waitFor = (
+  animation: Animation | undefined,
+  name: WaitingAnimationEventName
+): Promise<void> => {
   if (!animation) return Promise.resolve();
-  return animation.finished.then(noop);
+
+  return new Promise<void>((resolve) => {
+    animation.onfinish = () => {
+      if (
+        (name === "finish" && animation.playbackRate > 0) ||
+        (name === "reverseFinish" && animation.playbackRate < 0)
+      ) {
+        resolve();
+      }
+    };
+  });
 };

@@ -94,7 +94,7 @@ export const useTransitionAnimation = (keyframes: {
 
     animationsRef.current[currentState]
       ?.play()
-      .end()
+      .waitFor("finish")
       .then(() => {
         if (currentState === "exit") {
           notify(EXITED);
