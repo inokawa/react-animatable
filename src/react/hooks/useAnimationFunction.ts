@@ -84,9 +84,14 @@ export const useAnimationFunction = <Args = void>(
       const options = optionsRef.current;
       if (cache) {
         const [prevAnimation, prevOptions] = cache;
+        // Reuse animation if possible
         if (isSameObject(options, prevOptions)) {
           if (prevAnimation.playState !== "running") {
             bindUpdateFunction(prevAnimation, getOnUpdate, opts.args!);
+          }
+          // Reset reversed playback direction
+          if (prevAnimation.playbackRate < 0) {
+            _setRate(prevAnimation, (p) => -p);
           }
           return prevAnimation;
         }
