@@ -72,11 +72,16 @@ export const useAnimation = <Args = void>(
         const el = getTarget()!;
         if (cache) {
           const [prevAnimation, prevEl, prevKeyframes, prevOptions] = cache;
+          // Reuse animation if possible
           if (
             el === prevEl &&
             isSameObjectArray(keyframes, prevKeyframes) &&
             isSameObject(options, prevOptions)
           ) {
+            // Reset reversed playback direction
+            if (prevAnimation.playbackRate < 0) {
+              _setRate(prevAnimation, (p) => -p);
+            }
             return prevAnimation;
           }
           prevAnimation.cancel();
