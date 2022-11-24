@@ -688,9 +688,9 @@ export const Sequence: StoryObj = {
 
     const onClickAll = useCallback(async () => {
       try {
-        await animate.play({ args: "red" }).end();
-        await animate.play({ args: "blue" }).end();
-        await animate.play({ args: "green" }).end();
+        await animate.play({ args: "red" }).waitFor("finish");
+        await animate.play({ args: "blue" }).waitFor("finish");
+        await animate.play({ args: "green" }).waitFor("finish");
       } catch (e) {
         // ignore uncaught promise error
       }
@@ -911,11 +911,11 @@ const Block = ({ i, length: n }: { i: number; length: number }) => {
     three.cancel();
     const run = async () => {
       try {
-        await one.play().end();
+        await one.play().waitFor("finish");
         one.cancel();
-        await two.play().end();
+        await two.play().waitFor("finish");
         two.cancel();
-        await three.play().end();
+        await three.play().waitFor("finish");
         three.cancel();
         run();
       } catch (e) {
