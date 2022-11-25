@@ -23,8 +23,8 @@ export type TypedEasing = NonNullable<
 
 /**
  * A function to define keyframe dynamically
- * @param prev - current style
- * @param args - any argument passed from play
+ * - `prev`: current style
+ * - `args`: any argument passed from play
  */
 export type GetKeyframeFunction<Args = void> = Args extends void
   ? (prev: CSSStyleDeclaration) => TypedKeyframe[]

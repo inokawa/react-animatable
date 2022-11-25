@@ -51,7 +51,7 @@ You have to pass this callback to ref of element you want to control.
 
 ▸ (...`opts`): [`AnimationHandle`](AnimationHandle.md)<`Args`\>
 
-A wrapper of Web Animation API's [play](https://developer.mozilla.org/en-US/docs/Web/API/Animation/play).
+A wrapper of Web Animations API's [play](https://developer.mozilla.org/en-US/docs/Web/API/Animation/play).
 
 ##### Parameters
 
@@ -77,7 +77,7 @@ ___
 
 ▸ (...`opts`): [`AnimationHandle`](AnimationHandle.md)<`Args`\>
 
-A wrapper of Web Animation API's [reverse](https://developer.mozilla.org/en-US/docs/Web/API/Animation/reverse).
+A wrapper of Web Animations API's [reverse](https://developer.mozilla.org/en-US/docs/Web/API/Animation/reverse).
 
 ##### Parameters
 
@@ -103,7 +103,7 @@ ___
 
 ▸ (): [`AnimationHandle`](AnimationHandle.md)<`Args`\>
 
-A wrapper of Web Animation API's [cancel](https://developer.mozilla.org/en-US/docs/Web/API/Animation/cancel).
+A wrapper of Web Animations API's [cancel](https://developer.mozilla.org/en-US/docs/Web/API/Animation/cancel).
 
 ##### Returns
 
@@ -123,7 +123,7 @@ ___
 
 ▸ (): [`AnimationHandle`](AnimationHandle.md)<`Args`\>
 
-A wrapper of Web Animation API's [finish](https://developer.mozilla.org/en-US/docs/Web/API/Animation/finish).
+A wrapper of Web Animations API's [finish](https://developer.mozilla.org/en-US/docs/Web/API/Animation/finish).
 
 ##### Returns
 
@@ -143,7 +143,7 @@ ___
 
 ▸ (): [`AnimationHandle`](AnimationHandle.md)<`Args`\>
 
-A wrapper of Web Animation API's [pause](https://developer.mozilla.org/en-US/docs/Web/API/Animation/pause).
+A wrapper of Web Animations API's [pause](https://developer.mozilla.org/en-US/docs/Web/API/Animation/pause).
 
 ##### Returns
 
@@ -163,7 +163,7 @@ ___
 
 ▸ (`time`): [`AnimationHandle`](AnimationHandle.md)<`Args`\>
 
-A setter of Web Animation API's [currentTime](https://developer.mozilla.org/en-US/docs/Web/API/Animation/currentTime).
+A setter of Web Animations API's [currentTime](https://developer.mozilla.org/en-US/docs/Web/API/Animation/currentTime).
 
 ##### Parameters
 
@@ -189,7 +189,7 @@ ___
 
 ▸ (`rate`): [`AnimationHandle`](AnimationHandle.md)<`Args`\>
 
-A wrapper of Web Animation API's [updatePlaybackRate](https://developer.mozilla.org/en-US/docs/Web/API/Animation/updatePlaybackRate).
+A wrapper of Web Animations API's [updatePlaybackRate](https://developer.mozilla.org/en-US/docs/Web/API/Animation/updatePlaybackRate).
 
 If you pass function, you can get current playbackRate from its argument.
 

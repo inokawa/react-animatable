@@ -39,31 +39,31 @@ export interface AnimationHandle<Args = void> {
    */
   (ref: Element | null): void;
   /**
-   * A wrapper of Web Animation API's [play](https://developer.mozilla.org/en-US/docs/Web/API/Animation/play).
+   * A wrapper of Web Animations API's [play](https://developer.mozilla.org/en-US/docs/Web/API/Animation/play).
    */
   play: (...opts: AnimationPlayArgs<Args>) => AnimationHandle<Args>;
   /**
-   * A wrapper of Web Animation API's [reverse](https://developer.mozilla.org/en-US/docs/Web/API/Animation/reverse).
+   * A wrapper of Web Animations API's [reverse](https://developer.mozilla.org/en-US/docs/Web/API/Animation/reverse).
    */
   reverse: (...opts: AnimationReverseArgs<Args>) => AnimationHandle<Args>;
   /**
-   * A wrapper of Web Animation API's [cancel](https://developer.mozilla.org/en-US/docs/Web/API/Animation/cancel).
+   * A wrapper of Web Animations API's [cancel](https://developer.mozilla.org/en-US/docs/Web/API/Animation/cancel).
    */
   cancel: () => AnimationHandle<Args>;
   /**
-   * A wrapper of Web Animation API's [finish](https://developer.mozilla.org/en-US/docs/Web/API/Animation/finish).
+   * A wrapper of Web Animations API's [finish](https://developer.mozilla.org/en-US/docs/Web/API/Animation/finish).
    */
   finish: () => AnimationHandle<Args>;
   /**
-   * A wrapper of Web Animation API's [pause](https://developer.mozilla.org/en-US/docs/Web/API/Animation/pause).
+   * A wrapper of Web Animations API's [pause](https://developer.mozilla.org/en-US/docs/Web/API/Animation/pause).
    */
   pause: () => AnimationHandle<Args>;
   /**
-   * A setter of Web Animation API's [currentTime](https://developer.mozilla.org/en-US/docs/Web/API/Animation/currentTime).
+   * A setter of Web Animations API's [currentTime](https://developer.mozilla.org/en-US/docs/Web/API/Animation/currentTime).
    */
   setTime: (time: number) => AnimationHandle<Args>;
   /**
-   * A wrapper of Web Animation API's [updatePlaybackRate](https://developer.mozilla.org/en-US/docs/Web/API/Animation/updatePlaybackRate).
+   * A wrapper of Web Animations API's [updatePlaybackRate](https://developer.mozilla.org/en-US/docs/Web/API/Animation/updatePlaybackRate).
    *
    * If you pass function, you can get current playbackRate from its argument.
    */

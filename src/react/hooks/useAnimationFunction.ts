@@ -49,6 +49,9 @@ export interface AnimationFunctionHandle<Args = void> {
   ) => Promise<AnimationFunctionHandle<Args>>;
 }
 
+/**
+ * Non nullable [ComputedEffectTiming](https://developer.mozilla.org/en-US/docs/Web/API/AnimationEffect/getComputedTiming)
+ */
 export type ComputedTimingContext = Required<
   {
     [key in keyof ComputedEffectTiming]: NonNullable<ComputedEffectTiming[key]>;
@@ -56,10 +59,10 @@ export type ComputedTimingContext = Required<
 >;
 
 /**
- * An argument of {@link useAnimationFunction}. See {@link AnimationFunctionHandle}.
+ * An argument of {@link useAnimationFunction}.
  * In this callback you can update any state or ref in JS.
- * @param ctx - current animation state
- * @param args - any argument passed from play
+ * - `ctx`: current animation state
+ * - `args`: any argument passed from play
  */
 export type AnimationFunction<Args = void> = Args extends void
   ? (ctx: ComputedTimingContext) => void
@@ -85,7 +88,7 @@ const bindUpdateFunction = <Args>(
 };
 
 /**
- * Same as {@link useAnimationFunction}, but it drives function not React element.
+ * Same as {@link useAnimation}, but it drives function not React element. See {@link AnimationFunctionHandle}.
  * @typeParam Args - argument type
  */
 export const useAnimationFunction = <Args = void>(
