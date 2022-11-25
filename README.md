@@ -173,24 +173,9 @@ export const App = () => {
 
 And see [examples](./stories) for more usages.
 
-## API
+## Documentation
 
-### useAnimation
-
-A basic hook to use Web Animations API.
-
-### useAnimationFunction
-
-Same as [useAnimation](#useanimation), but it drives function not React element.
-
-### useTransitionAnimation
-
-A hook to compose multiple [useAnimation](#useanimation) and plays them when element enter/update/exits.
-This hook must be used under [TransitionGroup component](#TransitionGroup).
-
-### TransitionGroup
-
-A component to manage enter/update/exit of its children by key, that works similar to [TransitionGroup of react-transition-group](https://reactcommunity.org/react-transition-group/transition-group).
+- [API reference](./docs/API.md)
 
 ## Use polyfill
 
