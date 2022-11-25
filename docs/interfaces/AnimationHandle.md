@@ -26,7 +26,7 @@ You have to pass this callback to ref of element you want to control.
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:40](https://github.com/inokawa/react-animatable/blob/385e0bb/src/react/hooks/useAnimation.ts#L40)
+[src/react/hooks/useAnimation.ts:40](https://github.com/inokawa/react-animatable/blob/8ca833b/src/react/hooks/useAnimation.ts#L40)
 
 ## Table of contents
 
@@ -65,7 +65,7 @@ A wrapper of Web Animations API's [play](https://developer.mozilla.org/en-US/doc
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:44](https://github.com/inokawa/react-animatable/blob/385e0bb/src/react/hooks/useAnimation.ts#L44)
+[src/react/hooks/useAnimation.ts:44](https://github.com/inokawa/react-animatable/blob/8ca833b/src/react/hooks/useAnimation.ts#L44)
 
 ___
 
@@ -91,7 +91,7 @@ A wrapper of Web Animations API's [reverse](https://developer.mozilla.org/en-US/
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:48](https://github.com/inokawa/react-animatable/blob/385e0bb/src/react/hooks/useAnimation.ts#L48)
+[src/react/hooks/useAnimation.ts:48](https://github.com/inokawa/react-animatable/blob/8ca833b/src/react/hooks/useAnimation.ts#L48)
 
 ___
 
@@ -111,7 +111,7 @@ A wrapper of Web Animations API's [cancel](https://developer.mozilla.org/en-US/d
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:52](https://github.com/inokawa/react-animatable/blob/385e0bb/src/react/hooks/useAnimation.ts#L52)
+[src/react/hooks/useAnimation.ts:52](https://github.com/inokawa/react-animatable/blob/8ca833b/src/react/hooks/useAnimation.ts#L52)
 
 ___
 
@@ -131,7 +131,7 @@ A wrapper of Web Animations API's [finish](https://developer.mozilla.org/en-US/d
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:56](https://github.com/inokawa/react-animatable/blob/385e0bb/src/react/hooks/useAnimation.ts#L56)
+[src/react/hooks/useAnimation.ts:56](https://github.com/inokawa/react-animatable/blob/8ca833b/src/react/hooks/useAnimation.ts#L56)
 
 ___
 
@@ -151,7 +151,7 @@ A wrapper of Web Animations API's [pause](https://developer.mozilla.org/en-US/do
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:60](https://github.com/inokawa/react-animatable/blob/385e0bb/src/react/hooks/useAnimation.ts#L60)
+[src/react/hooks/useAnimation.ts:60](https://github.com/inokawa/react-animatable/blob/8ca833b/src/react/hooks/useAnimation.ts#L60)
 
 ___
 
@@ -177,7 +177,7 @@ A setter of Web Animations API's [currentTime](https://developer.mozilla.org/en-
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:64](https://github.com/inokawa/react-animatable/blob/385e0bb/src/react/hooks/useAnimation.ts#L64)
+[src/react/hooks/useAnimation.ts:64](https://github.com/inokawa/react-animatable/blob/8ca833b/src/react/hooks/useAnimation.ts#L64)
 
 ___
 
@@ -205,7 +205,7 @@ If you pass function, you can get current playbackRate from its argument.
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:70](https://github.com/inokawa/react-animatable/blob/385e0bb/src/react/hooks/useAnimation.ts#L70)
+[src/react/hooks/useAnimation.ts:70](https://github.com/inokawa/react-animatable/blob/8ca833b/src/react/hooks/useAnimation.ts#L70)
 
 ___
 
@@ -234,4 +234,4 @@ A getter of Promise that will be resolved in specified timing.
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:79](https://github.com/inokawa/react-animatable/blob/385e0bb/src/react/hooks/useAnimation.ts#L79)
+[src/react/hooks/useAnimation.ts:79](https://github.com/inokawa/react-animatable/blob/8ca833b/src/react/hooks/useAnimation.ts#L79)
