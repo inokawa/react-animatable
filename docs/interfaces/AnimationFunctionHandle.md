@@ -1,6 +1,6 @@
 # Interface: AnimationFunctionHandle<Args\>
 
-Handle of [useAnimationFunction](../API.md#useanimationfunction)
+Handle of [useAnimationFunction](../API.md#useanimationfunction). See [AnimationHandle](AnimationHandle.md).
 
 ## Type parameters
 
@@ -43,7 +43,7 @@ Handle of [useAnimationFunction](../API.md#useanimationfunction)
 
 #### Defined in
 
-[src/react/hooks/useAnimationFunction.ts:34](https://github.com/inokawa/react-animatable/blob/3f63af1/src/react/hooks/useAnimationFunction.ts#L34)
+[src/react/hooks/useAnimationFunction.ts:34](https://github.com/inokawa/react-animatable/blob/385e0bb/src/react/hooks/useAnimationFunction.ts#L34)
 
 ___
 
@@ -67,7 +67,7 @@ ___
 
 #### Defined in
 
-[src/react/hooks/useAnimationFunction.ts:37](https://github.com/inokawa/react-animatable/blob/3f63af1/src/react/hooks/useAnimationFunction.ts#L37)
+[src/react/hooks/useAnimationFunction.ts:37](https://github.com/inokawa/react-animatable/blob/385e0bb/src/react/hooks/useAnimationFunction.ts#L37)
 
 ___
 
@@ -85,7 +85,7 @@ ___
 
 #### Defined in
 
-[src/react/hooks/useAnimationFunction.ts:40](https://github.com/inokawa/react-animatable/blob/3f63af1/src/react/hooks/useAnimationFunction.ts#L40)
+[src/react/hooks/useAnimationFunction.ts:40](https://github.com/inokawa/react-animatable/blob/385e0bb/src/react/hooks/useAnimationFunction.ts#L40)
 
 ___
 
@@ -103,7 +103,7 @@ ___
 
 #### Defined in
 
-[src/react/hooks/useAnimationFunction.ts:41](https://github.com/inokawa/react-animatable/blob/3f63af1/src/react/hooks/useAnimationFunction.ts#L41)
+[src/react/hooks/useAnimationFunction.ts:41](https://github.com/inokawa/react-animatable/blob/385e0bb/src/react/hooks/useAnimationFunction.ts#L41)
 
 ___
 
@@ -121,7 +121,7 @@ ___
 
 #### Defined in
 
-[src/react/hooks/useAnimationFunction.ts:42](https://github.com/inokawa/react-animatable/blob/3f63af1/src/react/hooks/useAnimationFunction.ts#L42)
+[src/react/hooks/useAnimationFunction.ts:42](https://github.com/inokawa/react-animatable/blob/385e0bb/src/react/hooks/useAnimationFunction.ts#L42)
 
 ___
 
@@ -145,7 +145,7 @@ ___
 
 #### Defined in
 
-[src/react/hooks/useAnimationFunction.ts:43](https://github.com/inokawa/react-animatable/blob/3f63af1/src/react/hooks/useAnimationFunction.ts#L43)
+[src/react/hooks/useAnimationFunction.ts:43](https://github.com/inokawa/react-animatable/blob/385e0bb/src/react/hooks/useAnimationFunction.ts#L43)
 
 ___
 
@@ -169,7 +169,7 @@ ___
 
 #### Defined in
 
-[src/react/hooks/useAnimationFunction.ts:44](https://github.com/inokawa/react-animatable/blob/3f63af1/src/react/hooks/useAnimationFunction.ts#L44)
+[src/react/hooks/useAnimationFunction.ts:44](https://github.com/inokawa/react-animatable/blob/385e0bb/src/react/hooks/useAnimationFunction.ts#L44)
 
 ___
 
@@ -193,4 +193,4 @@ ___
 
 #### Defined in
 
-[src/react/hooks/useAnimationFunction.ts:47](https://github.com/inokawa/react-animatable/blob/3f63af1/src/react/hooks/useAnimationFunction.ts#L47)
+[src/react/hooks/useAnimationFunction.ts:47](https://github.com/inokawa/react-animatable/blob/385e0bb/src/react/hooks/useAnimationFunction.ts#L47)

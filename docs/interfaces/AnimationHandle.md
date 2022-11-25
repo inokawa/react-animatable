@@ -12,7 +12,7 @@
 
 ▸ **AnimationHandle**(`ref`): `void`
 
-Handle of [useAnimation](../API.md#useanimation)
+You have to pass this callback to ref of element you want to control.
 
 #### Parameters
 
@@ -26,7 +26,7 @@ Handle of [useAnimation](../API.md#useanimation)
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:37](https://github.com/inokawa/react-animatable/blob/3f63af1/src/react/hooks/useAnimation.ts#L37)
+[src/react/hooks/useAnimation.ts:40](https://github.com/inokawa/react-animatable/blob/385e0bb/src/react/hooks/useAnimation.ts#L40)
 
 ## Table of contents
 
@@ -51,6 +51,8 @@ Handle of [useAnimation](../API.md#useanimation)
 
 ▸ (...`opts`): [`AnimationHandle`](AnimationHandle.md)<`Args`\>
 
+A wrapper of Web Animation API's [play](https://developer.mozilla.org/en-US/docs/Web/API/Animation/play).
+
 ##### Parameters
 
 | Name | Type |
@@ -63,7 +65,7 @@ Handle of [useAnimation](../API.md#useanimation)
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:38](https://github.com/inokawa/react-animatable/blob/3f63af1/src/react/hooks/useAnimation.ts#L38)
+[src/react/hooks/useAnimation.ts:44](https://github.com/inokawa/react-animatable/blob/385e0bb/src/react/hooks/useAnimation.ts#L44)
 
 ___
 
@@ -74,6 +76,8 @@ ___
 #### Type declaration
 
 ▸ (...`opts`): [`AnimationHandle`](AnimationHandle.md)<`Args`\>
+
+A wrapper of Web Animation API's [reverse](https://developer.mozilla.org/en-US/docs/Web/API/Animation/reverse).
 
 ##### Parameters
 
@@ -87,7 +91,7 @@ ___
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:39](https://github.com/inokawa/react-animatable/blob/3f63af1/src/react/hooks/useAnimation.ts#L39)
+[src/react/hooks/useAnimation.ts:48](https://github.com/inokawa/react-animatable/blob/385e0bb/src/react/hooks/useAnimation.ts#L48)
 
 ___
 
@@ -99,13 +103,15 @@ ___
 
 ▸ (): [`AnimationHandle`](AnimationHandle.md)<`Args`\>
 
+A wrapper of Web Animation API's [cancel](https://developer.mozilla.org/en-US/docs/Web/API/Animation/cancel).
+
 ##### Returns
 
 [`AnimationHandle`](AnimationHandle.md)<`Args`\>
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:40](https://github.com/inokawa/react-animatable/blob/3f63af1/src/react/hooks/useAnimation.ts#L40)
+[src/react/hooks/useAnimation.ts:52](https://github.com/inokawa/react-animatable/blob/385e0bb/src/react/hooks/useAnimation.ts#L52)
 
 ___
 
@@ -117,13 +123,15 @@ ___
 
 ▸ (): [`AnimationHandle`](AnimationHandle.md)<`Args`\>
 
+A wrapper of Web Animation API's [finish](https://developer.mozilla.org/en-US/docs/Web/API/Animation/finish).
+
 ##### Returns
 
 [`AnimationHandle`](AnimationHandle.md)<`Args`\>
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:41](https://github.com/inokawa/react-animatable/blob/3f63af1/src/react/hooks/useAnimation.ts#L41)
+[src/react/hooks/useAnimation.ts:56](https://github.com/inokawa/react-animatable/blob/385e0bb/src/react/hooks/useAnimation.ts#L56)
 
 ___
 
@@ -135,13 +143,15 @@ ___
 
 ▸ (): [`AnimationHandle`](AnimationHandle.md)<`Args`\>
 
+A wrapper of Web Animation API's [pause](https://developer.mozilla.org/en-US/docs/Web/API/Animation/pause).
+
 ##### Returns
 
 [`AnimationHandle`](AnimationHandle.md)<`Args`\>
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:42](https://github.com/inokawa/react-animatable/blob/3f63af1/src/react/hooks/useAnimation.ts#L42)
+[src/react/hooks/useAnimation.ts:60](https://github.com/inokawa/react-animatable/blob/385e0bb/src/react/hooks/useAnimation.ts#L60)
 
 ___
 
@@ -152,6 +162,8 @@ ___
 #### Type declaration
 
 ▸ (`time`): [`AnimationHandle`](AnimationHandle.md)<`Args`\>
+
+A setter of Web Animation API's [currentTime](https://developer.mozilla.org/en-US/docs/Web/API/Animation/currentTime).
 
 ##### Parameters
 
@@ -165,7 +177,7 @@ ___
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:43](https://github.com/inokawa/react-animatable/blob/3f63af1/src/react/hooks/useAnimation.ts#L43)
+[src/react/hooks/useAnimation.ts:64](https://github.com/inokawa/react-animatable/blob/385e0bb/src/react/hooks/useAnimation.ts#L64)
 
 ___
 
@@ -176,6 +188,10 @@ ___
 #### Type declaration
 
 ▸ (`rate`): [`AnimationHandle`](AnimationHandle.md)<`Args`\>
+
+A wrapper of Web Animation API's [updatePlaybackRate](https://developer.mozilla.org/en-US/docs/Web/API/Animation/updatePlaybackRate).
+
+If you pass function, you can get current playbackRate from its argument.
 
 ##### Parameters
 
@@ -189,7 +205,7 @@ ___
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:44](https://github.com/inokawa/react-animatable/blob/3f63af1/src/react/hooks/useAnimation.ts#L44)
+[src/react/hooks/useAnimation.ts:70](https://github.com/inokawa/react-animatable/blob/385e0bb/src/react/hooks/useAnimation.ts#L70)
 
 ___
 
@@ -200,6 +216,11 @@ ___
 #### Type declaration
 
 ▸ (`event`): `Promise`<[`AnimationHandle`](AnimationHandle.md)<`Args`\>\>
+
+A getter of Promise that will be resolved in specified timing.
+
+- `finished`: resolved when animation is finished and its playback direction is normal.
+- `reverseFinished`: resolved when animation is finished and its playback direction is reversed.
 
 ##### Parameters
 
@@ -213,4 +234,4 @@ ___
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:47](https://github.com/inokawa/react-animatable/blob/3f63af1/src/react/hooks/useAnimation.ts#L47)
+[src/react/hooks/useAnimation.ts:79](https://github.com/inokawa/react-animatable/blob/385e0bb/src/react/hooks/useAnimation.ts#L79)

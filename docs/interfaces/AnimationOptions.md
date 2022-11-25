@@ -1,5 +1,7 @@
 # Interface: AnimationOptions
 
+Extended [options of KeyframeEffect](https://developer.mozilla.org/en-US/docs/Web/API/KeyframeEffect/KeyframeEffect)
+
 ## Hierarchy
 
 - `Omit`<`KeyframeEffectOptions`, ``"easing"``\>
@@ -31,7 +33,7 @@
 
 #### Defined in
 
-[src/core/waapi.ts:33](https://github.com/inokawa/react-animatable/blob/3f63af1/src/core/waapi.ts#L33)
+[src/core/waapi.ts:38](https://github.com/inokawa/react-animatable/blob/385e0bb/src/core/waapi.ts#L38)
 
 ___
 
