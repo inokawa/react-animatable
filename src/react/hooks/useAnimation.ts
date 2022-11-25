@@ -30,25 +30,57 @@ export type AnimationReverseArgs<Args = void> = Args extends void
   : [Expand<ReverseOptions & (Args extends void ? {} : { args: Args })>];
 
 /**
- * Handle of {@link useAnimation}
+ * Handle of {@link useAnimation}.
  * @typeParam Args - argument type
  */
 export interface AnimationHandle<Args = void> {
+  /**
+   * You have to pass this callback to ref of element you want to control.
+   */
   (ref: Element | null): void;
+  /**
+   * A wrapper of Web Animation API's [play](https://developer.mozilla.org/en-US/docs/Web/API/Animation/play).
+   */
   play: (...opts: AnimationPlayArgs<Args>) => AnimationHandle<Args>;
+  /**
+   * A wrapper of Web Animation API's [reverse](https://developer.mozilla.org/en-US/docs/Web/API/Animation/reverse).
+   */
   reverse: (...opts: AnimationReverseArgs<Args>) => AnimationHandle<Args>;
+  /**
+   * A wrapper of Web Animation API's [cancel](https://developer.mozilla.org/en-US/docs/Web/API/Animation/cancel).
+   */
   cancel: () => AnimationHandle<Args>;
+  /**
+   * A wrapper of Web Animation API's [finish](https://developer.mozilla.org/en-US/docs/Web/API/Animation/finish).
+   */
   finish: () => AnimationHandle<Args>;
+  /**
+   * A wrapper of Web Animation API's [pause](https://developer.mozilla.org/en-US/docs/Web/API/Animation/pause).
+   */
   pause: () => AnimationHandle<Args>;
+  /**
+   * A setter of Web Animation API's [currentTime](https://developer.mozilla.org/en-US/docs/Web/API/Animation/currentTime).
+   */
   setTime: (time: number) => AnimationHandle<Args>;
+  /**
+   * A wrapper of Web Animation API's [updatePlaybackRate](https://developer.mozilla.org/en-US/docs/Web/API/Animation/updatePlaybackRate).
+   *
+   * If you pass function, you can get current playbackRate from its argument.
+   */
   setPlaybackRate: (
     rate: number | ((prevRate: number) => number)
   ) => AnimationHandle<Args>;
+  /**
+   * A getter of Promise that will be resolved in specified timing.
+   *
+   * - `finished`: resolved when animation is finished and its playback direction is normal.
+   * - `reverseFinished`: resolved when animation is finished and its playback direction is reversed.
+   */
   waitFor: (event: WaitingAnimationEventName) => Promise<AnimationHandle<Args>>;
 }
 
 /**
- * A basic hook to use Web Animations API.
+ * A basic hook to use Web Animations API. See {@link AnimationHandle}.
  * @typeParam Args - argument type
  */
 export const useAnimation = <Args = void>(

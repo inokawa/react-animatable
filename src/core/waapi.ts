@@ -17,17 +17,22 @@ export type AnimatableCSSProperties = Omit<
 export type TypedKeyframe = Pick<Keyframe, "composite" | "easing" | "offset"> &
   AnimatableCSSProperties;
 
-/**
- * Strictly typed easing
- */
 export type TypedEasing = NonNullable<
   Exclude<CSSProperties["animationTimingFunction"], CSSProperties["all"]>
 >;
 
+/**
+ * A function to define keyframe dynamically
+ * @param prev - current style
+ * @param args - any argument passed from play
+ */
 export type GetKeyframeFunction<Args = void> = Args extends void
   ? (prev: CSSStyleDeclaration) => TypedKeyframe[]
   : (prev: CSSStyleDeclaration, args: Args) => TypedKeyframe[];
 
+/**
+ * Extended [options of KeyframeEffect](https://developer.mozilla.org/en-US/docs/Web/API/KeyframeEffect/KeyframeEffect)
+ */
 export interface AnimationOptions
   extends Omit<KeyframeEffectOptions, "easing"> {
   easing?: TypedEasing;

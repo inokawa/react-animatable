@@ -27,7 +27,7 @@ export type AnimationFunctionReverseArgs<Args = void> = Args extends void
   : [Expand<ReverseOptions & (Args extends void ? {} : { args: Args })>];
 
 /**
- * Handle of {@link useAnimationFunction}
+ * Handle of {@link useAnimationFunction}. See {@link AnimationHandle}.
  * @typeParam Args - argument type
  */
 export interface AnimationFunctionHandle<Args = void> {
@@ -55,6 +55,12 @@ export type ComputedTimingContext = Required<
   }
 >;
 
+/**
+ * An argument of {@link useAnimationFunction}. See {@link AnimationFunctionHandle}.
+ * In this callback you can update any state or ref in JS.
+ * @param ctx - current animation state
+ * @param args - any argument passed from play
+ */
 export type AnimationFunction<Args = void> = Args extends void
   ? (ctx: ComputedTimingContext) => void
   : (ctx: ComputedTimingContext, args: Args) => void;
