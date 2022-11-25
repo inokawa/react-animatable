@@ -18,17 +18,25 @@ import {
 } from "../../core/waapi";
 import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
 
-type PlayArgs<Args = void> = Args extends void
+export type AnimationFunctionPlayArgs<Args = void> = Args extends void
   ? [PlayOptions?]
   : [Expand<PlayOptions & (Args extends void ? {} : { args: Args })>];
 
-type ReverseArgs<Args = void> = Args extends void
+export type AnimationFunctionReverseArgs<Args = void> = Args extends void
   ? [ReverseOptions?]
   : [Expand<ReverseOptions & (Args extends void ? {} : { args: Args })>];
 
-export type AnimationFunctionHandle<Args = void> = {
-  play: (...opts: PlayArgs<Args>) => AnimationFunctionHandle<Args>;
-  reverse: (...opts: ReverseArgs<Args>) => AnimationFunctionHandle<Args>;
+/**
+ * Handle of {@link useAnimationFunction}
+ * @typeParam Args - argument type
+ */
+export interface AnimationFunctionHandle<Args = void> {
+  play: (
+    ...opts: AnimationFunctionPlayArgs<Args>
+  ) => AnimationFunctionHandle<Args>;
+  reverse: (
+    ...opts: AnimationFunctionReverseArgs<Args>
+  ) => AnimationFunctionHandle<Args>;
   cancel: () => AnimationFunctionHandle<Args>;
   finish: () => AnimationFunctionHandle<Args>;
   pause: () => AnimationFunctionHandle<Args>;
@@ -39,7 +47,7 @@ export type AnimationFunctionHandle<Args = void> = {
   waitFor: (
     event: WaitingAnimationEventName
   ) => Promise<AnimationFunctionHandle<Args>>;
-};
+}
 
 export type ComputedTimingContext = Required<
   {
@@ -70,6 +78,10 @@ const bindUpdateFunction = <Args>(
   animation.ready.then(update);
 };
 
+/**
+ * Same as {@link useAnimationFunction}, but it drives function not React element.
+ * @typeParam Args - argument type
+ */
 export const useAnimationFunction = <Args = void>(
   onUpdate: AnimationFunction<Args>,
   options?: AnimationOptions

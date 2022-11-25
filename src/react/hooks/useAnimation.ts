@@ -21,18 +21,22 @@ import {
 } from "../../core/waapi";
 import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
 
-type PlayArgs<Args = void> = Args extends void
+export type AnimationPlayArgs<Args = void> = Args extends void
   ? [PlayOptions?]
   : [Expand<PlayOptions & (Args extends void ? {} : { args: Args })>];
 
-type ReverseArgs<Args = void> = Args extends void
+export type AnimationReverseArgs<Args = void> = Args extends void
   ? [ReverseOptions?]
   : [Expand<ReverseOptions & (Args extends void ? {} : { args: Args })>];
 
-export type AnimationHandle<Args = void> = {
+/**
+ * Handle of {@link useAnimation}
+ * @typeParam Args - argument type
+ */
+export interface AnimationHandle<Args = void> {
   (ref: Element | null): void;
-  play: (...opts: PlayArgs<Args>) => AnimationHandle<Args>;
-  reverse: (...opts: ReverseArgs<Args>) => AnimationHandle<Args>;
+  play: (...opts: AnimationPlayArgs<Args>) => AnimationHandle<Args>;
+  reverse: (...opts: AnimationReverseArgs<Args>) => AnimationHandle<Args>;
   cancel: () => AnimationHandle<Args>;
   finish: () => AnimationHandle<Args>;
   pause: () => AnimationHandle<Args>;
@@ -41,8 +45,12 @@ export type AnimationHandle<Args = void> = {
     rate: number | ((prevRate: number) => number)
   ) => AnimationHandle<Args>;
   waitFor: (event: WaitingAnimationEventName) => Promise<AnimationHandle<Args>>;
-};
+}
 
+/**
+ * A basic hook to use Web Animations API.
+ * @typeParam Args - argument type
+ */
 export const useAnimation = <Args = void>(
   keyframe: TypedKeyframe | TypedKeyframe[] | GetKeyframeFunction<Args>,
   options?: AnimationOptions
@@ -102,11 +110,11 @@ export const useAnimation = <Args = void>(
           target = ref;
         },
         {
-          play: (...opts: PlayArgs<Args>) => {
+          play: (...opts: AnimationPlayArgs<Args>) => {
             _play(initAnimation(opts[0] as { args?: Args }), opts[0]);
             return externalHandle;
           },
-          reverse: (...opts: ReverseArgs<Args>) => {
+          reverse: (...opts: AnimationReverseArgs<Args>) => {
             _reverse(initAnimation(opts[0]));
             return externalHandle;
           },
