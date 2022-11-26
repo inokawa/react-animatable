@@ -33,7 +33,7 @@ Extended [options of KeyframeEffect](https://developer.mozilla.org/en-US/docs/We
 
 #### Defined in
 
-[src/core/waapi.ts:38](https://github.com/inokawa/react-animatable/blob/8ca833b/src/core/waapi.ts#L38)
+[src/core/waapi.ts:38](https://github.com/inokawa/react-animatable/blob/4002988/src/core/waapi.ts#L38)
 
 ___
 

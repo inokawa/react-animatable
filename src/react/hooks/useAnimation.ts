@@ -21,47 +21,39 @@ import {
 } from "../../core/waapi";
 import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
 
-export type AnimationPlayArgs<Args = void> = Args extends void
+export type PlayArgs<Args = void> = Args extends void
   ? [PlayOptions?]
   : [Expand<PlayOptions & (Args extends void ? {} : { args: Args })>];
 
-export type AnimationReverseArgs<Args = void> = Args extends void
+export type ReverseArgs<Args = void> = Args extends void
   ? [ReverseOptions?]
   : [Expand<ReverseOptions & (Args extends void ? {} : { args: Args })>];
 
-/**
- * Handle of {@link useAnimation}.
- * @typeParam Args - argument type
- */
-export interface AnimationHandle<Args = void> {
-  /**
-   * You have to pass this callback to ref of element you want to control.
-   */
-  (ref: Element | null): void;
+export interface BaseAnimationHandle<Args = void> {
   /**
    * A wrapper of Web Animations API's [play](https://developer.mozilla.org/en-US/docs/Web/API/Animation/play).
    */
-  play: (...opts: AnimationPlayArgs<Args>) => AnimationHandle<Args>;
+  play: (...opts: PlayArgs<Args>) => BaseAnimationHandle<Args>;
   /**
    * A wrapper of Web Animations API's [reverse](https://developer.mozilla.org/en-US/docs/Web/API/Animation/reverse).
    */
-  reverse: (...opts: AnimationReverseArgs<Args>) => AnimationHandle<Args>;
+  reverse: (...opts: ReverseArgs<Args>) => BaseAnimationHandle<Args>;
   /**
    * A wrapper of Web Animations API's [cancel](https://developer.mozilla.org/en-US/docs/Web/API/Animation/cancel).
    */
-  cancel: () => AnimationHandle<Args>;
+  cancel: () => BaseAnimationHandle<Args>;
   /**
    * A wrapper of Web Animations API's [finish](https://developer.mozilla.org/en-US/docs/Web/API/Animation/finish).
    */
-  finish: () => AnimationHandle<Args>;
+  finish: () => BaseAnimationHandle<Args>;
   /**
    * A wrapper of Web Animations API's [pause](https://developer.mozilla.org/en-US/docs/Web/API/Animation/pause).
    */
-  pause: () => AnimationHandle<Args>;
+  pause: () => BaseAnimationHandle<Args>;
   /**
    * A setter of Web Animations API's [currentTime](https://developer.mozilla.org/en-US/docs/Web/API/Animation/currentTime).
    */
-  setTime: (time: number) => AnimationHandle<Args>;
+  setTime: (time: number) => BaseAnimationHandle<Args>;
   /**
    * A wrapper of Web Animations API's [updatePlaybackRate](https://developer.mozilla.org/en-US/docs/Web/API/Animation/updatePlaybackRate).
    *
@@ -69,14 +61,28 @@ export interface AnimationHandle<Args = void> {
    */
   setPlaybackRate: (
     rate: number | ((prevRate: number) => number)
-  ) => AnimationHandle<Args>;
+  ) => BaseAnimationHandle<Args>;
   /**
    * A getter of Promise that will be resolved in specified timing.
    *
    * - `finished`: resolved when animation is finished and its playback direction is normal.
    * - `reverseFinished`: resolved when animation is finished and its playback direction is reversed.
    */
-  waitFor: (event: WaitingAnimationEventName) => Promise<AnimationHandle<Args>>;
+  waitFor: (
+    event: WaitingAnimationEventName
+  ) => Promise<BaseAnimationHandle<Args>>;
+}
+
+/**
+ * Handle of {@link useAnimation}.
+ * @typeParam Args - argument type
+ */
+export interface AnimationHandle<Args = void>
+  extends BaseAnimationHandle<Args> {
+  /**
+   * You have to pass this callback to ref of element you want to control.
+   */
+  (ref: Element | null): void;
 }
 
 /**
@@ -142,11 +148,11 @@ export const useAnimation = <Args = void>(
           target = ref;
         },
         {
-          play: (...opts: AnimationPlayArgs<Args>) => {
+          play: (...opts: PlayArgs<Args>) => {
             _play(initAnimation(opts[0] as { args?: Args }), opts[0]);
             return externalHandle;
           },
-          reverse: (...opts: AnimationReverseArgs<Args>) => {
+          reverse: (...opts: ReverseArgs<Args>) => {
             _reverse(initAnimation(opts[0]));
             return externalHandle;
           },

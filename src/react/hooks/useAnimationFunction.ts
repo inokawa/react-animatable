@@ -1,11 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import type { Expand } from "../../core/types";
 import { isSameObject } from "../../core/utils";
 import {
   AnimationOptions,
   createAnimation,
-  PlayOptions,
-  ReverseOptions,
   _cancel,
   _waitFor,
   _finish,
@@ -16,38 +13,15 @@ import {
   _setTime,
   WaitingAnimationEventName,
 } from "../../core/waapi";
+import type { BaseAnimationHandle } from "./useAnimation";
 import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
 
-export type AnimationFunctionPlayArgs<Args = void> = Args extends void
-  ? [PlayOptions?]
-  : [Expand<PlayOptions & (Args extends void ? {} : { args: Args })>];
-
-export type AnimationFunctionReverseArgs<Args = void> = Args extends void
-  ? [ReverseOptions?]
-  : [Expand<ReverseOptions & (Args extends void ? {} : { args: Args })>];
-
 /**
- * Handle of {@link useAnimationFunction}. See {@link AnimationHandle}.
+ * Handle of {@link useAnimationFunction}.
  * @typeParam Args - argument type
  */
-export interface AnimationFunctionHandle<Args = void> {
-  play: (
-    ...opts: AnimationFunctionPlayArgs<Args>
-  ) => AnimationFunctionHandle<Args>;
-  reverse: (
-    ...opts: AnimationFunctionReverseArgs<Args>
-  ) => AnimationFunctionHandle<Args>;
-  cancel: () => AnimationFunctionHandle<Args>;
-  finish: () => AnimationFunctionHandle<Args>;
-  pause: () => AnimationFunctionHandle<Args>;
-  setTime: (time: number) => AnimationFunctionHandle<Args>;
-  setPlaybackRate: (
-    rate: number | ((prevRate: number) => number)
-  ) => AnimationFunctionHandle<Args>;
-  waitFor: (
-    event: WaitingAnimationEventName
-  ) => Promise<AnimationFunctionHandle<Args>>;
-}
+export interface AnimationFunctionHandle<Args = void>
+  extends BaseAnimationHandle<Args> {}
 
 /**
  * Non nullable [ComputedEffectTiming](https://developer.mozilla.org/en-US/docs/Web/API/AnimationEffect/getComputedTiming)

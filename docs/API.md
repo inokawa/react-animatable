@@ -11,10 +11,8 @@
 - [PlayOptions](API.md#playoptions)
 - [ReverseOptions](API.md#reverseoptions)
 - [WaitingAnimationEventName](API.md#waitinganimationeventname)
-- [AnimationPlayArgs](API.md#animationplayargs)
-- [AnimationReverseArgs](API.md#animationreverseargs)
-- [AnimationFunctionPlayArgs](API.md#animationfunctionplayargs)
-- [AnimationFunctionReverseArgs](API.md#animationfunctionreverseargs)
+- [PlayArgs](API.md#playargs)
+- [ReverseArgs](API.md#reverseargs)
 - [ComputedTimingContext](API.md#computedtimingcontext)
 - [AnimationFunction](API.md#animationfunction)
 - [TransitionAnimationDefinition](API.md#transitionanimationdefinition)
@@ -23,6 +21,7 @@
 
 - [AnimationOptions](interfaces/AnimationOptions.md)
 - [TransitionGroupProps](interfaces/TransitionGroupProps.md)
+- [BaseAnimationHandle](interfaces/BaseAnimationHandle.md)
 - [AnimationHandle](interfaces/AnimationHandle.md)
 - [AnimationFunctionHandle](interfaces/AnimationFunctionHandle.md)
 - [TransitionAnimationHandle](interfaces/TransitionAnimationHandle.md)
@@ -44,7 +43,7 @@ Strictly typed [Keyframe](https://developer.mozilla.org/en-US/docs/Web/API/Web_A
 
 #### Defined in
 
-[src/core/waapi.ts:17](https://github.com/inokawa/react-animatable/blob/8ca833b/src/core/waapi.ts#L17)
+[src/core/waapi.ts:17](https://github.com/inokawa/react-animatable/blob/4002988/src/core/waapi.ts#L17)
 
 ___
 
@@ -54,7 +53,7 @@ ___
 
 #### Defined in
 
-[src/core/waapi.ts:20](https://github.com/inokawa/react-animatable/blob/8ca833b/src/core/waapi.ts#L20)
+[src/core/waapi.ts:20](https://github.com/inokawa/react-animatable/blob/4002988/src/core/waapi.ts#L20)
 
 ___
 
@@ -74,7 +73,7 @@ A function to define keyframe dynamically
 
 #### Defined in
 
-[src/core/waapi.ts:29](https://github.com/inokawa/react-animatable/blob/8ca833b/src/core/waapi.ts#L29)
+[src/core/waapi.ts:29](https://github.com/inokawa/react-animatable/blob/4002988/src/core/waapi.ts#L29)
 
 ___
 
@@ -84,7 +83,7 @@ ___
 
 #### Defined in
 
-[src/core/waapi.ts:4](https://github.com/inokawa/react-animatable/blob/8ca833b/src/core/waapi.ts#L4)
+[src/core/waapi.ts:4](https://github.com/inokawa/react-animatable/blob/4002988/src/core/waapi.ts#L4)
 
 ___
 
@@ -100,7 +99,7 @@ ___
 
 #### Defined in
 
-[src/core/waapi.ts:83](https://github.com/inokawa/react-animatable/blob/8ca833b/src/core/waapi.ts#L83)
+[src/core/waapi.ts:83](https://github.com/inokawa/react-animatable/blob/4002988/src/core/waapi.ts#L83)
 
 ___
 
@@ -110,7 +109,7 @@ ___
 
 #### Defined in
 
-[src/core/waapi.ts:85](https://github.com/inokawa/react-animatable/blob/8ca833b/src/core/waapi.ts#L85)
+[src/core/waapi.ts:85](https://github.com/inokawa/react-animatable/blob/4002988/src/core/waapi.ts#L85)
 
 ___
 
@@ -120,13 +119,13 @@ ___
 
 #### Defined in
 
-[src/core/waapi.ts:140](https://github.com/inokawa/react-animatable/blob/8ca833b/src/core/waapi.ts#L140)
+[src/core/waapi.ts:140](https://github.com/inokawa/react-animatable/blob/4002988/src/core/waapi.ts#L140)
 
 ___
 
-### AnimationPlayArgs
+### PlayArgs
 
-Ƭ **AnimationPlayArgs**<`Args`\>: `Args` extends `void` ? [PlayOptions?] : [`Expand`<[`PlayOptions`](API.md#playoptions) & `Args` extends `void` ? {} : { `args`: `Args`  }\>]
+Ƭ **PlayArgs**<`Args`\>: `Args` extends `void` ? [PlayOptions?] : [`Expand`<[`PlayOptions`](API.md#playoptions) & `Args` extends `void` ? {} : { `args`: `Args`  }\>]
 
 #### Type parameters
 
@@ -136,13 +135,13 @@ ___
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:24](https://github.com/inokawa/react-animatable/blob/8ca833b/src/react/hooks/useAnimation.ts#L24)
+[src/react/hooks/useAnimation.ts:24](https://github.com/inokawa/react-animatable/blob/4002988/src/react/hooks/useAnimation.ts#L24)
 
 ___
 
-### AnimationReverseArgs
+### ReverseArgs
 
-Ƭ **AnimationReverseArgs**<`Args`\>: `Args` extends `void` ? [ReverseOptions?] : [`Expand`<[`ReverseOptions`](API.md#reverseoptions) & `Args` extends `void` ? {} : { `args`: `Args`  }\>]
+Ƭ **ReverseArgs**<`Args`\>: `Args` extends `void` ? [ReverseOptions?] : [`Expand`<[`ReverseOptions`](API.md#reverseoptions) & `Args` extends `void` ? {} : { `args`: `Args`  }\>]
 
 #### Type parameters
 
@@ -152,39 +151,7 @@ ___
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:28](https://github.com/inokawa/react-animatable/blob/8ca833b/src/react/hooks/useAnimation.ts#L28)
-
-___
-
-### AnimationFunctionPlayArgs
-
-Ƭ **AnimationFunctionPlayArgs**<`Args`\>: `Args` extends `void` ? [PlayOptions?] : [`Expand`<[`PlayOptions`](API.md#playoptions) & `Args` extends `void` ? {} : { `args`: `Args`  }\>]
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `Args` | `void` |
-
-#### Defined in
-
-[src/react/hooks/useAnimationFunction.ts:21](https://github.com/inokawa/react-animatable/blob/8ca833b/src/react/hooks/useAnimationFunction.ts#L21)
-
-___
-
-### AnimationFunctionReverseArgs
-
-Ƭ **AnimationFunctionReverseArgs**<`Args`\>: `Args` extends `void` ? [ReverseOptions?] : [`Expand`<[`ReverseOptions`](API.md#reverseoptions) & `Args` extends `void` ? {} : { `args`: `Args`  }\>]
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `Args` | `void` |
-
-#### Defined in
-
-[src/react/hooks/useAnimationFunction.ts:25](https://github.com/inokawa/react-animatable/blob/8ca833b/src/react/hooks/useAnimationFunction.ts#L25)
+[src/react/hooks/useAnimation.ts:28](https://github.com/inokawa/react-animatable/blob/4002988/src/react/hooks/useAnimation.ts#L28)
 
 ___
 
@@ -196,7 +163,7 @@ Non nullable [ComputedEffectTiming](https://developer.mozilla.org/en-US/docs/Web
 
 #### Defined in
 
-[src/react/hooks/useAnimationFunction.ts:55](https://github.com/inokawa/react-animatable/blob/8ca833b/src/react/hooks/useAnimationFunction.ts#L55)
+[src/react/hooks/useAnimationFunction.ts:29](https://github.com/inokawa/react-animatable/blob/4002988/src/react/hooks/useAnimationFunction.ts#L29)
 
 ___
 
@@ -217,7 +184,7 @@ In this callback you can update any state or ref in JS.
 
 #### Defined in
 
-[src/react/hooks/useAnimationFunction.ts:67](https://github.com/inokawa/react-animatable/blob/8ca833b/src/react/hooks/useAnimationFunction.ts#L67)
+[src/react/hooks/useAnimationFunction.ts:41](https://github.com/inokawa/react-animatable/blob/4002988/src/react/hooks/useAnimationFunction.ts#L41)
 
 ___
 
@@ -227,7 +194,7 @@ ___
 
 #### Defined in
 
-[src/react/hooks/useTransitionAnimation.ts:23](https://github.com/inokawa/react-animatable/blob/8ca833b/src/react/hooks/useTransitionAnimation.ts#L23)
+[src/react/hooks/useTransitionAnimation.ts:23](https://github.com/inokawa/react-animatable/blob/4002988/src/react/hooks/useTransitionAnimation.ts#L23)
 
 ## Functions
 
@@ -249,7 +216,7 @@ A component to manage enter/update/exit of its children by key, that works simil
 
 #### Defined in
 
-[src/react/components/TransitionGroup.tsx:74](https://github.com/inokawa/react-animatable/blob/8ca833b/src/react/components/TransitionGroup.tsx#L74)
+[src/react/components/TransitionGroup.tsx:74](https://github.com/inokawa/react-animatable/blob/4002988/src/react/components/TransitionGroup.tsx#L74)
 
 ___
 
@@ -278,7 +245,7 @@ A basic hook to use Web Animations API. See [AnimationHandle](interfaces/Animati
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:86](https://github.com/inokawa/react-animatable/blob/8ca833b/src/react/hooks/useAnimation.ts#L86)
+[src/react/hooks/useAnimation.ts:92](https://github.com/inokawa/react-animatable/blob/4002988/src/react/hooks/useAnimation.ts#L92)
 
 ___
 
@@ -307,7 +274,7 @@ Same as [useAnimation](API.md#useanimation), but it drives function not React el
 
 #### Defined in
 
-[src/react/hooks/useAnimationFunction.ts:94](https://github.com/inokawa/react-animatable/blob/8ca833b/src/react/hooks/useAnimationFunction.ts#L94)
+[src/react/hooks/useAnimationFunction.ts:68](https://github.com/inokawa/react-animatable/blob/4002988/src/react/hooks/useAnimationFunction.ts#L68)
 
 ___
 
@@ -333,4 +300,4 @@ This hook must be used under [TransitionGroup](API.md#transitiongroup) component
 
 #### Defined in
 
-[src/react/hooks/useTransitionAnimation.ts:33](https://github.com/inokawa/react-animatable/blob/8ca833b/src/react/hooks/useTransitionAnimation.ts#L33)
+[src/react/hooks/useTransitionAnimation.ts:33](https://github.com/inokawa/react-animatable/blob/4002988/src/react/hooks/useTransitionAnimation.ts#L33)

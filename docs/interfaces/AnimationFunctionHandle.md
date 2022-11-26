@@ -1,12 +1,18 @@
 # Interface: AnimationFunctionHandle<Args\>
 
-Handle of [useAnimationFunction](../API.md#useanimationfunction). See [AnimationHandle](AnimationHandle.md).
+Handle of [useAnimationFunction](../API.md#useanimationfunction).
 
 ## Type parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `Args` | `void` | argument type |
+
+## Hierarchy
+
+- [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
+
+  ↳ **`AnimationFunctionHandle`**
 
 ## Table of contents
 
@@ -25,113 +31,145 @@ Handle of [useAnimationFunction](../API.md#useanimationfunction). See [Animation
 
 ### play
 
-• **play**: (...`opts`: [`AnimationFunctionPlayArgs`](../API.md#animationfunctionplayargs)<`Args`\>) => [`AnimationFunctionHandle`](AnimationFunctionHandle.md)<`Args`\>
+• **play**: (...`opts`: [`PlayArgs`](../API.md#playargs)<`Args`\>) => [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
 
 #### Type declaration
 
-▸ (...`opts`): [`AnimationFunctionHandle`](AnimationFunctionHandle.md)<`Args`\>
+▸ (...`opts`): [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
+
+A wrapper of Web Animations API's [play](https://developer.mozilla.org/en-US/docs/Web/API/Animation/play).
 
 ##### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `...opts` | [`AnimationFunctionPlayArgs`](../API.md#animationfunctionplayargs)<`Args`\> |
+| `...opts` | [`PlayArgs`](../API.md#playargs)<`Args`\> |
 
 ##### Returns
 
-[`AnimationFunctionHandle`](AnimationFunctionHandle.md)<`Args`\>
+[`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
+
+#### Inherited from
+
+[BaseAnimationHandle](BaseAnimationHandle.md).[play](BaseAnimationHandle.md#play)
 
 #### Defined in
 
-[src/react/hooks/useAnimationFunction.ts:34](https://github.com/inokawa/react-animatable/blob/8ca833b/src/react/hooks/useAnimationFunction.ts#L34)
+[src/react/hooks/useAnimation.ts:36](https://github.com/inokawa/react-animatable/blob/4002988/src/react/hooks/useAnimation.ts#L36)
 
 ___
 
 ### reverse
 
-• **reverse**: (...`opts`: [`AnimationFunctionReverseArgs`](../API.md#animationfunctionreverseargs)<`Args`\>) => [`AnimationFunctionHandle`](AnimationFunctionHandle.md)<`Args`\>
+• **reverse**: (...`opts`: [`ReverseArgs`](../API.md#reverseargs)<`Args`\>) => [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
 
 #### Type declaration
 
-▸ (...`opts`): [`AnimationFunctionHandle`](AnimationFunctionHandle.md)<`Args`\>
+▸ (...`opts`): [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
+
+A wrapper of Web Animations API's [reverse](https://developer.mozilla.org/en-US/docs/Web/API/Animation/reverse).
 
 ##### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `...opts` | [`AnimationFunctionReverseArgs`](../API.md#animationfunctionreverseargs)<`Args`\> |
+| `...opts` | [`ReverseArgs`](../API.md#reverseargs)<`Args`\> |
 
 ##### Returns
 
-[`AnimationFunctionHandle`](AnimationFunctionHandle.md)<`Args`\>
+[`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
+
+#### Inherited from
+
+[BaseAnimationHandle](BaseAnimationHandle.md).[reverse](BaseAnimationHandle.md#reverse)
 
 #### Defined in
 
-[src/react/hooks/useAnimationFunction.ts:37](https://github.com/inokawa/react-animatable/blob/8ca833b/src/react/hooks/useAnimationFunction.ts#L37)
+[src/react/hooks/useAnimation.ts:40](https://github.com/inokawa/react-animatable/blob/4002988/src/react/hooks/useAnimation.ts#L40)
 
 ___
 
 ### cancel
 
-• **cancel**: () => [`AnimationFunctionHandle`](AnimationFunctionHandle.md)<`Args`\>
+• **cancel**: () => [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
 
 #### Type declaration
 
-▸ (): [`AnimationFunctionHandle`](AnimationFunctionHandle.md)<`Args`\>
+▸ (): [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
+
+A wrapper of Web Animations API's [cancel](https://developer.mozilla.org/en-US/docs/Web/API/Animation/cancel).
 
 ##### Returns
 
-[`AnimationFunctionHandle`](AnimationFunctionHandle.md)<`Args`\>
+[`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
+
+#### Inherited from
+
+[BaseAnimationHandle](BaseAnimationHandle.md).[cancel](BaseAnimationHandle.md#cancel)
 
 #### Defined in
 
-[src/react/hooks/useAnimationFunction.ts:40](https://github.com/inokawa/react-animatable/blob/8ca833b/src/react/hooks/useAnimationFunction.ts#L40)
+[src/react/hooks/useAnimation.ts:44](https://github.com/inokawa/react-animatable/blob/4002988/src/react/hooks/useAnimation.ts#L44)
 
 ___
 
 ### finish
 
-• **finish**: () => [`AnimationFunctionHandle`](AnimationFunctionHandle.md)<`Args`\>
+• **finish**: () => [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
 
 #### Type declaration
 
-▸ (): [`AnimationFunctionHandle`](AnimationFunctionHandle.md)<`Args`\>
+▸ (): [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
+
+A wrapper of Web Animations API's [finish](https://developer.mozilla.org/en-US/docs/Web/API/Animation/finish).
 
 ##### Returns
 
-[`AnimationFunctionHandle`](AnimationFunctionHandle.md)<`Args`\>
+[`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
+
+#### Inherited from
+
+[BaseAnimationHandle](BaseAnimationHandle.md).[finish](BaseAnimationHandle.md#finish)
 
 #### Defined in
 
-[src/react/hooks/useAnimationFunction.ts:41](https://github.com/inokawa/react-animatable/blob/8ca833b/src/react/hooks/useAnimationFunction.ts#L41)
+[src/react/hooks/useAnimation.ts:48](https://github.com/inokawa/react-animatable/blob/4002988/src/react/hooks/useAnimation.ts#L48)
 
 ___
 
 ### pause
 
-• **pause**: () => [`AnimationFunctionHandle`](AnimationFunctionHandle.md)<`Args`\>
+• **pause**: () => [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
 
 #### Type declaration
 
-▸ (): [`AnimationFunctionHandle`](AnimationFunctionHandle.md)<`Args`\>
+▸ (): [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
+
+A wrapper of Web Animations API's [pause](https://developer.mozilla.org/en-US/docs/Web/API/Animation/pause).
 
 ##### Returns
 
-[`AnimationFunctionHandle`](AnimationFunctionHandle.md)<`Args`\>
+[`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
+
+#### Inherited from
+
+[BaseAnimationHandle](BaseAnimationHandle.md).[pause](BaseAnimationHandle.md#pause)
 
 #### Defined in
 
-[src/react/hooks/useAnimationFunction.ts:42](https://github.com/inokawa/react-animatable/blob/8ca833b/src/react/hooks/useAnimationFunction.ts#L42)
+[src/react/hooks/useAnimation.ts:52](https://github.com/inokawa/react-animatable/blob/4002988/src/react/hooks/useAnimation.ts#L52)
 
 ___
 
 ### setTime
 
-• **setTime**: (`time`: `number`) => [`AnimationFunctionHandle`](AnimationFunctionHandle.md)<`Args`\>
+• **setTime**: (`time`: `number`) => [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
 
 #### Type declaration
 
-▸ (`time`): [`AnimationFunctionHandle`](AnimationFunctionHandle.md)<`Args`\>
+▸ (`time`): [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
+
+A setter of Web Animations API's [currentTime](https://developer.mozilla.org/en-US/docs/Web/API/Animation/currentTime).
 
 ##### Parameters
 
@@ -141,21 +179,29 @@ ___
 
 ##### Returns
 
-[`AnimationFunctionHandle`](AnimationFunctionHandle.md)<`Args`\>
+[`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
+
+#### Inherited from
+
+[BaseAnimationHandle](BaseAnimationHandle.md).[setTime](BaseAnimationHandle.md#settime)
 
 #### Defined in
 
-[src/react/hooks/useAnimationFunction.ts:43](https://github.com/inokawa/react-animatable/blob/8ca833b/src/react/hooks/useAnimationFunction.ts#L43)
+[src/react/hooks/useAnimation.ts:56](https://github.com/inokawa/react-animatable/blob/4002988/src/react/hooks/useAnimation.ts#L56)
 
 ___
 
 ### setPlaybackRate
 
-• **setPlaybackRate**: (`rate`: `number` \| (`prevRate`: `number`) => `number`) => [`AnimationFunctionHandle`](AnimationFunctionHandle.md)<`Args`\>
+• **setPlaybackRate**: (`rate`: `number` \| (`prevRate`: `number`) => `number`) => [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
 
 #### Type declaration
 
-▸ (`rate`): [`AnimationFunctionHandle`](AnimationFunctionHandle.md)<`Args`\>
+▸ (`rate`): [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
+
+A wrapper of Web Animations API's [updatePlaybackRate](https://developer.mozilla.org/en-US/docs/Web/API/Animation/updatePlaybackRate).
+
+If you pass function, you can get current playbackRate from its argument.
 
 ##### Parameters
 
@@ -165,21 +211,30 @@ ___
 
 ##### Returns
 
-[`AnimationFunctionHandle`](AnimationFunctionHandle.md)<`Args`\>
+[`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
+
+#### Inherited from
+
+[BaseAnimationHandle](BaseAnimationHandle.md).[setPlaybackRate](BaseAnimationHandle.md#setplaybackrate)
 
 #### Defined in
 
-[src/react/hooks/useAnimationFunction.ts:44](https://github.com/inokawa/react-animatable/blob/8ca833b/src/react/hooks/useAnimationFunction.ts#L44)
+[src/react/hooks/useAnimation.ts:62](https://github.com/inokawa/react-animatable/blob/4002988/src/react/hooks/useAnimation.ts#L62)
 
 ___
 
 ### waitFor
 
-• **waitFor**: (`event`: [`WaitingAnimationEventName`](../API.md#waitinganimationeventname)) => `Promise`<[`AnimationFunctionHandle`](AnimationFunctionHandle.md)<`Args`\>\>
+• **waitFor**: (`event`: [`WaitingAnimationEventName`](../API.md#waitinganimationeventname)) => `Promise`<[`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>\>
 
 #### Type declaration
 
-▸ (`event`): `Promise`<[`AnimationFunctionHandle`](AnimationFunctionHandle.md)<`Args`\>\>
+▸ (`event`): `Promise`<[`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>\>
+
+A getter of Promise that will be resolved in specified timing.
+
+- `finished`: resolved when animation is finished and its playback direction is normal.
+- `reverseFinished`: resolved when animation is finished and its playback direction is reversed.
 
 ##### Parameters
 
@@ -189,8 +244,12 @@ ___
 
 ##### Returns
 
-`Promise`<[`AnimationFunctionHandle`](AnimationFunctionHandle.md)<`Args`\>\>
+`Promise`<[`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>\>
+
+#### Inherited from
+
+[BaseAnimationHandle](BaseAnimationHandle.md).[waitFor](BaseAnimationHandle.md#waitfor)
 
 #### Defined in
 
-[src/react/hooks/useAnimationFunction.ts:47](https://github.com/inokawa/react-animatable/blob/8ca833b/src/react/hooks/useAnimationFunction.ts#L47)
+[src/react/hooks/useAnimation.ts:71](https://github.com/inokawa/react-animatable/blob/4002988/src/react/hooks/useAnimation.ts#L71)
