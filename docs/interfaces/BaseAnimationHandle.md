@@ -1,51 +1,31 @@
-# Interface: AnimationHandle<Args\>
+# Interface: BaseAnimationHandle<Args\>
 
 ## Type parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `Args` | `void` | argument type |
+| Name | Type |
+| :------ | :------ |
+| `Args` | `void` |
 
 ## Hierarchy
 
-- [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
+- **`BaseAnimationHandle`**
 
-  ↳ **`AnimationHandle`**
+  ↳ [`AnimationHandle`](AnimationHandle.md)
 
-## Callable
-
-### AnimationHandle
-
-▸ **AnimationHandle**(`ref`): `void`
-
-You have to pass this callback to ref of element you want to control.
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `ref` | ``null`` \| `Element` |
-
-#### Returns
-
-`void`
-
-#### Defined in
-
-[src/react/hooks/useAnimation.ts:85](https://github.com/inokawa/react-animatable/blob/4002988/src/react/hooks/useAnimation.ts#L85)
+  ↳ [`AnimationFunctionHandle`](AnimationFunctionHandle.md)
 
 ## Table of contents
 
 ### Properties
 
-- [play](AnimationHandle.md#play)
-- [reverse](AnimationHandle.md#reverse)
-- [cancel](AnimationHandle.md#cancel)
-- [finish](AnimationHandle.md#finish)
-- [pause](AnimationHandle.md#pause)
-- [setTime](AnimationHandle.md#settime)
-- [setPlaybackRate](AnimationHandle.md#setplaybackrate)
-- [waitFor](AnimationHandle.md#waitfor)
+- [play](BaseAnimationHandle.md#play)
+- [reverse](BaseAnimationHandle.md#reverse)
+- [cancel](BaseAnimationHandle.md#cancel)
+- [finish](BaseAnimationHandle.md#finish)
+- [pause](BaseAnimationHandle.md#pause)
+- [setTime](BaseAnimationHandle.md#settime)
+- [setPlaybackRate](BaseAnimationHandle.md#setplaybackrate)
+- [waitFor](BaseAnimationHandle.md#waitfor)
 
 ## Properties
 
@@ -68,10 +48,6 @@ A wrapper of Web Animations API's [play](https://developer.mozilla.org/en-US/doc
 ##### Returns
 
 [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
-
-#### Inherited from
-
-[BaseAnimationHandle](BaseAnimationHandle.md).[play](BaseAnimationHandle.md#play)
 
 #### Defined in
 
@@ -99,10 +75,6 @@ A wrapper of Web Animations API's [reverse](https://developer.mozilla.org/en-US/
 
 [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
 
-#### Inherited from
-
-[BaseAnimationHandle](BaseAnimationHandle.md).[reverse](BaseAnimationHandle.md#reverse)
-
 #### Defined in
 
 [src/react/hooks/useAnimation.ts:40](https://github.com/inokawa/react-animatable/blob/4002988/src/react/hooks/useAnimation.ts#L40)
@@ -122,10 +94,6 @@ A wrapper of Web Animations API's [cancel](https://developer.mozilla.org/en-US/d
 ##### Returns
 
 [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
-
-#### Inherited from
-
-[BaseAnimationHandle](BaseAnimationHandle.md).[cancel](BaseAnimationHandle.md#cancel)
 
 #### Defined in
 
@@ -147,10 +115,6 @@ A wrapper of Web Animations API's [finish](https://developer.mozilla.org/en-US/d
 
 [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
 
-#### Inherited from
-
-[BaseAnimationHandle](BaseAnimationHandle.md).[finish](BaseAnimationHandle.md#finish)
-
 #### Defined in
 
 [src/react/hooks/useAnimation.ts:48](https://github.com/inokawa/react-animatable/blob/4002988/src/react/hooks/useAnimation.ts#L48)
@@ -170,10 +134,6 @@ A wrapper of Web Animations API's [pause](https://developer.mozilla.org/en-US/do
 ##### Returns
 
 [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
-
-#### Inherited from
-
-[BaseAnimationHandle](BaseAnimationHandle.md).[pause](BaseAnimationHandle.md#pause)
 
 #### Defined in
 
@@ -200,10 +160,6 @@ A setter of Web Animations API's [currentTime](https://developer.mozilla.org/en-
 ##### Returns
 
 [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
-
-#### Inherited from
-
-[BaseAnimationHandle](BaseAnimationHandle.md).[setTime](BaseAnimationHandle.md#settime)
 
 #### Defined in
 
@@ -233,10 +189,6 @@ If you pass function, you can get current playbackRate from its argument.
 
 [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
 
-#### Inherited from
-
-[BaseAnimationHandle](BaseAnimationHandle.md).[setPlaybackRate](BaseAnimationHandle.md#setplaybackrate)
-
 #### Defined in
 
 [src/react/hooks/useAnimation.ts:62](https://github.com/inokawa/react-animatable/blob/4002988/src/react/hooks/useAnimation.ts#L62)
@@ -265,10 +217,6 @@ A getter of Promise that will be resolved in specified timing.
 ##### Returns
 
 `Promise`<[`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>\>
-
-#### Inherited from
-
-[BaseAnimationHandle](BaseAnimationHandle.md).[waitFor](BaseAnimationHandle.md#waitfor)
 
 #### Defined in
 
