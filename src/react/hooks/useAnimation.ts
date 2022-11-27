@@ -123,10 +123,6 @@ export const useAnimation = <Args = void>(
             isSameObjectArray(keyframes, prevKeyframes) &&
             isSameObject(options, prevOptions)
           ) {
-            // Reset reversed playback direction
-            if (prevAnimation.playbackRate < 0) {
-              _setRate(prevAnimation, (p) => -p);
-            }
             return prevAnimation;
           }
           prevAnimation.cancel();
@@ -146,7 +142,18 @@ export const useAnimation = <Args = void>(
         <BaseAnimationHandle<Args>>{
           play: (...opts) => {
             if (!target) return externalHandle;
-            _play(initAnimation(target, opts[0] as { args?: Args }), opts[0]);
+            const prevAnimation = initAnimation(
+              target,
+              opts[0] as { args?: Args }
+            );
+            // Reset reversed playback direction if completed
+            if (
+              prevAnimation.playbackRate < 0 &&
+              prevAnimation.playState === "finished"
+            ) {
+              _setRate(prevAnimation, (p) => -p);
+            }
+            _play(prevAnimation, opts[0]);
             return externalHandle;
           },
           reverse: () => {
