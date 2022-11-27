@@ -47,8 +47,12 @@ export interface BaseAnimationHandle<Args = void> {
   pause: () => BaseAnimationHandle<Args>;
   /**
    * A setter of Web Animations API's [currentTime](https://developer.mozilla.org/en-US/docs/Web/API/Animation/currentTime).
+   *
+   * If you pass function, you can get [endTime](https://developer.mozilla.org/en-US/docs/Web/API/AnimationEffect/getComputedTiming#return_value) from its argument.
    */
-  setTime: (time: number) => BaseAnimationHandle<Args>;
+  seek: (
+    time: number | ((endTime: number) => number)
+  ) => BaseAnimationHandle<Args>;
   /**
    * A wrapper of Web Animations API's [updatePlaybackRate](https://developer.mozilla.org/en-US/docs/Web/API/Animation/updatePlaybackRate).
    *
@@ -161,7 +165,7 @@ export const useAnimation = <Args = void>(
             _pause(getAnimation());
             return externalHandle;
           },
-          setTime: (time) => {
+          seek: (time) => {
             _setTime(getAnimation(), time);
             return externalHandle;
           },
