@@ -41,7 +41,7 @@ Strictly typed [Keyframe](https://developer.mozilla.org/en-US/docs/Web/API/Web_A
 
 #### Defined in
 
-[src/core/waapi.ts:17](https://github.com/inokawa/react-animatable/blob/d75db13/src/core/waapi.ts#L17)
+[src/core/waapi.ts:17](https://github.com/inokawa/react-animatable/blob/920256c/src/core/waapi.ts#L17)
 
 ___
 
@@ -51,7 +51,7 @@ ___
 
 #### Defined in
 
-[src/core/waapi.ts:20](https://github.com/inokawa/react-animatable/blob/d75db13/src/core/waapi.ts#L20)
+[src/core/waapi.ts:20](https://github.com/inokawa/react-animatable/blob/920256c/src/core/waapi.ts#L20)
 
 ___
 
@@ -71,7 +71,7 @@ A function to define keyframe dynamically
 
 #### Defined in
 
-[src/core/waapi.ts:29](https://github.com/inokawa/react-animatable/blob/d75db13/src/core/waapi.ts#L29)
+[src/core/waapi.ts:29](https://github.com/inokawa/react-animatable/blob/920256c/src/core/waapi.ts#L29)
 
 ___
 
@@ -81,7 +81,7 @@ ___
 
 #### Defined in
 
-[src/core/waapi.ts:4](https://github.com/inokawa/react-animatable/blob/d75db13/src/core/waapi.ts#L4)
+[src/core/waapi.ts:4](https://github.com/inokawa/react-animatable/blob/920256c/src/core/waapi.ts#L4)
 
 ___
 
@@ -91,13 +91,13 @@ ___
 
 #### Type declaration
 
-| Name | Type |
-| :------ | :------ |
-| `reset?` | `boolean` |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `restart?` | `boolean` | If true, plays from the start. It's similar to GSAP's `restart()`. |
 
 #### Defined in
 
-[src/core/waapi.ts:83](https://github.com/inokawa/react-animatable/blob/d75db13/src/core/waapi.ts#L83)
+[src/core/waapi.ts:83](https://github.com/inokawa/react-animatable/blob/920256c/src/core/waapi.ts#L83)
 
 ___
 
@@ -107,7 +107,7 @@ ___
 
 #### Defined in
 
-[src/core/waapi.ts:139](https://github.com/inokawa/react-animatable/blob/d75db13/src/core/waapi.ts#L139)
+[src/core/waapi.ts:154](https://github.com/inokawa/react-animatable/blob/920256c/src/core/waapi.ts#L154)
 
 ___
 
@@ -123,7 +123,7 @@ ___
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:23](https://github.com/inokawa/react-animatable/blob/d75db13/src/react/hooks/useAnimation.ts#L23)
+[src/react/hooks/useAnimation.ts:23](https://github.com/inokawa/react-animatable/blob/920256c/src/react/hooks/useAnimation.ts#L23)
 
 ___
 
@@ -135,7 +135,7 @@ Non nullable [ComputedEffectTiming](https://developer.mozilla.org/en-US/docs/Web
 
 #### Defined in
 
-[src/react/hooks/useAnimationFunction.ts:29](https://github.com/inokawa/react-animatable/blob/d75db13/src/react/hooks/useAnimationFunction.ts#L29)
+[src/react/hooks/useAnimationFunction.ts:29](https://github.com/inokawa/react-animatable/blob/920256c/src/react/hooks/useAnimationFunction.ts#L29)
 
 ___
 
@@ -156,7 +156,7 @@ In this callback you can update any state or ref in JS.
 
 #### Defined in
 
-[src/react/hooks/useAnimationFunction.ts:41](https://github.com/inokawa/react-animatable/blob/d75db13/src/react/hooks/useAnimationFunction.ts#L41)
+[src/react/hooks/useAnimationFunction.ts:41](https://github.com/inokawa/react-animatable/blob/920256c/src/react/hooks/useAnimationFunction.ts#L41)
 
 ___
 
@@ -166,7 +166,7 @@ ___
 
 #### Defined in
 
-[src/react/hooks/useTransitionAnimation.ts:23](https://github.com/inokawa/react-animatable/blob/d75db13/src/react/hooks/useTransitionAnimation.ts#L23)
+[src/react/hooks/useTransitionAnimation.ts:23](https://github.com/inokawa/react-animatable/blob/920256c/src/react/hooks/useTransitionAnimation.ts#L23)
 
 ## Functions
 
@@ -188,7 +188,7 @@ A component to manage enter/update/exit of its children by key, that works simil
 
 #### Defined in
 
-[src/react/components/TransitionGroup.tsx:74](https://github.com/inokawa/react-animatable/blob/d75db13/src/react/components/TransitionGroup.tsx#L74)
+[src/react/components/TransitionGroup.tsx:74](https://github.com/inokawa/react-animatable/blob/920256c/src/react/components/TransitionGroup.tsx#L74)
 
 ___
 
@@ -217,7 +217,7 @@ A basic hook to use Web Animations API. See [AnimationHandle](interfaces/Animati
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:87](https://github.com/inokawa/react-animatable/blob/d75db13/src/react/hooks/useAnimation.ts#L87)
+[src/react/hooks/useAnimation.ts:91](https://github.com/inokawa/react-animatable/blob/920256c/src/react/hooks/useAnimation.ts#L91)
 
 ___
 
@@ -246,7 +246,7 @@ Same as [useAnimation](API.md#useanimation), but it drives function not React el
 
 #### Defined in
 
-[src/react/hooks/useAnimationFunction.ts:68](https://github.com/inokawa/react-animatable/blob/d75db13/src/react/hooks/useAnimationFunction.ts#L68)
+[src/react/hooks/useAnimationFunction.ts:68](https://github.com/inokawa/react-animatable/blob/920256c/src/react/hooks/useAnimationFunction.ts#L68)
 
 ___
 
@@ -272,4 +272,4 @@ This hook must be used under [TransitionGroup](API.md#transitiongroup) component
 
 #### Defined in
 
-[src/react/hooks/useTransitionAnimation.ts:33](https://github.com/inokawa/react-animatable/blob/d75db13/src/react/hooks/useTransitionAnimation.ts#L33)
+[src/react/hooks/useTransitionAnimation.ts:33](https://github.com/inokawa/react-animatable/blob/920256c/src/react/hooks/useTransitionAnimation.ts#L33)

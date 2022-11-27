@@ -37,7 +37,7 @@
 
 ▸ (...`opts`): [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
 
-A wrapper of Web Animations API's [play](https://developer.mozilla.org/en-US/docs/Web/API/Animation/play).
+A wrapper of Web Animations API's [play](https://developer.mozilla.org/en-US/docs/Web/API/Animation/play). It's similar to GSAP's `play()`.
 
 ##### Parameters
 
@@ -51,7 +51,7 @@ A wrapper of Web Animations API's [play](https://developer.mozilla.org/en-US/doc
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:31](https://github.com/inokawa/react-animatable/blob/d75db13/src/react/hooks/useAnimation.ts#L31)
+[src/react/hooks/useAnimation.ts:31](https://github.com/inokawa/react-animatable/blob/920256c/src/react/hooks/useAnimation.ts#L31)
 
 ___
 
@@ -63,7 +63,7 @@ ___
 
 ▸ (): [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
 
-A wrapper of Web Animations API's [reverse](https://developer.mozilla.org/en-US/docs/Web/API/Animation/reverse).
+A wrapper of Web Animations API's [reverse](https://developer.mozilla.org/en-US/docs/Web/API/Animation/reverse). It's similar to GSAP's `reverse()`.
 
 ##### Returns
 
@@ -71,7 +71,7 @@ A wrapper of Web Animations API's [reverse](https://developer.mozilla.org/en-US/
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:35](https://github.com/inokawa/react-animatable/blob/d75db13/src/react/hooks/useAnimation.ts#L35)
+[src/react/hooks/useAnimation.ts:35](https://github.com/inokawa/react-animatable/blob/920256c/src/react/hooks/useAnimation.ts#L35)
 
 ___
 
@@ -83,7 +83,7 @@ ___
 
 ▸ (): [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
 
-A wrapper of Web Animations API's [cancel](https://developer.mozilla.org/en-US/docs/Web/API/Animation/cancel).
+A wrapper of Web Animations API's [cancel](https://developer.mozilla.org/en-US/docs/Web/API/Animation/cancel). It's similar to GSAP's `kill()`.
 
 ##### Returns
 
@@ -91,7 +91,7 @@ A wrapper of Web Animations API's [cancel](https://developer.mozilla.org/en-US/d
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:39](https://github.com/inokawa/react-animatable/blob/d75db13/src/react/hooks/useAnimation.ts#L39)
+[src/react/hooks/useAnimation.ts:39](https://github.com/inokawa/react-animatable/blob/920256c/src/react/hooks/useAnimation.ts#L39)
 
 ___
 
@@ -111,7 +111,7 @@ A wrapper of Web Animations API's [finish](https://developer.mozilla.org/en-US/d
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:43](https://github.com/inokawa/react-animatable/blob/d75db13/src/react/hooks/useAnimation.ts#L43)
+[src/react/hooks/useAnimation.ts:43](https://github.com/inokawa/react-animatable/blob/920256c/src/react/hooks/useAnimation.ts#L43)
 
 ___
 
@@ -123,7 +123,7 @@ ___
 
 ▸ (): [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
 
-A wrapper of Web Animations API's [pause](https://developer.mozilla.org/en-US/docs/Web/API/Animation/pause).
+A wrapper of Web Animations API's [pause](https://developer.mozilla.org/en-US/docs/Web/API/Animation/pause). It's similar to GSAP's `pause()`.
 
 ##### Returns
 
@@ -131,25 +131,27 @@ A wrapper of Web Animations API's [pause](https://developer.mozilla.org/en-US/do
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:47](https://github.com/inokawa/react-animatable/blob/d75db13/src/react/hooks/useAnimation.ts#L47)
+[src/react/hooks/useAnimation.ts:47](https://github.com/inokawa/react-animatable/blob/920256c/src/react/hooks/useAnimation.ts#L47)
 
 ___
 
 ### setTime
 
-• **setTime**: (`time`: `number`) => [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
+• **setTime**: (`time`: `number` \| (`endTime`: `number`) => `number`) => [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
 
 #### Type declaration
 
 ▸ (`time`): [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
 
-A setter of Web Animations API's [currentTime](https://developer.mozilla.org/en-US/docs/Web/API/Animation/currentTime).
+A setter of Web Animations API's [currentTime](https://developer.mozilla.org/en-US/docs/Web/API/Animation/currentTime). It's similar to GSAP's `seek()`.
+
+If you pass function, you can get [endTime](https://developer.mozilla.org/en-US/docs/Web/API/AnimationEffect/getComputedTiming#return_value) from its argument.
 
 ##### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `time` | `number` |
+| `time` | `number` \| (`endTime`: `number`) => `number` |
 
 ##### Returns
 
@@ -157,7 +159,7 @@ A setter of Web Animations API's [currentTime](https://developer.mozilla.org/en-
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:51](https://github.com/inokawa/react-animatable/blob/d75db13/src/react/hooks/useAnimation.ts#L51)
+[src/react/hooks/useAnimation.ts:53](https://github.com/inokawa/react-animatable/blob/920256c/src/react/hooks/useAnimation.ts#L53)
 
 ___
 
@@ -169,9 +171,9 @@ ___
 
 ▸ (`rate`): [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
 
-A wrapper of Web Animations API's [updatePlaybackRate](https://developer.mozilla.org/en-US/docs/Web/API/Animation/updatePlaybackRate).
+A wrapper of Web Animations API's [updatePlaybackRate](https://developer.mozilla.org/en-US/docs/Web/API/Animation/updatePlaybackRate). It's similar to GSAP's `timeScale()`.
 
-If you pass function, you can get current playbackRate from its argument.
+If you pass function, you can get current [playbackRate](https://developer.mozilla.org/en-US/docs/Web/API/Animation/playbackRate) from its argument.
 
 ##### Parameters
 
@@ -185,7 +187,7 @@ If you pass function, you can get current playbackRate from its argument.
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:57](https://github.com/inokawa/react-animatable/blob/d75db13/src/react/hooks/useAnimation.ts#L57)
+[src/react/hooks/useAnimation.ts:61](https://github.com/inokawa/react-animatable/blob/920256c/src/react/hooks/useAnimation.ts#L61)
 
 ___
 
@@ -214,4 +216,4 @@ A getter of Promise that will be resolved in specified timing.
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:66](https://github.com/inokawa/react-animatable/blob/d75db13/src/react/hooks/useAnimation.ts#L66)
+[src/react/hooks/useAnimation.ts:70](https://github.com/inokawa/react-animatable/blob/920256c/src/react/hooks/useAnimation.ts#L70)
