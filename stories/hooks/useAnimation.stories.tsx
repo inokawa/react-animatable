@@ -294,7 +294,7 @@ export const Playground: StoryObj = {
               max={100}
               defaultValue={1}
               onChange={(e) => {
-                animate.setPlaybackRate(Number(e.target.value));
+                animate.timeScale(Number(e.target.value));
               }}
             />
           </label>
@@ -855,7 +855,7 @@ export const Countdown: StoryObj = {
         setCount((p) => p - 1);
 
         if (startCount > 0) {
-          countAnimation.setPlaybackRate((prev) => Math.min(prev * 1.15, 6));
+          countAnimation.timeScale((prev) => Math.min(prev * 1.15, 6));
         } else {
           clearInterval(id);
           boomAnimation.play();

@@ -127,7 +127,7 @@ export const useAnimationFunction = <Args = void>(
         _setTime(getAnimation(), time);
         return externalHandle;
       },
-      setPlaybackRate: (rate) => {
+      timeScale: (rate) => {
         _setRate(getAnimation(), rate);
         return externalHandle;
       },
