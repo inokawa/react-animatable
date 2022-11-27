@@ -50,7 +50,7 @@ export interface BaseAnimationHandle<Args = void> {
    *
    * If you pass function, you can get [endTime](https://developer.mozilla.org/en-US/docs/Web/API/AnimationEffect/getComputedTiming#return_value) from its argument.
    */
-  seek: (
+  setTime: (
     time: number | ((endTime: number) => number)
   ) => BaseAnimationHandle<Args>;
   /**
@@ -165,7 +165,7 @@ export const useAnimation = <Args = void>(
             _pause(getAnimation());
             return externalHandle;
           },
-          seek: (time) => {
+          setTime: (time) => {
             _setTime(getAnimation(), time);
             return externalHandle;
           },

@@ -279,7 +279,7 @@ export const Playground: StoryObj = {
               min={0}
               max={100}
               onChange={(e) => {
-                animate.seek((end) => end * (Number(e.target.value) / 100));
+                animate.setTime((end) => end * (Number(e.target.value) / 100));
               }}
             />
           </label>
