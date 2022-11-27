@@ -7,7 +7,6 @@ import {
   GetKeyframeFunction,
   normalizeKeyframe,
   PlayOptions,
-  ReverseOptions,
   TypedKeyframe,
   _cancel,
   _waitFor,
@@ -25,10 +24,6 @@ export type PlayArgs<Args = void> = Args extends void
   ? [PlayOptions?]
   : [Expand<PlayOptions & (Args extends void ? {} : { args: Args })>];
 
-export type ReverseArgs<Args = void> = Args extends void
-  ? [ReverseOptions?]
-  : [Expand<ReverseOptions & (Args extends void ? {} : { args: Args })>];
-
 export interface BaseAnimationHandle<Args = void> {
   /**
    * A wrapper of Web Animations API's [play](https://developer.mozilla.org/en-US/docs/Web/API/Animation/play).
@@ -37,7 +32,7 @@ export interface BaseAnimationHandle<Args = void> {
   /**
    * A wrapper of Web Animations API's [reverse](https://developer.mozilla.org/en-US/docs/Web/API/Animation/reverse).
    */
-  reverse: (...opts: ReverseArgs<Args>) => BaseAnimationHandle<Args>;
+  reverse: () => BaseAnimationHandle<Args>;
   /**
    * A wrapper of Web Animations API's [cancel](https://developer.mozilla.org/en-US/docs/Web/API/Animation/cancel).
    */
@@ -150,9 +145,8 @@ export const useAnimation = <Args = void>(
             _play(initAnimation(target, opts[0] as { args?: Args }), opts[0]);
             return externalHandle;
           },
-          reverse: (...opts: ReverseArgs<Args>) => {
-            if (!target) return externalHandle;
-            _reverse(initAnimation(target, opts[0]));
+          reverse: () => {
+            _reverse(getAnimation());
             return externalHandle;
           },
           cancel: () => {
