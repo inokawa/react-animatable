@@ -122,9 +122,15 @@ export const _pause = (animation: Animation | undefined) => {
 //   }
 //   animation.cancel();
 // };
-export const _setTime = (animation: Animation | undefined, time: number) => {
+export const _setTime = (
+  animation: Animation | undefined,
+  arg: number | ((endTime: number) => number)
+) => {
   if (!animation) return;
-  animation.currentTime = time;
+  animation.currentTime =
+    typeof arg === "function"
+      ? arg(animation.effect!.getComputedTiming().endTime!)
+      : arg;
 };
 export const _setRate = (
   animation: Animation | undefined,

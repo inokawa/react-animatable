@@ -277,12 +277,11 @@ export const Playground: StoryObj = {
               type="range"
               defaultValue="0"
               min={0}
-              max={duration}
+              max={100}
               onChange={(e) => {
-                animate.setTime(Number(e.target.value) * iteration);
+                animate.seek((end) => end * (Number(e.target.value) / 100));
               }}
             />
-            ms
           </label>
         </div>
         <div>

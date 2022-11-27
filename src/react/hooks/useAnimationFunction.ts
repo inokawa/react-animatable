@@ -123,7 +123,7 @@ export const useAnimationFunction = <Args = void>(
         _pause(getAnimation());
         return externalHandle;
       },
-      setTime: (time) => {
+      seek: (time) => {
         _setTime(getAnimation(), time);
         return externalHandle;
       },
