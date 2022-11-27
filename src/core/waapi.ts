@@ -80,10 +80,15 @@ export const createAnimation = (
   }
 };
 
-export type PlayOptions = { reset?: boolean };
+export type PlayOptions = {
+  /**
+   * If true, plays from the start. It's similar to GSAP's `restart()`.
+   */
+  restart?: boolean;
+};
 
 export const _play = (animation: Animation, opts: PlayOptions = {}) => {
-  if (opts.reset) {
+  if (opts.restart) {
     animation.currentTime = 0;
   }
   animation.play();
