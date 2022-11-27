@@ -102,7 +102,6 @@ export const useAnimation = <Args = void>(
       let cache:
         | [
             animation: Animation,
-            el: Element,
             keyframes: TypedKeyframe[],
             options: AnimationOptions | undefined
           ]
@@ -119,10 +118,9 @@ export const useAnimation = <Args = void>(
         );
         const options = optionsRef.current;
         if (cache) {
-          const [prevAnimation, prevEl, prevKeyframes, prevOptions] = cache;
+          const [prevAnimation, prevKeyframes, prevOptions] = cache;
           // Reuse animation if possible
           if (
-            el === prevEl &&
             isSameObjectArray(keyframes, prevKeyframes) &&
             isSameObject(options, prevOptions)
           ) {
@@ -135,18 +133,16 @@ export const useAnimation = <Args = void>(
           prevAnimation.cancel();
         }
         const animation = createAnimation(el, keyframes as Keyframe[], options);
-        cache = [animation, el, keyframes, options];
+        cache = [animation, keyframes, options];
         return animation;
       };
       const getAnimation = () => cache?.[0];
 
-      const cancel = () => {
-        _cancel(getAnimation());
-      };
-
       const externalHandle: AnimationHandle<Args> = assign(
         (ref: Element | null) => {
-          target = ref;
+          if (!(target = ref)) {
+            cache = undefined;
+          }
         },
         {
           play: (...opts: PlayArgs<Args>) => {
@@ -160,7 +156,7 @@ export const useAnimation = <Args = void>(
             return externalHandle;
           },
           cancel: () => {
-            cancel();
+            _cancel(getAnimation());
             return externalHandle;
           },
           finish: () => {
@@ -187,7 +183,7 @@ export const useAnimation = <Args = void>(
       return [
         externalHandle,
         () => {
-          cancel();
+          externalHandle.cancel();
         },
       ];
     }
