@@ -486,7 +486,7 @@ export const Scroll: StoryObj = {
             debounce(() => {
               if (!scrollRef.current) return;
               animate.play({
-                reset: true,
+                restart: true,
                 args: {
                   top: scrollRef.current.scrollTop,
                   left: scrollRef.current.scrollLeft,
