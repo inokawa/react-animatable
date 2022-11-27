@@ -82,15 +82,14 @@ export const createAnimation = (
 
 export type PlayOptions = { reset?: boolean };
 
-export type ReverseOptions = {};
-
 export const _play = (animation: Animation, opts: PlayOptions = {}) => {
   if (opts.reset) {
     animation.currentTime = 0;
   }
   animation.play();
 };
-export const _reverse = (animation: Animation) => {
+export const _reverse = (animation: Animation | undefined) => {
+  if (!animation) return;
   animation.reverse();
 };
 export const _cancel = (animation: Animation | undefined) => {

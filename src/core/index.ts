@@ -5,6 +5,5 @@ export type {
   AnimationOptions,
   AnimatableCSSProperties,
   PlayOptions,
-  ReverseOptions,
   WaitingAnimationEventName,
 } from "./waapi";
