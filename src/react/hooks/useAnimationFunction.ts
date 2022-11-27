@@ -87,10 +87,6 @@ export const useAnimationFunction = <Args = void>(
           if (prevAnimation.playState !== "running") {
             bindUpdateFunction(prevAnimation, getOnUpdate, opts.args!);
           }
-          // Reset reversed playback direction
-          if (prevAnimation.playbackRate < 0) {
-            _setRate(prevAnimation, (p) => -p);
-          }
           return prevAnimation;
         }
         prevAnimation.cancel();
@@ -104,7 +100,15 @@ export const useAnimationFunction = <Args = void>(
 
     const externalHandle: AnimationFunctionHandle<Args> = {
       play: (...opts) => {
-        _play(initAnimation(opts[0] as { args?: Args }), opts[0]);
+        const prevAnimation = initAnimation(opts[0] as { args?: Args });
+        // Reset reversed playback direction if completed
+        if (
+          prevAnimation.playbackRate < 0 &&
+          prevAnimation.playState === "finished"
+        ) {
+          _setRate(prevAnimation, (p) => -p);
+        }
+        _play(prevAnimation, opts[0]);
         return externalHandle;
       },
       reverse: () => {
