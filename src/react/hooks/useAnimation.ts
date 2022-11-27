@@ -56,7 +56,7 @@ export interface BaseAnimationHandle<Args = void> {
   /**
    * A wrapper of Web Animations API's [updatePlaybackRate](https://developer.mozilla.org/en-US/docs/Web/API/Animation/updatePlaybackRate).
    *
-   * If you pass function, you can get current playbackRate from its argument.
+   * If you pass function, you can get current [playbackRate](https://developer.mozilla.org/en-US/docs/Web/API/Animation/playbackRate) from its argument.
    */
   setPlaybackRate: (
     rate: number | ((prevRate: number) => number)
