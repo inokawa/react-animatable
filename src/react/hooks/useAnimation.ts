@@ -108,15 +108,16 @@ export const useAnimation = <Args = void>(
           ]
         | undefined;
 
-      const getTarget = () => target;
-      const initAnimation = (opts: { args?: Args } = {}): Animation => {
+      const initAnimation = (
+        el: Element,
+        opts: { args?: Args } = {}
+      ): Animation => {
         const keyframes = normalizeKeyframe(
-          getTarget()!,
+          el,
           keyframeRef.current,
           opts.args!
         );
         const options = optionsRef.current;
-        const el = getTarget()!;
         if (cache) {
           const [prevAnimation, prevEl, prevKeyframes, prevOptions] = cache;
           // Reuse animation if possible
@@ -149,11 +150,13 @@ export const useAnimation = <Args = void>(
         },
         {
           play: (...opts: PlayArgs<Args>) => {
-            _play(initAnimation(opts[0] as { args?: Args }), opts[0]);
+            if (!target) return externalHandle;
+            _play(initAnimation(target, opts[0] as { args?: Args }), opts[0]);
             return externalHandle;
           },
           reverse: (...opts: ReverseArgs<Args>) => {
-            _reverse(initAnimation(opts[0]));
+            if (!target) return externalHandle;
+            _reverse(initAnimation(target, opts[0]));
             return externalHandle;
           },
           cancel: () => {
