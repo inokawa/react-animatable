@@ -134,12 +134,7 @@ export const useAnimationFunction = <Args = void>(
       waitFor: (event: WaitingAnimationEventName) =>
         _waitFor(getAnimation(), event).then(() => externalHandle),
     };
-    return [
-      externalHandle,
-      () => {
-        externalHandle.cancel();
-      },
-    ];
+    return [externalHandle, externalHandle.cancel];
   })[0];
 
   useIsomorphicLayoutEffect(() => {

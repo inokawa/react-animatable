@@ -139,8 +139,8 @@ export const useAnimation = <Args = void>(
             cache = undefined;
           }
         },
-        {
-          play: (...opts: PlayArgs<Args>) => {
+        <BaseAnimationHandle<Args>>{
+          play: (...opts) => {
             if (!target) return externalHandle;
             _play(initAnimation(target, opts[0] as { args?: Args }), opts[0]);
             return externalHandle;
@@ -161,25 +161,20 @@ export const useAnimation = <Args = void>(
             _pause(getAnimation());
             return externalHandle;
           },
-          setTime: (time: number) => {
+          setTime: (time) => {
             _setTime(getAnimation(), time);
             return externalHandle;
           },
-          setPlaybackRate: (rate: number | ((prevRate: number) => number)) => {
+          setPlaybackRate: (rate) => {
             _setRate(getAnimation(), rate);
             return externalHandle;
           },
-          waitFor: (event: WaitingAnimationEventName) =>
+          waitFor: (event) =>
             _waitFor(getAnimation(), event).then(() => externalHandle),
         }
       );
 
-      return [
-        externalHandle,
-        () => {
-          externalHandle.cancel();
-        },
-      ];
+      return [externalHandle, externalHandle.cancel];
     }
   )[0];
 
