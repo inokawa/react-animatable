@@ -88,8 +88,12 @@ export type PlayOptions = {
 };
 
 export const _play = (animation: Animation, opts: PlayOptions = {}) => {
+  // Reset reversed playback direction if completed
+  if (animation.playbackRate < 0 && animation.playState === "finished") {
+    _setRate(animation, (p) => -p);
+  }
   if (opts.restart) {
-    animation.currentTime = 0;
+    _setTime(animation, 0);
   }
   animation.play();
 };

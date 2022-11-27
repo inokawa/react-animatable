@@ -100,15 +100,7 @@ export const useAnimationFunction = <Args = void>(
 
     const externalHandle: AnimationFunctionHandle<Args> = {
       play: (...opts) => {
-        const prevAnimation = initAnimation(opts[0] as { args?: Args });
-        // Reset reversed playback direction if completed
-        if (
-          prevAnimation.playbackRate < 0 &&
-          prevAnimation.playState === "finished"
-        ) {
-          _setRate(prevAnimation, (p) => -p);
-        }
-        _play(prevAnimation, opts[0]);
+        _play(initAnimation(opts[0] as { args?: Args }), opts[0]);
         return externalHandle;
       },
       reverse: () => {
