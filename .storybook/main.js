@@ -11,6 +11,9 @@ module.exports = {
   core: {
     builder: "webpack5",
   },
+  refs: {
+    "@chakra-ui/react": { disable: true },
+  },
   webpackFinal: async (config) => {
     // for vanilla-extract
     config.plugins.push(new VanillaExtractPlugin(), new MiniCssExtractPlugin());
