@@ -29,6 +29,7 @@
     "@emotion/css": "11.10.5",
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
+    "@fluentui/react": "8.103.2",
     "@linaria/babel-preset": "4.3.0",
     "@linaria/core": "4.2.2",
     "@linaria/react": "4.3.0",

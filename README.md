@@ -13,7 +13,7 @@ A powerful composable animation library for [React](https://github.com/facebook/
 - Designed for modern web application development.
   - Composable and declarative APIs based on React hook.
   - Fully typed with [TypeScript](https://www.typescriptlang.org/), which is stricter than TypeScript's [lib.dom.d.ts](https://github.com/microsoft/TypeScript/blob/main/lib/lib.dom.d.ts).
-  - Easy integration with any UI component libraries, like [Material UI](https://github.com/mui/material-ui), [Chakra UI](https://github.com/chakra-ui/chakra-ui), [Mantine](https://github.com/mantinedev/mantine) and the others.
+  - Easy integration with any UI component libraries, like [Material UI](https://github.com/mui/material-ui), [Chakra UI](https://github.com/chakra-ui/chakra-ui), [Fluent UI](https://github.com/microsoft/fluentui), [Mantine](https://github.com/mantinedev/mantine) and the others.
   - Easy integration with any CSS-in-JS libraries, like [styled-components](https://github.com/styled-components/styled-components), [emotion](https://github.com/emotion-js/emotion), [stitches](https://github.com/stitchesjs/stitches), [vanilla-extract](https://github.com/vanilla-extract-css/vanilla-extract), [linaria](https://github.com/callstack/linaria), [compiled](https://github.com/atlassian-labs/compiled) and the others.
   - Support [Next.js](https://github.com/vercel/next.js) and server-side rendering (SSR).
 - [Tiny bundle size (currently about 2kB gzipped)](https://bundlephobia.com/package/react-animatable) and has zero dependencies. Of course treeshakeable
