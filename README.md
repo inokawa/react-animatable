@@ -8,15 +8,15 @@ A powerful composable animation library for [React](https://github.com/facebook/
 
 ## Features
 
-- Performant animation driven by native [Web Animations API (WAAPI)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API), but with minimal stress integrating it to React.
+- Performant animation driven by native [Web Animations API (WAAPI)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API).
+- Easy integration with a few lines of code.
+  - Supports any UI component libraries, [Material UI](https://github.com/mui/material-ui), [Chakra UI](https://github.com/chakra-ui/chakra-ui), [Fluent UI](https://github.com/microsoft/fluentui), [Mantine](https://github.com/mantinedev/mantine) and the others.
+  - Supports any CSS-in-JS libraries, [styled-components](https://github.com/styled-components/styled-components), [emotion](https://github.com/emotion-js/emotion), [stitches](https://github.com/stitchesjs/stitches), [vanilla-extract](https://github.com/vanilla-extract-css/vanilla-extract), [linaria](https://github.com/callstack/linaria), [compiled](https://github.com/atlassian-labs/compiled) and the others.
+  - Supports [Next.js](https://github.com/vercel/next.js) and server-side rendering (SSR).
 - HTML, SVG, Canvas and anything can be animated.
-- Designed for modern web application development.
-  - Composable and declarative APIs based on React hook.
-  - Fully typed with [TypeScript](https://www.typescriptlang.org/), which is stricter than TypeScript's [lib.dom.d.ts](https://github.com/microsoft/TypeScript/blob/main/lib/lib.dom.d.ts).
-  - Easy integration with any UI component libraries, [Material UI](https://github.com/mui/material-ui), [Chakra UI](https://github.com/chakra-ui/chakra-ui), [Fluent UI](https://github.com/microsoft/fluentui), [Mantine](https://github.com/mantinedev/mantine) and the others.
-  - Easy integration with any CSS-in-JS libraries, [styled-components](https://github.com/styled-components/styled-components), [emotion](https://github.com/emotion-js/emotion), [stitches](https://github.com/stitchesjs/stitches), [vanilla-extract](https://github.com/vanilla-extract-css/vanilla-extract), [linaria](https://github.com/callstack/linaria), [compiled](https://github.com/atlassian-labs/compiled) and the others.
-  - Support [Next.js](https://github.com/vercel/next.js) and server-side rendering (SSR).
 - [Tiny bundle size (currently about 2kB gzipped)](https://bundlephobia.com/package/react-animatable) and has zero dependencies. Of course treeshakeable
+- Fully typed with [TypeScript](https://www.typescriptlang.org/), which is stricter than TypeScript's [lib.dom.d.ts](https://github.com/microsoft/TypeScript/blob/main/lib/lib.dom.d.ts).
+- Composable and declarative APIs based on React hook.
 
 ## Demo
 
@@ -53,40 +53,24 @@ import { useAnimation } from "react-animatable";
 export const App = () => {
   // 1. Define your animation in WAAPI way
   const animate = useAnimation(
-    [
-      { fill: "red", fontSize: "24px" },
-      { fill: "green", fontSize: "36px" },
-    ],
+    [{ transform: "rotate(0deg)" }, { transform: "rotate(720deg)" }],
     {
-      duration: 800,
+      duration: 1000,
       easing: "ease-in-out",
-      iterations: Infinity,
-      direction: "alternate",
     }
   );
 
-  useEffect(() => {
-    // 3. And play it!
-    animate.play();
-  }, []);
-
   return (
-    <svg
-      width={600}
-      height={400}
-      viewBox="0 0 600 400"
-      // The return value of useAnimation and its methods are memoized
-      onClick={animate.pause}
+    <button
+      // 2. You have to pass animate to element you want to control
+      ref={animate}
+      onClick={() => {
+        // 3. And play it!
+        animate.play();
+      }}
     >
-      <g transform="translate(50, 50)">
-        <text
-          // 2. You have to pass animate to element you want to control
-          ref={animate}
-        >
-          Hello world
-        </text>
-      </g>
-    </svg>
+      Click Me!
+    </button>
   );
 };
 ```
