@@ -10,7 +10,7 @@ A powerful composable animation library for [React](https://github.com/facebook/
 
 - Performant animation driven by native [Web Animations API (WAAPI)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API).
 - Easy integration with a few lines of code.
-  - Supports any UI component libraries, [Material UI](https://github.com/mui/material-ui), [Chakra UI](https://github.com/chakra-ui/chakra-ui), [Fluent UI](https://github.com/microsoft/fluentui), [Mantine](https://github.com/mantinedev/mantine) and the others.
+  - Supports any UI component libraries, [Material UI](https://github.com/mui/material-ui), [Chakra UI](https://github.com/chakra-ui/chakra-ui), [Ant Design](https://github.com/ant-design/ant-design), [Fluent UI](https://github.com/microsoft/fluentui), [Mantine](https://github.com/mantinedev/mantine) and the others.
   - Supports any CSS-in-JS libraries, [styled-components](https://github.com/styled-components/styled-components), [emotion](https://github.com/emotion-js/emotion), [stitches](https://github.com/stitchesjs/stitches), [vanilla-extract](https://github.com/vanilla-extract-css/vanilla-extract), [linaria](https://github.com/callstack/linaria), [compiled](https://github.com/atlassian-labs/compiled) and the others.
   - Supports [Next.js](https://github.com/vercel/next.js) and server-side rendering (SSR).
 - HTML, SVG, Canvas and anything can be animated.
