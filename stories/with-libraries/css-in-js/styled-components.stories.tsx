@@ -1,9 +1,16 @@
 import { StoryObj } from "@storybook/react";
 import React, { useEffect } from "react";
-import { useAnimation } from "../../src";
-import { css } from "@emotion/css";
+import { useAnimation } from "../../../src";
+import styled from "styled-components";
 
 export default { component: useAnimation };
+
+const Comp = styled.div`
+  border: solid 0.1rem #135569;
+  height: 6rem;
+  width: 6rem;
+  margin: 2rem 0 2rem 2rem;
+`;
 
 export const Default: StoryObj = {
   render: () => {
@@ -25,14 +32,8 @@ export const Default: StoryObj = {
     }, []);
 
     return (
-      <div
+      <Comp
         ref={animate}
-        className={css({
-          border: "solid 0.1rem #135569",
-          height: "6rem",
-          width: "6rem",
-          margin: "2rem 0 2rem 2rem",
-        })}
         onMouseEnter={() => {
           animate.pause();
         }}

@@ -1,7 +1,7 @@
 import { StoryObj } from "@storybook/react";
 import React, { useEffect } from "react";
-import { useAnimation } from "../../src";
-import { styled } from '@linaria/react';
+import { useAnimation } from "../../../src";
+import { styled } from "@compiled/react";
 
 export default { component: useAnimation };
 
