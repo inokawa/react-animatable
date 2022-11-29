@@ -1,20 +1,32 @@
 const { VanillaExtractPlugin } = require("@vanilla-extract/webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
 module.exports = {
   stories: [
     "../stories/**/*.stories.mdx",
     "../stories/**/*.stories.@(js|jsx|ts|tsx)",
   ],
-  addons: ["@storybook/addon-essentials"],
-  framework: "@storybook/react",
-  core: {
-    builder: "webpack5",
+  addons: ["@storybook/addon-docs"],
+  framework: {
+    name: "@storybook/react-webpack5",
+    options: {},
   },
   refs: {
-    "@chakra-ui/react": { disable: true },
+    "@chakra-ui/react": {
+      disable: true,
+    },
   },
   webpackFinal: async (config) => {
+    config.module.rules.push({
+      test: /\.tsx?$/,
+      use: [
+        {
+          loader: "ts-loader",
+          options: {
+            transpileOnly: true,
+          },
+        },
+      ],
+    });
     // for vanilla-extract
     config.plugins.push(new VanillaExtractPlugin(), new MiniCssExtractPlugin());
     config.module.rules.push({
