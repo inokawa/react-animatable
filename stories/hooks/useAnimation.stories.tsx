@@ -887,67 +887,67 @@ export const Countdown: StoryObj = {
   },
 };
 
-const Block = ({ i, length: n }: { i: number; length: number }) => {
-  const timing: AnimationOptions = {
-    duration: 250,
-  };
-  const one = useAnimation(
-    [{ backgroundColor: "#eee" }, { backgroundColor: "steelblue" }],
-    { ...timing, endDelay: 1000 }
-  );
-  const two = useAnimation(
-    [{ backgroundColor: "steelblue" }, { backgroundColor: "orange" }],
-    { ...timing, endDelay: 1000 }
-  );
-  const three = useAnimation(
-    [{ backgroundColor: "orange" }, { backgroundColor: "#eee" }],
-    { ...timing, endDelay: n }
-  );
+// const Block = ({ i, length: n }: { i: number; length: number }) => {
+//   const timing: AnimationOptions = {
+//     duration: 250,
+//   };
+//   const one = useAnimation(
+//     [{ backgroundColor: "#eee" }, { backgroundColor: "steelblue" }],
+//     { ...timing, endDelay: 1000 }
+//   );
+//   const two = useAnimation(
+//     [{ backgroundColor: "steelblue" }, { backgroundColor: "orange" }],
+//     { ...timing, endDelay: 1000 }
+//   );
+//   const three = useAnimation(
+//     [{ backgroundColor: "orange" }, { backgroundColor: "#eee" }],
+//     { ...timing, endDelay: n }
+//   );
 
-  useEffect(() => {
-    one.cancel();
-    two.cancel();
-    three.cancel();
-    const run = async () => {
-      try {
-        await one.play().waitFor("finish");
-        one.cancel();
-        await two.play().waitFor("finish");
-        two.cancel();
-        await three.play().waitFor("finish");
-        three.cancel();
-        run();
-      } catch (e) {
-        // ignore uncaught promise error
-      }
-    };
-    setTimeout(run, i + (Math.random() * n) / 4);
-  }, []);
+//   useEffect(() => {
+//     one.cancel();
+//     two.cancel();
+//     three.cancel();
+//     const run = async () => {
+//       try {
+//         await one.play().waitFor("finish");
+//         one.cancel();
+//         await two.play().waitFor("finish");
+//         two.cancel();
+//         await three.play().waitFor("finish");
+//         three.cancel();
+//         run();
+//       } catch (e) {
+//         // ignore uncaught promise error
+//       }
+//     };
+//     setTimeout(run, i + (Math.random() * n) / 4);
+//   }, []);
 
-  return (
-    <div
-      ref={mergeRefs([one, two, three])}
-      style={{
-        width: 10,
-        height: 10,
-        margin: " 1px 0 0 1px",
-        float: "left",
-        background: "#eee",
-        display: "inline-block",
-      }}
-    />
-  );
-};
+//   return (
+//     <div
+//       ref={mergeRefs([one, two, three])}
+//       style={{
+//         width: 10,
+//         height: 10,
+//         margin: " 1px 0 0 1px",
+//         float: "left",
+//         background: "#eee",
+//         display: "inline-block",
+//       }}
+//     />
+//   );
+// };
 
-export const Chained: StoryObj = {
-  render: () => {
-    const length = 4002;
-    return (
-      <div style={{ maxWidth: 960 }}>
-        {Array.from({ length: length }).map((_, i) => (
-          <Block key={i} i={i} length={length} />
-        ))}
-      </div>
-    );
-  },
-};
+// export const Chained: StoryObj = {
+//   render: () => {
+//     const length = 4002;
+//     return (
+//       <div style={{ maxWidth: 960 }}>
+//         {Array.from({ length: length }).map((_, i) => (
+//           <Block key={i} i={i} length={length} />
+//         ))}
+//       </div>
+//     );
+//   },
+// };
