@@ -34,7 +34,7 @@
     "@linaria/react": "4.3.0",
     "@linaria/webpack-loader": "4.1.8",
     "@mantine/core": "5.8.4",
-    "@mui/material": "5.10.15",
+    "@mui/material": "5.10.16",
     "@rollup/plugin-babel": "6.0.2",
     "@rollup/plugin-typescript": "8.3.4",
     "@stitches/react": "1.2.8",
