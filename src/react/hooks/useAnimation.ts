@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import type { Expand } from "../../core/types";
 import { assign, isSameObject, isSameObjectArray } from "../../core/utils";
 import {
@@ -95,8 +95,11 @@ export const useAnimation = <Args = void>(
   const keyframeRef = useRef(keyframe);
   const optionsRef = useRef(options);
 
-  const [animation, cleanup] = useState<[AnimationHandle<Args>, () => void]>(
-    () => {
+  type Handle = [AnimationHandle<Args>, () => void];
+  const handleRef = useRef<Handle | undefined>();
+  const [handle, cleanup] =
+    handleRef.current ||
+    (handleRef.current = ((): Handle => {
       let target: Element | null = null;
       let cache:
         | [
@@ -175,8 +178,7 @@ export const useAnimation = <Args = void>(
       );
 
       return [externalHandle, externalHandle.cancel];
-    }
-  )[0];
+    })());
 
   useIsomorphicLayoutEffect(() => {
     keyframeRef.current = keyframe;
@@ -185,5 +187,5 @@ export const useAnimation = <Args = void>(
 
   useEffect(() => cleanup, []);
 
-  return animation;
+  return handle;
 };

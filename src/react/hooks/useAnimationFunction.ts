@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { isSameObject } from "../../core/utils";
 import {
   AnimationOptions,
@@ -26,11 +26,9 @@ export interface AnimationFunctionHandle<Args = void>
 /**
  * Non nullable [ComputedEffectTiming](https://developer.mozilla.org/en-US/docs/Web/API/AnimationEffect/getComputedTiming)
  */
-export type ComputedTimingContext = Required<
-  {
-    [key in keyof ComputedEffectTiming]: NonNullable<ComputedEffectTiming[key]>;
-  }
->;
+export type ComputedTimingContext = Required<{
+  [key in keyof ComputedEffectTiming]: NonNullable<ComputedEffectTiming[key]>;
+}>;
 
 /**
  * An argument of {@link useAnimationFunction}.
@@ -72,66 +70,68 @@ export const useAnimationFunction = <Args = void>(
   const onUpdateRef = useRef(onUpdate);
   const optionsRef = useRef(options);
 
-  const [animation, cleanup] = useState<
-    [AnimationFunctionHandle<Args>, () => void]
-  >(() => {
-    const getOnUpdate = () => onUpdateRef.current;
+  type Handle = [AnimationFunctionHandle<Args>, () => void];
+  const handleRef = useRef<Handle | undefined>();
+  const [handle, cleanup] =
+    handleRef.current ||
+    (handleRef.current = ((): Handle => {
+      const getOnUpdate = () => onUpdateRef.current;
 
-    let cache: [Animation, AnimationOptions | undefined] | undefined;
-    const initAnimation = (opts: { args?: Args } = {}): Animation => {
-      const options = optionsRef.current;
-      if (cache) {
-        const [prevAnimation, prevOptions] = cache;
-        // Reuse animation if possible
-        if (isSameObject(options, prevOptions)) {
-          if (prevAnimation.playState !== "running") {
-            bindUpdateFunction(prevAnimation, getOnUpdate, opts.args!);
+      let cache: [Animation, AnimationOptions | undefined] | undefined;
+      const initAnimation = (opts: { args?: Args } = {}): Animation => {
+        const options = optionsRef.current;
+        if (cache) {
+          const [prevAnimation, prevOptions] = cache;
+          // Reuse animation if possible
+          if (isSameObject(options, prevOptions)) {
+            if (prevAnimation.playState !== "running") {
+              bindUpdateFunction(prevAnimation, getOnUpdate, opts.args!);
+            }
+            return prevAnimation;
           }
-          return prevAnimation;
+          prevAnimation.cancel();
         }
-        prevAnimation.cancel();
-      }
-      const animation = createAnimation(null, null, options);
-      bindUpdateFunction(animation, getOnUpdate, opts.args!);
-      cache = [animation, options];
-      return animation;
-    };
-    const getAnimation = () => cache?.[0];
+        const animation = createAnimation(null, null, options);
+        bindUpdateFunction(animation, getOnUpdate, opts.args!);
+        cache = [animation, options];
+        return animation;
+      };
+      const getAnimation = () => cache?.[0];
 
-    const externalHandle: AnimationFunctionHandle<Args> = {
-      play: (...opts) => {
-        _play(initAnimation(opts[0] as { args?: Args }), opts[0]);
-        return externalHandle;
-      },
-      reverse: () => {
-        _reverse(initAnimation());
-        return externalHandle;
-      },
-      cancel: () => {
-        _cancel(getAnimation());
-        return externalHandle;
-      },
-      finish: () => {
-        _finish(getAnimation());
-        return externalHandle;
-      },
-      pause: () => {
-        _pause(getAnimation());
-        return externalHandle;
-      },
-      setTime: (time) => {
-        _setTime(getAnimation(), time);
-        return externalHandle;
-      },
-      setPlaybackRate: (rate) => {
-        _setRate(getAnimation(), rate);
-        return externalHandle;
-      },
-      waitFor: (event: WaitingAnimationEventName) =>
-        _waitFor(getAnimation(), event).then(() => externalHandle),
-    };
-    return [externalHandle, externalHandle.cancel];
-  })[0];
+      const externalHandle: AnimationFunctionHandle<Args> = {
+        play: (...opts) => {
+          _play(initAnimation(opts[0] as { args?: Args }), opts[0]);
+          return externalHandle;
+        },
+        reverse: () => {
+          _reverse(initAnimation());
+          return externalHandle;
+        },
+        cancel: () => {
+          _cancel(getAnimation());
+          return externalHandle;
+        },
+        finish: () => {
+          _finish(getAnimation());
+          return externalHandle;
+        },
+        pause: () => {
+          _pause(getAnimation());
+          return externalHandle;
+        },
+        setTime: (time) => {
+          _setTime(getAnimation(), time);
+          return externalHandle;
+        },
+        setPlaybackRate: (rate) => {
+          _setRate(getAnimation(), rate);
+          return externalHandle;
+        },
+        waitFor: (event: WaitingAnimationEventName) =>
+          _waitFor(getAnimation(), event).then(() => externalHandle),
+      };
+      return [externalHandle, externalHandle.cancel];
+    })());
 
   useIsomorphicLayoutEffect(() => {
     onUpdateRef.current = onUpdate;
@@ -140,5 +140,5 @@ export const useAnimationFunction = <Args = void>(
 
   useEffect(() => cleanup, []);
 
-  return animation;
+  return handle;
 };
