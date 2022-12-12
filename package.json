@@ -64,7 +64,7 @@
     "storybook": "^7.0.0-alpha.57",
     "styled-components": "^5.3.6",
     "ts-jest": "29.0.3",
-    "typedoc": "^0.23.21",
+    "typedoc": "^0.23.22",
     "typedoc-plugin-markdown": "^3.13.6",
     "typescript": "4.7.4",
     "wait-on": "6.0.1",

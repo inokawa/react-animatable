@@ -2,6 +2,22 @@
 
 ## Table of contents
 
+### Functions
+
+- [TransitionGroup](API.md#transitiongroup)
+- [useAnimation](API.md#useanimation)
+- [useAnimationFunction](API.md#useanimationfunction)
+- [useTransitionAnimation](API.md#usetransitionanimation)
+
+### Interfaces
+
+- [AnimationOptions](interfaces/AnimationOptions.md)
+- [TransitionGroupProps](interfaces/TransitionGroupProps.md)
+- [BaseAnimationHandle](interfaces/BaseAnimationHandle.md)
+- [AnimationHandle](interfaces/AnimationHandle.md)
+- [AnimationFunctionHandle](interfaces/AnimationFunctionHandle.md)
+- [TransitionAnimationHandle](interfaces/TransitionAnimationHandle.md)
+
 ### Type Aliases
 
 - [TypedKeyframe](API.md#typedkeyframe)
@@ -14,159 +30,6 @@
 - [ComputedTimingContext](API.md#computedtimingcontext)
 - [AnimationFunction](API.md#animationfunction)
 - [TransitionAnimationDefinition](API.md#transitionanimationdefinition)
-
-### Interfaces
-
-- [AnimationOptions](interfaces/AnimationOptions.md)
-- [TransitionGroupProps](interfaces/TransitionGroupProps.md)
-- [BaseAnimationHandle](interfaces/BaseAnimationHandle.md)
-- [AnimationHandle](interfaces/AnimationHandle.md)
-- [AnimationFunctionHandle](interfaces/AnimationFunctionHandle.md)
-- [TransitionAnimationHandle](interfaces/TransitionAnimationHandle.md)
-
-### Functions
-
-- [TransitionGroup](API.md#transitiongroup)
-- [useAnimation](API.md#useanimation)
-- [useAnimationFunction](API.md#useanimationfunction)
-- [useTransitionAnimation](API.md#usetransitionanimation)
-
-## Type Aliases
-
-### TypedKeyframe
-
-Ƭ **TypedKeyframe**: `Pick`<`Keyframe`, ``"composite"`` \| ``"easing"`` \| ``"offset"``\> & [`AnimatableCSSProperties`](API.md#animatablecssproperties)
-
-Strictly typed [Keyframe](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API/Keyframe_Formats)
-
-#### Defined in
-
-[src/core/waapi.ts:17](https://github.com/inokawa/react-animatable/blob/920256c/src/core/waapi.ts#L17)
-
-___
-
-### TypedEasing
-
-Ƭ **TypedEasing**: `NonNullable`<`Exclude`<`CSSProperties`[``"animationTimingFunction"``], `CSSProperties`[``"all"``]\>\>
-
-#### Defined in
-
-[src/core/waapi.ts:20](https://github.com/inokawa/react-animatable/blob/920256c/src/core/waapi.ts#L20)
-
-___
-
-### GetKeyframeFunction
-
-Ƭ **GetKeyframeFunction**<`Args`\>: `Args` extends `void` ? (`prev`: `CSSStyleDeclaration`) => [`TypedKeyframe`](API.md#typedkeyframe)[] : (`prev`: `CSSStyleDeclaration`, `args`: `Args`) => [`TypedKeyframe`](API.md#typedkeyframe)[]
-
-A function to define keyframe dynamically
-- `prev`: current style
-- `args`: any argument passed from play
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `Args` | `void` |
-
-#### Defined in
-
-[src/core/waapi.ts:29](https://github.com/inokawa/react-animatable/blob/920256c/src/core/waapi.ts#L29)
-
-___
-
-### AnimatableCSSProperties
-
-Ƭ **AnimatableCSSProperties**: `Omit`<`CSSProperties`, ``"offset"`` \| ``"float"``\> & { `cssOffset?`: `CSSProperties`[``"offset"``] ; `cssFloat?`: `CSSProperties`[``"float"``] ; `d?`: `string`  }
-
-#### Defined in
-
-[src/core/waapi.ts:4](https://github.com/inokawa/react-animatable/blob/920256c/src/core/waapi.ts#L4)
-
-___
-
-### PlayOptions
-
-Ƭ **PlayOptions**: `Object`
-
-#### Type declaration
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `restart?` | `boolean` | If true, plays from the start. It's similar to GSAP's `restart()`. |
-
-#### Defined in
-
-[src/core/waapi.ts:83](https://github.com/inokawa/react-animatable/blob/920256c/src/core/waapi.ts#L83)
-
-___
-
-### WaitingAnimationEventName
-
-Ƭ **WaitingAnimationEventName**: ``"finish"`` \| ``"reverseFinish"``
-
-#### Defined in
-
-[src/core/waapi.ts:154](https://github.com/inokawa/react-animatable/blob/920256c/src/core/waapi.ts#L154)
-
-___
-
-### PlayArgs
-
-Ƭ **PlayArgs**<`Args`\>: `Args` extends `void` ? [PlayOptions?] : [`Expand`<[`PlayOptions`](API.md#playoptions) & `Args` extends `void` ? {} : { `args`: `Args`  }\>]
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `Args` | `void` |
-
-#### Defined in
-
-[src/react/hooks/useAnimation.ts:23](https://github.com/inokawa/react-animatable/blob/920256c/src/react/hooks/useAnimation.ts#L23)
-
-___
-
-### ComputedTimingContext
-
-Ƭ **ComputedTimingContext**: `Required`<{ [key in keyof ComputedEffectTiming]: NonNullable<ComputedEffectTiming[key]\> }\>
-
-Non nullable [ComputedEffectTiming](https://developer.mozilla.org/en-US/docs/Web/API/AnimationEffect/getComputedTiming)
-
-#### Defined in
-
-[src/react/hooks/useAnimationFunction.ts:29](https://github.com/inokawa/react-animatable/blob/920256c/src/react/hooks/useAnimationFunction.ts#L29)
-
-___
-
-### AnimationFunction
-
-Ƭ **AnimationFunction**<`Args`\>: `Args` extends `void` ? (`ctx`: [`ComputedTimingContext`](API.md#computedtimingcontext)) => `void` : (`ctx`: [`ComputedTimingContext`](API.md#computedtimingcontext), `args`: `Args`) => `void`
-
-An argument of [useAnimationFunction](API.md#useanimationfunction).
-In this callback you can update any state or ref in JS.
-- `ctx`: current animation state
-- `args`: any argument passed from play
-
-#### Type parameters
-
-| Name | Type |
-| :------ | :------ |
-| `Args` | `void` |
-
-#### Defined in
-
-[src/react/hooks/useAnimationFunction.ts:41](https://github.com/inokawa/react-animatable/blob/920256c/src/react/hooks/useAnimationFunction.ts#L41)
-
-___
-
-### TransitionAnimationDefinition
-
-Ƭ **TransitionAnimationDefinition**: [keyframe: TypedKeyframe \| TypedKeyframe[] \| GetKeyframeFunction, options?: AnimationOptions]
-
-#### Defined in
-
-[src/react/hooks/useTransitionAnimation.ts:23](https://github.com/inokawa/react-animatable/blob/920256c/src/react/hooks/useTransitionAnimation.ts#L23)
 
 ## Functions
 
@@ -188,7 +51,7 @@ A component to manage enter/update/exit of its children by key, that works simil
 
 #### Defined in
 
-[src/react/components/TransitionGroup.tsx:74](https://github.com/inokawa/react-animatable/blob/920256c/src/react/components/TransitionGroup.tsx#L74)
+[src/react/components/TransitionGroup.tsx:74](https://github.com/inokawa/react-animatable/blob/f3ebf49/src/react/components/TransitionGroup.tsx#L74)
 
 ___
 
@@ -217,7 +80,7 @@ A basic hook to use Web Animations API. See [AnimationHandle](interfaces/Animati
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:91](https://github.com/inokawa/react-animatable/blob/920256c/src/react/hooks/useAnimation.ts#L91)
+[src/react/hooks/useAnimation.ts:91](https://github.com/inokawa/react-animatable/blob/f3ebf49/src/react/hooks/useAnimation.ts#L91)
 
 ___
 
@@ -246,7 +109,7 @@ Same as [useAnimation](API.md#useanimation), but it drives function not React el
 
 #### Defined in
 
-[src/react/hooks/useAnimationFunction.ts:68](https://github.com/inokawa/react-animatable/blob/920256c/src/react/hooks/useAnimationFunction.ts#L68)
+[src/react/hooks/useAnimationFunction.ts:66](https://github.com/inokawa/react-animatable/blob/f3ebf49/src/react/hooks/useAnimationFunction.ts#L66)
 
 ___
 
@@ -272,4 +135,141 @@ This hook must be used under [TransitionGroup](API.md#transitiongroup) component
 
 #### Defined in
 
-[src/react/hooks/useTransitionAnimation.ts:33](https://github.com/inokawa/react-animatable/blob/920256c/src/react/hooks/useTransitionAnimation.ts#L33)
+[src/react/hooks/useTransitionAnimation.ts:33](https://github.com/inokawa/react-animatable/blob/f3ebf49/src/react/hooks/useTransitionAnimation.ts#L33)
+
+## Type Aliases
+
+### TypedKeyframe
+
+Ƭ **TypedKeyframe**: `Pick`<`Keyframe`, ``"composite"`` \| ``"easing"`` \| ``"offset"``\> & [`AnimatableCSSProperties`](API.md#animatablecssproperties)
+
+Strictly typed [Keyframe](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API/Keyframe_Formats)
+
+#### Defined in
+
+[src/core/waapi.ts:17](https://github.com/inokawa/react-animatable/blob/f3ebf49/src/core/waapi.ts#L17)
+
+___
+
+### TypedEasing
+
+Ƭ **TypedEasing**: `NonNullable`<`Exclude`<`CSSProperties`[``"animationTimingFunction"``], `CSSProperties`[``"all"``]\>\>
+
+#### Defined in
+
+[src/core/waapi.ts:20](https://github.com/inokawa/react-animatable/blob/f3ebf49/src/core/waapi.ts#L20)
+
+___
+
+### GetKeyframeFunction
+
+Ƭ **GetKeyframeFunction**<`Args`\>: `Args` extends `void` ? (`prev`: `CSSStyleDeclaration`) => [`TypedKeyframe`](API.md#typedkeyframe)[] : (`prev`: `CSSStyleDeclaration`, `args`: `Args`) => [`TypedKeyframe`](API.md#typedkeyframe)[]
+
+A function to define keyframe dynamically
+- `prev`: current style
+- `args`: any argument passed from play
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Args` | `void` |
+
+#### Defined in
+
+[src/core/waapi.ts:29](https://github.com/inokawa/react-animatable/blob/f3ebf49/src/core/waapi.ts#L29)
+
+___
+
+### AnimatableCSSProperties
+
+Ƭ **AnimatableCSSProperties**: `Omit`<`CSSProperties`, ``"offset"`` \| ``"float"``\> & { `cssOffset?`: `CSSProperties`[``"offset"``] ; `cssFloat?`: `CSSProperties`[``"float"``] ; `d?`: `string`  }
+
+#### Defined in
+
+[src/core/waapi.ts:4](https://github.com/inokawa/react-animatable/blob/f3ebf49/src/core/waapi.ts#L4)
+
+___
+
+### PlayOptions
+
+Ƭ **PlayOptions**: `Object`
+
+#### Type declaration
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `restart?` | `boolean` | If true, plays from the start. It's similar to GSAP's `restart()`. |
+
+#### Defined in
+
+[src/core/waapi.ts:83](https://github.com/inokawa/react-animatable/blob/f3ebf49/src/core/waapi.ts#L83)
+
+___
+
+### WaitingAnimationEventName
+
+Ƭ **WaitingAnimationEventName**: ``"finish"`` \| ``"reverseFinish"``
+
+#### Defined in
+
+[src/core/waapi.ts:154](https://github.com/inokawa/react-animatable/blob/f3ebf49/src/core/waapi.ts#L154)
+
+___
+
+### PlayArgs
+
+Ƭ **PlayArgs**<`Args`\>: `Args` extends `void` ? [PlayOptions?] : [`Expand`<[`PlayOptions`](API.md#playoptions) & `Args` extends `void` ? {} : { `args`: `Args`  }\>]
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Args` | `void` |
+
+#### Defined in
+
+[src/react/hooks/useAnimation.ts:23](https://github.com/inokawa/react-animatable/blob/f3ebf49/src/react/hooks/useAnimation.ts#L23)
+
+___
+
+### ComputedTimingContext
+
+Ƭ **ComputedTimingContext**: `Required`<{ [key in keyof ComputedEffectTiming]: NonNullable<ComputedEffectTiming[key]\> }\>
+
+Non nullable [ComputedEffectTiming](https://developer.mozilla.org/en-US/docs/Web/API/AnimationEffect/getComputedTiming)
+
+#### Defined in
+
+[src/react/hooks/useAnimationFunction.ts:29](https://github.com/inokawa/react-animatable/blob/f3ebf49/src/react/hooks/useAnimationFunction.ts#L29)
+
+___
+
+### AnimationFunction
+
+Ƭ **AnimationFunction**<`Args`\>: `Args` extends `void` ? (`ctx`: [`ComputedTimingContext`](API.md#computedtimingcontext)) => `void` : (`ctx`: [`ComputedTimingContext`](API.md#computedtimingcontext), `args`: `Args`) => `void`
+
+An argument of [useAnimationFunction](API.md#useanimationfunction).
+In this callback you can update any state or ref in JS.
+- `ctx`: current animation state
+- `args`: any argument passed from play
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `Args` | `void` |
+
+#### Defined in
+
+[src/react/hooks/useAnimationFunction.ts:39](https://github.com/inokawa/react-animatable/blob/f3ebf49/src/react/hooks/useAnimationFunction.ts#L39)
+
+___
+
+### TransitionAnimationDefinition
+
+Ƭ **TransitionAnimationDefinition**: [keyframe: TypedKeyframe \| TypedKeyframe[] \| GetKeyframeFunction, options?: AnimationOptions]
+
+#### Defined in
+
+[src/react/hooks/useTransitionAnimation.ts:23](https://github.com/inokawa/react-animatable/blob/f3ebf49/src/react/hooks/useTransitionAnimation.ts#L23)
