@@ -5,10 +5,9 @@
 
     <title>@storybook/cli - Storybook</title>
 
-    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link href="./sb-preview/runtime.mjs" rel="preload" as="script">
 
       
 
@@ -28,13 +27,11 @@
       
         
           window['FEATURES'] = {
-  "postcss": true,
   "warnOnLegacyHierarchySeparator": true,
   "buildStoriesJson": false,
   "storyStoreV7": true,
   "breakingChangesV7": true,
   "interactionsDebugger": false,
-  "babelModeV7": true,
   "argTypeTargetsV7": true
 };
         
@@ -73,7 +70,9 @@
     <script type="module">
       import './sb-manager/runtime.mjs';
 
-      
+           
     </script>    
+
+    <link href="./sb-preview/runtime.mjs" rel="preload" as="script">
   </body>
 </html>
