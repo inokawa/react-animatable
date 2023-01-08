@@ -14,8 +14,10 @@ export type AnimatableCSSProperties = Omit<
 /**
  * Strictly typed [Keyframe](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API/Keyframe_Formats)
  */
-export type TypedKeyframe = Pick<Keyframe, "composite" | "easing" | "offset"> &
-  AnimatableCSSProperties;
+export type TypedKeyframe = Pick<
+  Keyframe,
+  "composite" | "easing" | "offset"
+> & { [key: `--${string}`]: string | number } & AnimatableCSSProperties;
 
 export type TypedEasing = NonNullable<
   Exclude<CSSProperties["animationTimingFunction"], CSSProperties["all"]>
