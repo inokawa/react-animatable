@@ -1,6 +1,6 @@
 {
   "name": "react-animatable",
-  "version": "0.13.4",
+  "version": "0.13.5",
   "description": "A powerful composable animation library for React, built on Web Animations API and React hook.",
   "main": "lib/index.js",
   "module": "lib/index.mjs",

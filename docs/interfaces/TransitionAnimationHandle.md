@@ -18,4 +18,4 @@
 
 #### Defined in
 
-[src/react/hooks/useTransitionAnimation.ts:20](https://github.com/inokawa/react-animatable/blob/f3ebf49/src/react/hooks/useTransitionAnimation.ts#L20)
+[src/react/hooks/useTransitionAnimation.ts:20](https://github.com/inokawa/react-animatable/blob/3724fbf/src/react/hooks/useTransitionAnimation.ts#L20)
