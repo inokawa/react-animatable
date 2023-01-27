@@ -1,11 +1,16 @@
 import { useEffect, useRef } from "react";
 import type { Expand } from "../../core/types";
-import { assign, isSameObject, isSameObjectArray } from "../../core/utils";
+import {
+  assign,
+  getStyle,
+  isSameObject,
+  isSameObjectArray,
+  toArray,
+} from "../../core/utils";
 import {
   AnimationOptions,
   createAnimation,
   GetKeyframeFunction,
-  normalizeKeyframe,
   PlayOptions,
   TypedKeyframe,
   _cancel,
@@ -84,6 +89,17 @@ export interface AnimationHandle<Args = void>
   (ref: Element | null): void;
 }
 
+const normalizeKeyframe = <Args>(
+  el: Element,
+  keyframe: TypedKeyframe | TypedKeyframe[] | GetKeyframeFunction<Args>,
+  args: Args
+): TypedKeyframe[] => {
+  if (typeof keyframe === "function") {
+    return keyframe(getStyle(el), args);
+  }
+  return toArray(keyframe);
+};
+
 /**
  * A basic hook to use Web Animations API. See {@link AnimationHandle}.
  * @typeParam Args - argument type
@@ -111,13 +127,8 @@ export const useAnimation = <Args = void>(
 
       const initAnimation = (
         el: Element,
-        opts: { args?: Args } = {}
+        keyframes: TypedKeyframe[]
       ): Animation => {
-        const keyframes = normalizeKeyframe(
-          el,
-          keyframeRef.current,
-          opts.args!
-        );
         const options = optionsRef.current;
         if (cache) {
           const [prevAnimation, prevKeyframes, prevOptions] = cache;
@@ -145,7 +156,12 @@ export const useAnimation = <Args = void>(
         <BaseAnimationHandle<Args>>{
           play: (...opts) => {
             if (!target) return externalHandle;
-            _play(initAnimation(target, opts[0] as { args?: Args }), opts[0]);
+            const keyframes = normalizeKeyframe(
+              target,
+              keyframeRef.current,
+              ((opts[0] || {}) as { args?: Args }).args!
+            );
+            _play(initAnimation(target, keyframes), opts[0]);
             return externalHandle;
           },
           reverse: () => {
