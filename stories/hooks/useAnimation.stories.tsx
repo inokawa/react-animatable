@@ -31,7 +31,7 @@ export default { component: useAnimation };
 
 export const Playground: StoryObj = {
   render: () => {
-    const [duration, setDuration] = useState(2000);
+    const [duration, setDuration] = useState(1000);
     const [iteration, setIteration] = useState(2);
     const [direction, setDirection] = useState<PlaybackDirection>("alternate");
     const [easing, setEasing] = useState<TypedEasing>("cubic-bezier");
@@ -47,16 +47,11 @@ export const Playground: StoryObj = {
 
     const animate = useAnimation(
       [
-        { transform: "rotate(-720deg) translateX(0px)" },
-        { transform: "rotate(-360deg) translateX(-250px)", offset: 0.25 },
+        { transform: "translateX(0px)" },
         {
-          transform: "rotate(0deg) translateX(0px)",
+          transform: "translateX(100px) scale(2.0)",
           fill: "red",
-          fontSize: "48px",
-          fontWeight: "bold",
-          offset: 0.75,
         },
-        { transform: "rotate(360deg) translateX(0px)", fill: "lightskyblue" },
       ],
       {
         duration: duration,
@@ -487,7 +482,6 @@ export const Scroll: StoryObj = {
           height: "100vh",
         }}
         onScroll={useCallback((e: React.UIEvent) => {
-          if (!scrollRef.current) return;
           animate.setTime(
             e.currentTarget.scrollTop / (height / (duration * 4))
           );
