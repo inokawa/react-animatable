@@ -4,7 +4,9 @@
 
 A powerful composable animation library for [React](https://github.com/facebook/react), built on [Web Animations API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API) and React hook.
 
-<img src="./demo.gif" width="600px" />
+<img src="./images/demo-chart.gif" width="350px" /><img src="./images/demo-mouse.gif" width="350px" />
+
+<img src="./images/demo-scroll.gif" width="350px" /><img src="./images/demo-alphabet.gif" width="350px" />
 
 ## Features
 
