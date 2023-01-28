@@ -181,7 +181,20 @@ export const useAnimation = <Args = void>(
             return externalHandle;
           },
           setTime: (time) => {
-            _setTime(getAnimation(), time);
+            let animation = getAnimation();
+            if (!animation) {
+              if (!target || typeof keyframeRef.current === "function") {
+                return externalHandle;
+              }
+              // Init animation in setTime to start animation without calling play
+              const keyframes = normalizeKeyframe(
+                target,
+                keyframeRef.current,
+                undefined
+              );
+              animation = initAnimation(target, keyframes);
+            }
+            _setTime(animation, time);
             return externalHandle;
           },
           setPlaybackRate: (rate) => {

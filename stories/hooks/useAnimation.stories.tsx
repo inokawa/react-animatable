@@ -460,13 +460,18 @@ export const Mouse: StoryObj = {
 
 export const Scroll: StoryObj = {
   render: () => {
+    const height = 2000;
+    const duration = 500;
     const animate = useAnimation<{ top: number; left: number }>(
-      (prev, pos) => [
-        { transform: prev.transform },
-        { transform: `translate(${pos.left}px,${pos.top}px)` },
+      [
+        {
+          transform: `translate(0px,${height}px) rotate(${
+            (height / 100) * 360
+          }deg)`,
+        },
       ],
       {
-        duration: 500,
+        duration,
         easing: "ease-in-out",
       }
     );
@@ -481,29 +486,20 @@ export const Scroll: StoryObj = {
           width: "100vw",
           height: "100vh",
         }}
-        onScroll={useMemo(
-          () =>
-            debounce(() => {
-              if (!scrollRef.current) return;
-              animate.play({
-                restart: true,
-                args: {
-                  top: scrollRef.current.scrollTop,
-                  left: scrollRef.current.scrollLeft,
-                },
-              });
-            }, 100),
-          []
-        )}
+        onScroll={useCallback((e: React.UIEvent) => {
+          if (!scrollRef.current) return;
+          animate.setTime(
+            e.currentTarget.scrollTop / (height / (duration * 4))
+          );
+        }, [])}
       >
         <div
           style={{
             position: "relative",
-            width: 100000,
-            height: 100000,
+            height,
           }}
         >
-          Please scroll!
+          Please scroll down!
           <div
             ref={animate}
             style={{
@@ -511,6 +507,8 @@ export const Scroll: StoryObj = {
               background: "pink",
               height: "6rem",
               width: "6rem",
+              top: 100,
+              left: 100,
             }}
           />
         </div>
