@@ -7,7 +7,7 @@ import {
   toArray,
 } from "../../core/utils";
 import {
-  AnimationOptions,
+  TypedKeyframeEffectOptions,
   createAnimation,
   GetKeyframeFunction,
   PlayOptions,
@@ -86,6 +86,13 @@ export interface AnimationHandle<Args = void>
   (ref: Element | null): void;
 }
 
+export interface AnimationOptions extends TypedKeyframeEffectOptions {
+  /**
+   * If true, run animation automatically when keyframe or options changes.
+   */
+  autoPlay?: boolean;
+}
+
 const normalizeKeyframe = <Args>(
   el: Element,
   keyframe: TypedKeyframe | TypedKeyframe[] | GetKeyframeFunction<Args>,
@@ -96,6 +103,56 @@ const normalizeKeyframe = <Args>(
   }
   return toArray(keyframe);
 };
+
+class AnimationState {
+  private _active:
+    | {
+        _animation: Animation;
+        _keyframes: TypedKeyframe[];
+        _options: AnimationOptions | undefined;
+      }
+    | undefined;
+
+  _init(
+    el: Element,
+    keyframes: TypedKeyframe[],
+    options: AnimationOptions | undefined
+  ): Animation {
+    if (this._active) {
+      // Reuse animation if possible
+      if (this._isConditionSame(keyframes, options)) {
+        return this._active._animation;
+      }
+      this._active._animation.cancel();
+    }
+    return (this._active = {
+      _animation: createAnimation(el, keyframes as Keyframe[], options),
+      _keyframes: keyframes,
+      _options: options,
+    })._animation;
+  }
+
+  _isConditionSame(
+    keyframes: TypedKeyframe[],
+    options: AnimationOptions | undefined
+  ): boolean {
+    if (!this._active) return false;
+    return (
+      isSameObjectArray(keyframes, this._active._keyframes) &&
+      isSameObject(options, this._active._options)
+    );
+  }
+
+  _get() {
+    return this._active?._animation;
+  }
+
+  _clear() {
+    if (!this._active) return;
+    this._active._animation.cancel();
+    this._active = undefined;
+  }
+}
 
 /**
  * A basic hook to use Web Animations API. See {@link AnimationHandle}.
@@ -108,46 +165,18 @@ export const useAnimation = <Args = void>(
   const keyframeRef = useRef(keyframe);
   const optionsRef = useRef(options);
 
-  type Handle = [AnimationHandle<Args>, () => void];
+  type Handle = [AnimationHandle<Args>, AnimationState];
   const handleRef = useRef<Handle | undefined>();
-  const [handle, cleanup] =
+  const [handle, s] =
     handleRef.current ||
     (handleRef.current = ((): Handle => {
       let target: Element | null = null;
-      let cache:
-        | [
-            animation: Animation,
-            keyframes: TypedKeyframe[],
-            options: AnimationOptions | undefined
-          ]
-        | undefined;
-
-      const initAnimation = (
-        el: Element,
-        keyframes: TypedKeyframe[]
-      ): Animation => {
-        const options = optionsRef.current;
-        if (cache) {
-          const [prevAnimation, prevKeyframes, prevOptions] = cache;
-          // Reuse animation if possible
-          if (
-            isSameObjectArray(keyframes, prevKeyframes) &&
-            isSameObject(options, prevOptions)
-          ) {
-            return prevAnimation;
-          }
-          prevAnimation.cancel();
-        }
-        const animation = createAnimation(el, keyframes as Keyframe[], options);
-        cache = [animation, keyframes, options];
-        return animation;
-      };
-      const getAnimation = () => cache?.[0];
+      const state = new AnimationState();
 
       const externalHandle: AnimationHandle<Args> = assign(
         (ref: Element | null) => {
           if (!(target = ref)) {
-            cache = undefined;
+            state._clear();
           }
         },
         <BaseAnimationHandle<Args>>{
@@ -158,27 +187,27 @@ export const useAnimation = <Args = void>(
               keyframeRef.current,
               ((opts[0] || {}) as { args?: Args }).args!
             );
-            _play(initAnimation(target, keyframes), opts[0]);
+            _play(state._init(target, keyframes, optionsRef.current), opts[0]);
             return externalHandle;
           },
           reverse: () => {
-            _reverse(getAnimation());
+            _reverse(state._get());
             return externalHandle;
           },
           cancel: () => {
-            _cancel(getAnimation());
+            _cancel(state._get());
             return externalHandle;
           },
           finish: () => {
-            _finish(getAnimation());
+            _finish(state._get());
             return externalHandle;
           },
           pause: () => {
-            _pause(getAnimation());
+            _pause(state._get());
             return externalHandle;
           },
           setTime: (time) => {
-            let animation = getAnimation();
+            let animation = state._get();
             if (!animation) {
               if (!target || typeof keyframeRef.current === "function") {
                 return externalHandle;
@@ -189,29 +218,42 @@ export const useAnimation = <Args = void>(
                 keyframeRef.current,
                 undefined
               );
-              animation = initAnimation(target, keyframes);
+              animation = state._init(target, keyframes, optionsRef.current);
             }
             _setTime(animation, time);
             return externalHandle;
           },
           setPlaybackRate: (rate) => {
-            _setRate(getAnimation(), rate);
+            _setRate(state._get(), rate);
             return externalHandle;
           },
           waitFor: (event) =>
-            _waitFor(getAnimation(), event).then(() => externalHandle),
+            _waitFor(state._get(), event).then(() => externalHandle),
         }
       );
 
-      return [externalHandle, externalHandle.cancel];
+      return [externalHandle, state];
     })());
 
   useIsomorphicLayoutEffect(() => {
     keyframeRef.current = keyframe;
     optionsRef.current = options;
+    if (
+      options?.autoPlay &&
+      // Keyframe function may have arguments, so don't handle it for now.
+      typeof keyframe !== "function" &&
+      !s._isConditionSame(toArray(keyframe), options)
+    ) {
+      (handle as AnimationHandle<void>).play();
+    }
   });
 
-  useEffect(() => cleanup, []);
+  useEffect(
+    () => () => {
+      s._clear();
+    },
+    []
+  );
 
   return handle;
 };

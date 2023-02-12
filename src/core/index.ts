@@ -2,7 +2,7 @@ export type {
   TypedKeyframe,
   TypedEasing,
   GetKeyframeFunction,
-  AnimationOptions,
+  TypedKeyframeEffectOptions,
   AnimatableCSSProperties,
   PlayOptions,
   WaitingAnimationEventName,
