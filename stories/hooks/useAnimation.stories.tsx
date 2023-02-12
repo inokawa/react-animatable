@@ -65,20 +65,9 @@ export const Playground: StoryObj = {
         iterations: iteration,
         delay,
         endDelay,
+        autoPlay: true,
       }
     );
-
-    useEffect(() => {
-      animate.play();
-    }, [
-      duration,
-      easing,
-      cubicBezierValues,
-      stepsValues,
-      iteration,
-      direction,
-      delay,
-    ]);
 
     return (
       <div>

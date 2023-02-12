@@ -86,7 +86,12 @@ export interface AnimationHandle<Args = void>
   (ref: Element | null): void;
 }
 
-export interface AnimationOptions extends TypedKeyframeEffectOptions {}
+export interface AnimationOptions extends TypedKeyframeEffectOptions {
+  /**
+   * If true, run animation automatically when keyframe or options changes.
+   */
+  autoPlay?: boolean;
+}
 
 const normalizeKeyframe = <Args>(
   el: Element,
@@ -160,9 +165,9 @@ export const useAnimation = <Args = void>(
   const keyframeRef = useRef(keyframe);
   const optionsRef = useRef(options);
 
-  type Handle = [AnimationHandle<Args>, () => void];
+  type Handle = [AnimationHandle<Args>, AnimationState];
   const handleRef = useRef<Handle | undefined>();
-  const [handle, cleanup] =
+  const [handle, s] =
     handleRef.current ||
     (handleRef.current = ((): Handle => {
       let target: Element | null = null;
@@ -227,20 +232,28 @@ export const useAnimation = <Args = void>(
         }
       );
 
-      return [
-        externalHandle,
-        () => {
-          state._clear();
-        },
-      ];
+      return [externalHandle, state];
     })());
 
   useIsomorphicLayoutEffect(() => {
     keyframeRef.current = keyframe;
     optionsRef.current = options;
+    if (
+      options?.autoPlay &&
+      // Keyframe function may have arguments, so don't handle it for now.
+      typeof keyframe !== "function" &&
+      !s._isConditionSame(toArray(keyframe), options)
+    ) {
+      (handle as AnimationHandle<void>).play();
+    }
   });
 
-  useEffect(() => cleanup, []);
+  useEffect(
+    () => () => {
+      s._clear();
+    },
+    []
+  );
 
   return handle;
 };
