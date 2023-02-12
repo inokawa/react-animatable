@@ -114,25 +114,28 @@ class AnimationState {
     options: AnimationOptions | undefined
   ): Animation {
     if (this._active) {
-      const {
-        _animation: prevAnimation,
-        _keyframes: prevKeyframes,
-        _options: prevOptions,
-      } = this._active;
       // Reuse animation if possible
-      if (
-        isSameObjectArray(keyframes, prevKeyframes) &&
-        isSameObject(options, prevOptions)
-      ) {
-        return prevAnimation;
+      if (this._isConditionSame(keyframes, options)) {
+        return this._active._animation;
       }
-      prevAnimation.cancel();
+      this._active._animation.cancel();
     }
     return (this._active = {
       _animation: createAnimation(el, keyframes as Keyframe[], options),
       _keyframes: keyframes,
       _options: options,
     })._animation;
+  }
+
+  _isConditionSame(
+    keyframes: TypedKeyframe[],
+    options: AnimationOptions | undefined
+  ): boolean {
+    if (!this._active) return false;
+    return (
+      isSameObjectArray(keyframes, this._active._keyframes) &&
+      isSameObject(options, this._active._options)
+    );
   }
 
   _get() {
