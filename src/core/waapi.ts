@@ -35,7 +35,7 @@ export type GetKeyframeFunction<Args = void> = Args extends void
 /**
  * Extended [options of KeyframeEffect](https://developer.mozilla.org/en-US/docs/Web/API/KeyframeEffect/KeyframeEffect)
  */
-export interface AnimationOptions
+export interface TypedKeyframeEffectOptions
   extends Omit<KeyframeEffectOptions, "easing"> {
   easing?: TypedEasing;
 }
@@ -57,9 +57,9 @@ export const getKeyframeKeys = (keyframes: TypedKeyframe[]): string[] =>
 export const createAnimation = (
   el: Element | null,
   keyframes: Keyframe[] | null,
-  options: AnimationOptions | undefined
+  options: KeyframeEffectOptions | undefined
 ): Animation => {
-  const modifiedOptions: AnimationOptions = {
+  const modifiedOptions: KeyframeEffectOptions = {
     fill: "both",
     ...options,
   };

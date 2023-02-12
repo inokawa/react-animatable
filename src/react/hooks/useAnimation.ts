@@ -7,7 +7,7 @@ import {
   toArray,
 } from "../../core/utils";
 import {
-  AnimationOptions,
+  TypedKeyframeEffectOptions,
   createAnimation,
   GetKeyframeFunction,
   PlayOptions,
@@ -85,6 +85,8 @@ export interface AnimationHandle<Args = void>
    */
   (ref: Element | null): void;
 }
+
+export interface AnimationOptions extends TypedKeyframeEffectOptions {}
 
 const normalizeKeyframe = <Args>(
   el: Element,

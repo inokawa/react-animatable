@@ -11,7 +11,7 @@ import { AnimationHandle, useAnimation } from "./useAnimation";
 import { getKeys } from "../../core/utils";
 import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
 import type {
-  AnimationOptions,
+  TypedKeyframeEffectOptions,
   GetKeyframeFunction,
   TypedKeyframe,
 } from "../../core";
@@ -20,9 +20,12 @@ export interface TransitionAnimationHandle {
   (ref: Element | null): void;
 }
 
+export interface TransitionAnimationOptions
+  extends TypedKeyframeEffectOptions {}
+
 export type TransitionAnimationDefinition = [
   keyframe: TypedKeyframe | TypedKeyframe[] | GetKeyframeFunction,
-  options?: AnimationOptions
+  options?: TransitionAnimationOptions
 ];
 
 /**

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { isSameObject } from "../../core/utils";
 import {
-  AnimationOptions,
+  TypedKeyframeEffectOptions,
   createAnimation,
   _cancel,
   _waitFor,
@@ -22,6 +22,8 @@ import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
  */
 export interface AnimationFunctionHandle<Args = void>
   extends BaseAnimationHandle<Args> {}
+
+export interface AnimationFunctionOptions extends TypedKeyframeEffectOptions {}
 
 /**
  * Non nullable [ComputedEffectTiming](https://developer.mozilla.org/en-US/docs/Web/API/AnimationEffect/getComputedTiming)
@@ -65,7 +67,7 @@ const bindUpdateFunction = <Args>(
  */
 export const useAnimationFunction = <Args = void>(
   onUpdate: AnimationFunction<Args>,
-  options?: AnimationOptions
+  options?: AnimationFunctionOptions
 ): AnimationFunctionHandle<Args> => {
   const onUpdateRef = useRef(onUpdate);
   const optionsRef = useRef(options);
@@ -77,7 +79,7 @@ export const useAnimationFunction = <Args = void>(
     (handleRef.current = ((): Handle => {
       const getOnUpdate = () => onUpdateRef.current;
 
-      let cache: [Animation, AnimationOptions | undefined] | undefined;
+      let cache: [Animation, AnimationFunctionOptions | undefined] | undefined;
       const initAnimation = (opts: { args?: Args } = {}): Animation => {
         const options = optionsRef.current;
         if (cache) {
