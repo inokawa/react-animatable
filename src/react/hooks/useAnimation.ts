@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import type { Expand } from "../../core/types";
 import {
   assign,
   getStyle,
@@ -25,15 +24,15 @@ import {
 } from "../../core/waapi";
 import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
 
-export type PlayArgs<Args = void> = Args extends void
-  ? [PlayOptions?]
-  : [Expand<PlayOptions & (Args extends void ? {} : { args: Args })>];
+export type PlayOptionsWithArgs<Args = void> = PlayOptions & { args: Args };
 
 export interface BaseAnimationHandle<Args = void> {
   /**
    * A wrapper of Web Animations API's [play](https://developer.mozilla.org/en-US/docs/Web/API/Animation/play). It's similar to GSAP's `play()`.
    */
-  play(...opts: PlayArgs<Args>): BaseAnimationHandle<Args>;
+  play(
+    ...opts: Args extends void ? [PlayOptions?] : [PlayOptionsWithArgs<Args>]
+  ): BaseAnimationHandle<Args>;
   /**
    * A wrapper of Web Animations API's [reverse](https://developer.mozilla.org/en-US/docs/Web/API/Animation/reverse). It's similar to GSAP's `reverse()`.
    */
