@@ -33,48 +33,46 @@ export interface BaseAnimationHandle<Args = void> {
   /**
    * A wrapper of Web Animations API's [play](https://developer.mozilla.org/en-US/docs/Web/API/Animation/play). It's similar to GSAP's `play()`.
    */
-  play: (...opts: PlayArgs<Args>) => BaseAnimationHandle<Args>;
+  play(...opts: PlayArgs<Args>): BaseAnimationHandle<Args>;
   /**
    * A wrapper of Web Animations API's [reverse](https://developer.mozilla.org/en-US/docs/Web/API/Animation/reverse). It's similar to GSAP's `reverse()`.
    */
-  reverse: () => BaseAnimationHandle<Args>;
+  reverse(): BaseAnimationHandle<Args>;
   /**
    * A wrapper of Web Animations API's [cancel](https://developer.mozilla.org/en-US/docs/Web/API/Animation/cancel). It's similar to GSAP's `kill()`.
    */
-  cancel: () => BaseAnimationHandle<Args>;
+  cancel(): BaseAnimationHandle<Args>;
   /**
    * A wrapper of Web Animations API's [finish](https://developer.mozilla.org/en-US/docs/Web/API/Animation/finish).
    */
-  finish: () => BaseAnimationHandle<Args>;
+  finish(): BaseAnimationHandle<Args>;
   /**
    * A wrapper of Web Animations API's [pause](https://developer.mozilla.org/en-US/docs/Web/API/Animation/pause). It's similar to GSAP's `pause()`.
    */
-  pause: () => BaseAnimationHandle<Args>;
+  pause(): BaseAnimationHandle<Args>;
   /**
    * A setter of Web Animations API's [currentTime](https://developer.mozilla.org/en-US/docs/Web/API/Animation/currentTime). It's similar to GSAP's `seek()`.
    *
    * If you pass function, you can get [endTime](https://developer.mozilla.org/en-US/docs/Web/API/AnimationEffect/getComputedTiming#return_value) from its argument.
    */
-  setTime: (
+  setTime(
     time: number | ((endTime: number) => number)
-  ) => BaseAnimationHandle<Args>;
+  ): BaseAnimationHandle<Args>;
   /**
    * A wrapper of Web Animations API's [updatePlaybackRate](https://developer.mozilla.org/en-US/docs/Web/API/Animation/updatePlaybackRate). It's similar to GSAP's `timeScale()`.
    *
    * If you pass function, you can get current [playbackRate](https://developer.mozilla.org/en-US/docs/Web/API/Animation/playbackRate) from its argument.
    */
-  setPlaybackRate: (
+  setPlaybackRate(
     rate: number | ((prevRate: number) => number)
-  ) => BaseAnimationHandle<Args>;
+  ): BaseAnimationHandle<Args>;
   /**
    * A getter of Promise that will be resolved in specified timing.
    *
    * - `finished`: resolved when animation is finished and its playback direction is normal.
    * - `reverseFinished`: resolved when animation is finished and its playback direction is reversed.
    */
-  waitFor: (
-    event: WaitingAnimationEventName
-  ) => Promise<BaseAnimationHandle<Args>>;
+  waitFor(event: WaitingAnimationEventName): Promise<BaseAnimationHandle<Args>>;
 }
 
 /**
