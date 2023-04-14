@@ -15,6 +15,7 @@ import {
 } from "../../core/waapi";
 import type { BaseAnimationHandle } from "./useAnimation";
 import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
+import { useStatic } from "./useStatic";
 
 /**
  * Handle of {@link useAnimationFunction}.
@@ -72,11 +73,8 @@ export const useAnimationFunction = <Args = void>(
   const onUpdateRef = useRef(onUpdate);
   const optionsRef = useRef(options);
 
-  type Handle = [AnimationFunctionHandle<Args>, () => void];
-  const handleRef = useRef<Handle | undefined>();
-  const [handle, cleanup] =
-    handleRef.current ||
-    (handleRef.current = ((): Handle => {
+  const [handle, cleanup] = useStatic(
+    (): [AnimationFunctionHandle<Args>, () => void] => {
       const getOnUpdate = () => onUpdateRef.current;
 
       let cache: [Animation, AnimationFunctionOptions | undefined] | undefined;
@@ -133,7 +131,8 @@ export const useAnimationFunction = <Args = void>(
           _waitFor(getAnimation(), event).then(() => externalHandle),
       };
       return [externalHandle, externalHandle.cancel];
-    })());
+    }
+  );
 
   useIsomorphicLayoutEffect(() => {
     onUpdateRef.current = onUpdate;

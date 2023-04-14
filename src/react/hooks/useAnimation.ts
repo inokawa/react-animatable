@@ -23,6 +23,7 @@ import {
   WaitingAnimationEventName,
 } from "../../core/waapi";
 import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
+import { useStatic } from "./useStatic";
 
 export type PlayOptionsWithArgs<Args = void> = PlayOptions & { args: Args };
 
@@ -165,75 +166,71 @@ export const useAnimation = <Args = void>(
   const keyframeRef = useRef(keyframe);
   const optionsRef = useRef(options);
 
-  type Handle = [AnimationHandle<Args>, AnimationState];
-  const handleRef = useRef<Handle | undefined>();
-  const [handle, s] =
-    handleRef.current ||
-    (handleRef.current = ((): Handle => {
-      let target: Element | null = null;
-      const state = new AnimationState();
+  const [handle, s] = useStatic((): [AnimationHandle<Args>, AnimationState] => {
+    let target: Element | null = null;
+    const state = new AnimationState();
 
-      const externalHandle: AnimationHandle<Args> = assign(
-        (ref: Element | null) => {
-          if (!(target = ref)) {
-            state._clear();
-          }
+    const externalHandle: AnimationHandle<Args> = assign(
+      (ref: Element | null) => {
+        if (!(target = ref)) {
+          state._clear();
+        }
+      },
+      <BaseAnimationHandle<Args>>{
+        play: (...opts) => {
+          if (!target) return externalHandle;
+          const keyframes = normalizeKeyframe(
+            target,
+            keyframeRef.current,
+            ((opts[0] || {}) as { args?: Args }).args!
+          );
+          _play(state._init(target, keyframes, optionsRef.current), opts[0]);
+          return externalHandle;
         },
-        <BaseAnimationHandle<Args>>{
-          play: (...opts) => {
-            if (!target) return externalHandle;
+        reverse: () => {
+          _reverse(state._get());
+          return externalHandle;
+        },
+        cancel: () => {
+          _cancel(state._get());
+          return externalHandle;
+        },
+        finish: () => {
+          _finish(state._get());
+          return externalHandle;
+        },
+        pause: () => {
+          _pause(state._get());
+          return externalHandle;
+        },
+        setTime: (time) => {
+          let animation = state._get();
+          if (!animation) {
+            if (!target || typeof keyframeRef.current === "function") {
+              return externalHandle;
+            }
+            // Init animation in setTime to start animation without calling play
             const keyframes = normalizeKeyframe(
               target,
               keyframeRef.current,
-              ((opts[0] || {}) as { args?: Args }).args!
+              undefined
             );
-            _play(state._init(target, keyframes, optionsRef.current), opts[0]);
-            return externalHandle;
-          },
-          reverse: () => {
-            _reverse(state._get());
-            return externalHandle;
-          },
-          cancel: () => {
-            _cancel(state._get());
-            return externalHandle;
-          },
-          finish: () => {
-            _finish(state._get());
-            return externalHandle;
-          },
-          pause: () => {
-            _pause(state._get());
-            return externalHandle;
-          },
-          setTime: (time) => {
-            let animation = state._get();
-            if (!animation) {
-              if (!target || typeof keyframeRef.current === "function") {
-                return externalHandle;
-              }
-              // Init animation in setTime to start animation without calling play
-              const keyframes = normalizeKeyframe(
-                target,
-                keyframeRef.current,
-                undefined
-              );
-              animation = state._init(target, keyframes, optionsRef.current);
-            }
-            _setTime(animation, time);
-            return externalHandle;
-          },
-          setPlaybackRate: (rate) => {
-            _setRate(state._get(), rate);
-            return externalHandle;
-          },
-          waitFor: (event) =>
-            _waitFor(state._get(), event).then(() => externalHandle),
-        }
-      );
+            animation = state._init(target, keyframes, optionsRef.current);
+          }
+          _setTime(animation, time);
+          return externalHandle;
+        },
+        setPlaybackRate: (rate) => {
+          _setRate(state._get(), rate);
+          return externalHandle;
+        },
+        waitFor: (event) =>
+          _waitFor(state._get(), event).then(() => externalHandle),
+      }
+    );
 
-      return [externalHandle, state];
-    })());
+    return [externalHandle, state];
+  });
 
   useIsomorphicLayoutEffect(() => {
     keyframeRef.current = keyframe;

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef } from "react";
 import {
   EXITED,
   EXITING,
@@ -15,6 +15,7 @@ import type {
   GetKeyframeFunction,
   TypedKeyframe,
 } from "../../core";
+import { useStatic } from "./useStatic";
 
 export interface TransitionAnimationHandle {
   (ref: Element | null): void;
@@ -48,29 +49,31 @@ export const useTransitionAnimation = (keyframes: {
 
   const animationsRef = useRef(animations);
 
-  const [animation, cleanup] = useState<
-    [TransitionAnimationHandle, () => void]
-  >(() => {
-    const forAllHandle = (fn: (handle: AnimationHandle) => void) => {
-      getKeys(animationsRef.current).forEach((name) =>
-        fn(animationsRef.current[name]!)
-      );
-    };
+  const [animation, cleanup] = useStatic(
+    (): [TransitionAnimationHandle, () => void] => {
+      const forAllHandle = (fn: (handle: AnimationHandle) => void) => {
+        getKeys(animationsRef.current).forEach((name) =>
+          fn(animationsRef.current[name]!)
+        );
+      };
 
-    const externalHandle: TransitionAnimationHandle = (ref: Element | null) => {
-      forAllHandle((h) => {
-        h(ref);
-      });
-    };
-    return [
-      externalHandle,
-      () => {
-        forAllHandle((handle) => {
-          handle.cancel();
+      const externalHandle: TransitionAnimationHandle = (
+        ref: Element | null
+      ) => {
+        forAllHandle((h) => {
+          h(ref);
         });
-      },
-    ];
-  })[0];
+      };
+      return [
+        externalHandle,
+        () => {
+          forAllHandle((handle) => {
+            handle.cancel();
+          });
+        },
+      ];
+    }
+  );
 
   useIsomorphicLayoutEffect(() => {
     animationsRef.current = animations;
