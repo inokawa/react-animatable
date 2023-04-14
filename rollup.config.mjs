@@ -1,7 +1,7 @@
 import typescript from "@rollup/plugin-typescript";
 import { getBabelOutputPlugin } from "@rollup/plugin-babel";
 import { terser } from "rollup-plugin-terser";
-import pkg from "./package.json";
+import pkg from "./package.json" assert { type: "json" };
 
 const keys = (p) => Object.keys(p || {});
 
