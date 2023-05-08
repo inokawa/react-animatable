@@ -32,11 +32,11 @@ You have to pass this callback to ref of element you want to control.
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:84](https://github.com/inokawa/react-animatable/blob/3724fbf/src/react/hooks/useAnimation.ts#L84)
+[src/react/hooks/useAnimation.ts:87](https://github.com/inokawa/react-animatable/blob/41cc47a/src/react/hooks/useAnimation.ts#L87)
 
 ## Table of contents
 
-### Properties
+### Methods
 
 - [play](AnimationHandle.md#play)
 - [reverse](AnimationHandle.md#reverse)
@@ -47,25 +47,21 @@ You have to pass this callback to ref of element you want to control.
 - [setPlaybackRate](AnimationHandle.md#setplaybackrate)
 - [waitFor](AnimationHandle.md#waitfor)
 
-## Properties
+## Methods
 
 ### play
 
-• **play**: (...`opts`: [`PlayArgs`](../API.md#playargs)<`Args`\>) => [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
-
-#### Type declaration
-
-▸ (...`opts`): [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
+▸ **play**(`...opts`): [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
 
 A wrapper of Web Animations API's [play](https://developer.mozilla.org/en-US/docs/Web/API/Animation/play). It's similar to GSAP's `play()`.
 
-##### Parameters
+#### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `...opts` | [`PlayArgs`](../API.md#playargs)<`Args`\> |
+| `...opts` | `Args` extends `void` ? [PlayOptions?] : [[`PlayOptionsWithArgs`](../API.md#playoptionswithargs)<`Args`\>] |
 
-##### Returns
+#### Returns
 
 [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
 
@@ -75,21 +71,17 @@ A wrapper of Web Animations API's [play](https://developer.mozilla.org/en-US/doc
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:31](https://github.com/inokawa/react-animatable/blob/3724fbf/src/react/hooks/useAnimation.ts#L31)
+[src/react/hooks/useAnimation.ts:34](https://github.com/inokawa/react-animatable/blob/41cc47a/src/react/hooks/useAnimation.ts#L34)
 
 ___
 
 ### reverse
 
-• **reverse**: () => [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
-
-#### Type declaration
-
-▸ (): [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
+▸ **reverse**(): [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
 
 A wrapper of Web Animations API's [reverse](https://developer.mozilla.org/en-US/docs/Web/API/Animation/reverse). It's similar to GSAP's `reverse()`.
 
-##### Returns
+#### Returns
 
 [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
 
@@ -99,21 +91,17 @@ A wrapper of Web Animations API's [reverse](https://developer.mozilla.org/en-US/
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:35](https://github.com/inokawa/react-animatable/blob/3724fbf/src/react/hooks/useAnimation.ts#L35)
+[src/react/hooks/useAnimation.ts:40](https://github.com/inokawa/react-animatable/blob/41cc47a/src/react/hooks/useAnimation.ts#L40)
 
 ___
 
 ### cancel
 
-• **cancel**: () => [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
-
-#### Type declaration
-
-▸ (): [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
+▸ **cancel**(): [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
 
 A wrapper of Web Animations API's [cancel](https://developer.mozilla.org/en-US/docs/Web/API/Animation/cancel). It's similar to GSAP's `kill()`.
 
-##### Returns
+#### Returns
 
 [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
 
@@ -123,21 +111,17 @@ A wrapper of Web Animations API's [cancel](https://developer.mozilla.org/en-US/d
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:39](https://github.com/inokawa/react-animatable/blob/3724fbf/src/react/hooks/useAnimation.ts#L39)
+[src/react/hooks/useAnimation.ts:44](https://github.com/inokawa/react-animatable/blob/41cc47a/src/react/hooks/useAnimation.ts#L44)
 
 ___
 
 ### finish
 
-• **finish**: () => [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
-
-#### Type declaration
-
-▸ (): [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
+▸ **finish**(): [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
 
 A wrapper of Web Animations API's [finish](https://developer.mozilla.org/en-US/docs/Web/API/Animation/finish).
 
-##### Returns
+#### Returns
 
 [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
 
@@ -147,21 +131,17 @@ A wrapper of Web Animations API's [finish](https://developer.mozilla.org/en-US/d
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:43](https://github.com/inokawa/react-animatable/blob/3724fbf/src/react/hooks/useAnimation.ts#L43)
+[src/react/hooks/useAnimation.ts:48](https://github.com/inokawa/react-animatable/blob/41cc47a/src/react/hooks/useAnimation.ts#L48)
 
 ___
 
 ### pause
 
-• **pause**: () => [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
-
-#### Type declaration
-
-▸ (): [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
+▸ **pause**(): [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
 
 A wrapper of Web Animations API's [pause](https://developer.mozilla.org/en-US/docs/Web/API/Animation/pause). It's similar to GSAP's `pause()`.
 
-##### Returns
+#### Returns
 
 [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
 
@@ -171,29 +151,25 @@ A wrapper of Web Animations API's [pause](https://developer.mozilla.org/en-US/do
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:47](https://github.com/inokawa/react-animatable/blob/3724fbf/src/react/hooks/useAnimation.ts#L47)
+[src/react/hooks/useAnimation.ts:52](https://github.com/inokawa/react-animatable/blob/41cc47a/src/react/hooks/useAnimation.ts#L52)
 
 ___
 
 ### setTime
 
-• **setTime**: (`time`: `number` \| (`endTime`: `number`) => `number`) => [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
-
-#### Type declaration
-
-▸ (`time`): [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
+▸ **setTime**(`time`): [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
 
 A setter of Web Animations API's [currentTime](https://developer.mozilla.org/en-US/docs/Web/API/Animation/currentTime). It's similar to GSAP's `seek()`.
 
 If you pass function, you can get [endTime](https://developer.mozilla.org/en-US/docs/Web/API/AnimationEffect/getComputedTiming#return_value) from its argument.
 
-##### Parameters
+#### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `time` | `number` \| (`endTime`: `number`) => `number` |
 
-##### Returns
+#### Returns
 
 [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
 
@@ -203,29 +179,25 @@ If you pass function, you can get [endTime](https://developer.mozilla.org/en-US/
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:53](https://github.com/inokawa/react-animatable/blob/3724fbf/src/react/hooks/useAnimation.ts#L53)
+[src/react/hooks/useAnimation.ts:58](https://github.com/inokawa/react-animatable/blob/41cc47a/src/react/hooks/useAnimation.ts#L58)
 
 ___
 
 ### setPlaybackRate
 
-• **setPlaybackRate**: (`rate`: `number` \| (`prevRate`: `number`) => `number`) => [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
-
-#### Type declaration
-
-▸ (`rate`): [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
+▸ **setPlaybackRate**(`rate`): [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
 
 A wrapper of Web Animations API's [updatePlaybackRate](https://developer.mozilla.org/en-US/docs/Web/API/Animation/updatePlaybackRate). It's similar to GSAP's `timeScale()`.
 
 If you pass function, you can get current [playbackRate](https://developer.mozilla.org/en-US/docs/Web/API/Animation/playbackRate) from its argument.
 
-##### Parameters
+#### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `rate` | `number` \| (`prevRate`: `number`) => `number` |
 
-##### Returns
+#### Returns
 
 [`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>
 
@@ -235,30 +207,26 @@ If you pass function, you can get current [playbackRate](https://developer.mozil
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:61](https://github.com/inokawa/react-animatable/blob/3724fbf/src/react/hooks/useAnimation.ts#L61)
+[src/react/hooks/useAnimation.ts:66](https://github.com/inokawa/react-animatable/blob/41cc47a/src/react/hooks/useAnimation.ts#L66)
 
 ___
 
 ### waitFor
 
-• **waitFor**: (`event`: [`WaitingAnimationEventName`](../API.md#waitinganimationeventname)) => `Promise`<[`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>\>
-
-#### Type declaration
-
-▸ (`event`): `Promise`<[`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>\>
+▸ **waitFor**(`event`): `Promise`<[`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>\>
 
 A getter of Promise that will be resolved in specified timing.
 
 - `finished`: resolved when animation is finished and its playback direction is normal.
 - `reverseFinished`: resolved when animation is finished and its playback direction is reversed.
 
-##### Parameters
+#### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `event` | [`WaitingAnimationEventName`](../API.md#waitinganimationeventname) |
 
-##### Returns
+#### Returns
 
 `Promise`<[`BaseAnimationHandle`](BaseAnimationHandle.md)<`Args`\>\>
 
@@ -268,4 +236,4 @@ A getter of Promise that will be resolved in specified timing.
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:70](https://github.com/inokawa/react-animatable/blob/3724fbf/src/react/hooks/useAnimation.ts#L70)
+[src/react/hooks/useAnimation.ts:75](https://github.com/inokawa/react-animatable/blob/41cc47a/src/react/hooks/useAnimation.ts#L75)

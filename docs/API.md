@@ -11,12 +11,15 @@
 
 ### Interfaces
 
-- [AnimationOptions](interfaces/AnimationOptions.md)
+- [TypedKeyframeEffectOptions](interfaces/TypedKeyframeEffectOptions.md)
 - [TransitionGroupProps](interfaces/TransitionGroupProps.md)
 - [BaseAnimationHandle](interfaces/BaseAnimationHandle.md)
 - [AnimationHandle](interfaces/AnimationHandle.md)
+- [AnimationOptions](interfaces/AnimationOptions.md)
 - [AnimationFunctionHandle](interfaces/AnimationFunctionHandle.md)
+- [AnimationFunctionOptions](interfaces/AnimationFunctionOptions.md)
 - [TransitionAnimationHandle](interfaces/TransitionAnimationHandle.md)
+- [TransitionAnimationOptions](interfaces/TransitionAnimationOptions.md)
 
 ### Type Aliases
 
@@ -26,7 +29,7 @@
 - [AnimatableCSSProperties](API.md#animatablecssproperties)
 - [PlayOptions](API.md#playoptions)
 - [WaitingAnimationEventName](API.md#waitinganimationeventname)
-- [PlayArgs](API.md#playargs)
+- [PlayOptionsWithArgs](API.md#playoptionswithargs)
 - [ComputedTimingContext](API.md#computedtimingcontext)
 - [AnimationFunction](API.md#animationfunction)
 - [TransitionAnimationDefinition](API.md#transitionanimationdefinition)
@@ -35,7 +38,7 @@
 
 ### TransitionGroup
 
-▸ **TransitionGroup**(`__namedParameters`): `ReactElement`<`any`, `string` \| `JSXElementConstructor`<`any`\>\>
+▸ **TransitionGroup**(`«destructured»`): `ReactElement`<`any`, `string` \| `JSXElementConstructor`<`any`\>\>
 
 A component to manage enter/update/exit of its children by key, that works similar to [TransitionGroup of react-transition-group](https://reactcommunity.org/react-transition-group/transition-group).
 
@@ -43,7 +46,7 @@ A component to manage enter/update/exit of its children by key, that works simil
 
 | Name | Type |
 | :------ | :------ |
-| `__namedParameters` | [`TransitionGroupProps`](interfaces/TransitionGroupProps.md) |
+| `«destructured»` | [`TransitionGroupProps`](interfaces/TransitionGroupProps.md) |
 
 #### Returns
 
@@ -51,7 +54,7 @@ A component to manage enter/update/exit of its children by key, that works simil
 
 #### Defined in
 
-[src/react/components/TransitionGroup.tsx:74](https://github.com/inokawa/react-animatable/blob/3724fbf/src/react/components/TransitionGroup.tsx#L74)
+[src/react/components/TransitionGroup.tsx:74](https://github.com/inokawa/react-animatable/blob/41cc47a/src/react/components/TransitionGroup.tsx#L74)
 
 ___
 
@@ -80,7 +83,7 @@ A basic hook to use Web Animations API. See [AnimationHandle](interfaces/Animati
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:91](https://github.com/inokawa/react-animatable/blob/3724fbf/src/react/hooks/useAnimation.ts#L91)
+[src/react/hooks/useAnimation.ts:162](https://github.com/inokawa/react-animatable/blob/41cc47a/src/react/hooks/useAnimation.ts#L162)
 
 ___
 
@@ -101,7 +104,7 @@ Same as [useAnimation](API.md#useanimation), but it drives function not React el
 | Name | Type |
 | :------ | :------ |
 | `onUpdate` | [`AnimationFunction`](API.md#animationfunction)<`Args`\> |
-| `options?` | [`AnimationOptions`](interfaces/AnimationOptions.md) |
+| `options?` | [`AnimationFunctionOptions`](interfaces/AnimationFunctionOptions.md) |
 
 #### Returns
 
@@ -109,7 +112,7 @@ Same as [useAnimation](API.md#useanimation), but it drives function not React el
 
 #### Defined in
 
-[src/react/hooks/useAnimationFunction.ts:66](https://github.com/inokawa/react-animatable/blob/3724fbf/src/react/hooks/useAnimationFunction.ts#L66)
+[src/react/hooks/useAnimationFunction.ts:69](https://github.com/inokawa/react-animatable/blob/41cc47a/src/react/hooks/useAnimationFunction.ts#L69)
 
 ___
 
@@ -135,7 +138,7 @@ This hook must be used under [TransitionGroup](API.md#transitiongroup) component
 
 #### Defined in
 
-[src/react/hooks/useTransitionAnimation.ts:33](https://github.com/inokawa/react-animatable/blob/3724fbf/src/react/hooks/useTransitionAnimation.ts#L33)
+[src/react/hooks/useTransitionAnimation.ts:37](https://github.com/inokawa/react-animatable/blob/41cc47a/src/react/hooks/useTransitionAnimation.ts#L37)
 
 ## Type Aliases
 
@@ -147,7 +150,7 @@ Strictly typed [Keyframe](https://developer.mozilla.org/en-US/docs/Web/API/Web_A
 
 #### Defined in
 
-[src/core/waapi.ts:17](https://github.com/inokawa/react-animatable/blob/3724fbf/src/core/waapi.ts#L17)
+[src/core/waapi.ts:17](https://github.com/inokawa/react-animatable/blob/41cc47a/src/core/waapi.ts#L17)
 
 ___
 
@@ -157,7 +160,7 @@ ___
 
 #### Defined in
 
-[src/core/waapi.ts:22](https://github.com/inokawa/react-animatable/blob/3724fbf/src/core/waapi.ts#L22)
+[src/core/waapi.ts:22](https://github.com/inokawa/react-animatable/blob/41cc47a/src/core/waapi.ts#L22)
 
 ___
 
@@ -177,7 +180,7 @@ A function to define keyframe dynamically
 
 #### Defined in
 
-[src/core/waapi.ts:31](https://github.com/inokawa/react-animatable/blob/3724fbf/src/core/waapi.ts#L31)
+[src/core/waapi.ts:31](https://github.com/inokawa/react-animatable/blob/41cc47a/src/core/waapi.ts#L31)
 
 ___
 
@@ -187,7 +190,7 @@ ___
 
 #### Defined in
 
-[src/core/waapi.ts:4](https://github.com/inokawa/react-animatable/blob/3724fbf/src/core/waapi.ts#L4)
+[src/core/waapi.ts:4](https://github.com/inokawa/react-animatable/blob/41cc47a/src/core/waapi.ts#L4)
 
 ___
 
@@ -203,7 +206,7 @@ ___
 
 #### Defined in
 
-[src/core/waapi.ts:85](https://github.com/inokawa/react-animatable/blob/3724fbf/src/core/waapi.ts#L85)
+[src/core/waapi.ts:74](https://github.com/inokawa/react-animatable/blob/41cc47a/src/core/waapi.ts#L74)
 
 ___
 
@@ -213,13 +216,13 @@ ___
 
 #### Defined in
 
-[src/core/waapi.ts:156](https://github.com/inokawa/react-animatable/blob/3724fbf/src/core/waapi.ts#L156)
+[src/core/waapi.ts:145](https://github.com/inokawa/react-animatable/blob/41cc47a/src/core/waapi.ts#L145)
 
 ___
 
-### PlayArgs
+### PlayOptionsWithArgs
 
-Ƭ **PlayArgs**<`Args`\>: `Args` extends `void` ? [PlayOptions?] : [`Expand`<[`PlayOptions`](API.md#playoptions) & `Args` extends `void` ? {} : { `args`: `Args`  }\>]
+Ƭ **PlayOptionsWithArgs**<`Args`\>: [`PlayOptions`](API.md#playoptions) & { `args`: `Args`  }
 
 #### Type parameters
 
@@ -229,7 +232,7 @@ ___
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:23](https://github.com/inokawa/react-animatable/blob/3724fbf/src/react/hooks/useAnimation.ts#L23)
+[src/react/hooks/useAnimation.ts:28](https://github.com/inokawa/react-animatable/blob/41cc47a/src/react/hooks/useAnimation.ts#L28)
 
 ___
 
@@ -241,7 +244,7 @@ Non nullable [ComputedEffectTiming](https://developer.mozilla.org/en-US/docs/Web
 
 #### Defined in
 
-[src/react/hooks/useAnimationFunction.ts:29](https://github.com/inokawa/react-animatable/blob/3724fbf/src/react/hooks/useAnimationFunction.ts#L29)
+[src/react/hooks/useAnimationFunction.ts:32](https://github.com/inokawa/react-animatable/blob/41cc47a/src/react/hooks/useAnimationFunction.ts#L32)
 
 ___
 
@@ -262,14 +265,14 @@ In this callback you can update any state or ref in JS.
 
 #### Defined in
 
-[src/react/hooks/useAnimationFunction.ts:39](https://github.com/inokawa/react-animatable/blob/3724fbf/src/react/hooks/useAnimationFunction.ts#L39)
+[src/react/hooks/useAnimationFunction.ts:42](https://github.com/inokawa/react-animatable/blob/41cc47a/src/react/hooks/useAnimationFunction.ts#L42)
 
 ___
 
 ### TransitionAnimationDefinition
 
-Ƭ **TransitionAnimationDefinition**: [keyframe: TypedKeyframe \| TypedKeyframe[] \| GetKeyframeFunction, options?: AnimationOptions]
+Ƭ **TransitionAnimationDefinition**: [keyframe: TypedKeyframe \| TypedKeyframe[] \| GetKeyframeFunction, options?: TransitionAnimationOptions]
 
 #### Defined in
 
-[src/react/hooks/useTransitionAnimation.ts:23](https://github.com/inokawa/react-animatable/blob/3724fbf/src/react/hooks/useTransitionAnimation.ts#L23)
+[src/react/hooks/useTransitionAnimation.ts:27](https://github.com/inokawa/react-animatable/blob/41cc47a/src/react/hooks/useTransitionAnimation.ts#L27)

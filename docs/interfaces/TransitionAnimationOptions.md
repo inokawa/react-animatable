@@ -1,4 +1,4 @@
-# Interface: AnimationOptions
+# Interface: TransitionAnimationOptions
 
 Extended [options of KeyframeEffect](https://developer.mozilla.org/en-US/docs/Web/API/KeyframeEffect/KeyframeEffect)
 
@@ -6,39 +6,26 @@ Extended [options of KeyframeEffect](https://developer.mozilla.org/en-US/docs/We
 
 - [`TypedKeyframeEffectOptions`](TypedKeyframeEffectOptions.md)
 
-  ↳ **`AnimationOptions`**
+  ↳ **`TransitionAnimationOptions`**
 
 ## Table of contents
 
 ### Properties
 
-- [autoPlay](AnimationOptions.md#autoplay)
-- [easing](AnimationOptions.md#easing)
-- [fill](AnimationOptions.md#fill)
-- [direction](AnimationOptions.md#direction)
-- [composite](AnimationOptions.md#composite)
-- [iterationComposite](AnimationOptions.md#iterationcomposite)
-- [pseudoElement](AnimationOptions.md#pseudoelement)
-- [delay](AnimationOptions.md#delay)
-- [duration](AnimationOptions.md#duration)
-- [endDelay](AnimationOptions.md#enddelay)
-- [iterationStart](AnimationOptions.md#iterationstart)
-- [iterations](AnimationOptions.md#iterations)
-- [playbackRate](AnimationOptions.md#playbackrate)
+- [easing](TransitionAnimationOptions.md#easing)
+- [fill](TransitionAnimationOptions.md#fill)
+- [direction](TransitionAnimationOptions.md#direction)
+- [composite](TransitionAnimationOptions.md#composite)
+- [iterationComposite](TransitionAnimationOptions.md#iterationcomposite)
+- [pseudoElement](TransitionAnimationOptions.md#pseudoelement)
+- [delay](TransitionAnimationOptions.md#delay)
+- [duration](TransitionAnimationOptions.md#duration)
+- [endDelay](TransitionAnimationOptions.md#enddelay)
+- [iterationStart](TransitionAnimationOptions.md#iterationstart)
+- [iterations](TransitionAnimationOptions.md#iterations)
+- [playbackRate](TransitionAnimationOptions.md#playbackrate)
 
 ## Properties
-
-### autoPlay
-
-• `Optional` **autoPlay**: `boolean`
-
-If true, run animation automatically when keyframe or options changes.
-
-#### Defined in
-
-[src/react/hooks/useAnimation.ts:94](https://github.com/inokawa/react-animatable/blob/41cc47a/src/react/hooks/useAnimation.ts#L94)
-
-___
 
 ### easing
 
