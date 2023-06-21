@@ -1,6 +1,7 @@
 import typescript from "@rollup/plugin-typescript";
 import { getBabelOutputPlugin } from "@rollup/plugin-babel";
 import terser from "@rollup/plugin-terser";
+import banner from "rollup-plugin-banner2";
 import pkg from "./package.json" assert { type: "json" };
 
 const keys = (p) => Object.keys(p || {});
@@ -36,7 +37,7 @@ export default {
     terser({
       ecma: 2015,
       module: true,
-      compress: { passes: 3, unsafe: true, keep_fargs: false },
+      compress: { passes: 5, unsafe: true, keep_fargs: false },
       mangle: { properties: { regex: "^_" } },
       format: {
         // https://github.com/terser/terser/pull/550
@@ -45,5 +46,6 @@ export default {
         preserve_annotations: true,
       },
     }),
+    banner(() => '"use client";\n'),
   ],
 };
