@@ -1,6 +1,7 @@
 import typescript from "@rollup/plugin-typescript";
 import { getBabelOutputPlugin } from "@rollup/plugin-babel";
 import terser from "@rollup/plugin-terser";
+import banner from "rollup-plugin-banner2";
 import pkg from "./package.json" assert { type: "json" };
 
 const keys = (p) => Object.keys(p || {});
@@ -45,5 +46,6 @@ export default {
         preserve_annotations: true,
       },
     }),
+    banner(() => '"use client";\n'),
   ],
 };

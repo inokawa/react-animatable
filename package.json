@@ -63,6 +63,7 @@
     "react-merge-refs": "2.0.1",
     "rimraf": "3.0.2",
     "rollup": "3.20.2",
+    "rollup-plugin-banner2": "1.2.2",
     "storybook": "^7.0.4",
     "styled-components": "^5.3.6",
     "ts-jest": "29.0.3",
