@@ -42,7 +42,7 @@
     "@rollup/plugin-typescript": "11.1.2",
     "@size-limit/preset-small-lib": "^8.2.6",
     "@stitches/react": "1.2.8",
-    "@storybook/addon-docs": "7.0.4",
+    "@storybook/addon-storysource": "7.0.4",
     "@storybook/react": "7.0.4",
     "@storybook/react-webpack5": "^7.0.4",
     "@storybook/test-runner": "0.10.0",
