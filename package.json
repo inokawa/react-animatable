@@ -70,7 +70,7 @@
     "mini-css-extract-plugin": "2.7.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-merge-refs": "2.0.1",
+    "react-merge-refs": "2.0.2",
     "rimraf": "3.0.2",
     "rollup": "3.20.2",
     "rollup-plugin-banner2": "1.2.2",
