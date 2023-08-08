@@ -36,7 +36,7 @@ If true, run animation automatically when keyframe or options changes.
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:94](https://github.com/inokawa/react-animatable/blob/dd9ec77/src/react/hooks/useAnimation.ts#L94)
+[src/react/hooks/useAnimation.ts:94](https://github.com/inokawa/react-animatable/blob/90fdc5a/src/react/hooks/useAnimation.ts#L94)
 
 ___
 
@@ -50,7 +50,7 @@ ___
 
 #### Defined in
 
-[src/core/waapi.ts:40](https://github.com/inokawa/react-animatable/blob/dd9ec77/src/core/waapi.ts#L40)
+[src/core/waapi.ts:40](https://github.com/inokawa/react-animatable/blob/90fdc5a/src/core/waapi.ts#L40)
 
 ___
 
