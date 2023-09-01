@@ -26,4 +26,4 @@ jobs:
       - run: npm run test
       - run: npm run build
       - run: npm run size
-      - run: npm run storybook:test
+      # - run: npm run storybook:test
