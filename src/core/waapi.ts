@@ -129,7 +129,7 @@ export const _setTime = (
   if (!animation) return;
   animation.currentTime =
     typeof arg === "function"
-      ? arg(animation.effect!.getComputedTiming().endTime!)
+      ? arg(animation.effect!.getComputedTiming().endTime! as number)
       : arg;
 };
 export const _setRate = (
