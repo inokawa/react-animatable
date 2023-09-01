@@ -39,7 +39,7 @@
     "@emotion/styled": "11.10.5",
     "@fluentui/react": "8.103.3",
     "@linaria/babel-preset": "4.3.0",
-    "@linaria/core": "4.2.8",
+    "@linaria/core": "4.5.4",
     "@linaria/react": "4.3.6",
     "@linaria/webpack-loader": "4.1.15",
     "@mantine/core": "5.8.4",
