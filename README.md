@@ -2,21 +2,16 @@
 
 ![npm](https://img.shields.io/npm/v/react-animatable) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/react-animatable) [![check](https://github.com/inokawa/react-animatable/actions/workflows/check.yml/badge.svg)](https://github.com/inokawa/react-animatable/actions/workflows/check.yml) [![demo](https://github.com/inokawa/react-animatable/actions/workflows/demo.yml/badge.svg)](https://github.com/inokawa/react-animatable/actions/workflows/demo.yml)
 
-A powerful composable animation library for [React](https://github.com/facebook/react), built on [Web Animations API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API) and React hook.
+A tiny(~1kB) animation hooks for [React](https://github.com/facebook/react), built on [Web Animations API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API).
 
 <img src="./images/demo-chart.gif" width="350px" /><img src="./images/demo-mouse.gif" width="350px" />
-
-<img src="./images/demo-scroll.gif" width="350px" /><img src="./images/demo-alphabet.gif" width="350px" />
 
 ## Features
 
 - Performant animation driven by native [Web Animations API (WAAPI)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API).
-- Easy integration with a few lines of code.
-  - Supports any UI component libraries, [Material UI](https://github.com/mui/material-ui), [Chakra UI](https://github.com/chakra-ui/chakra-ui), [Ant Design](https://github.com/ant-design/ant-design), [Fluent UI](https://github.com/microsoft/fluentui), [Mantine](https://github.com/mantinedev/mantine) and the others.
-  - Supports any CSS-in-JS libraries, [styled-components](https://github.com/styled-components/styled-components), [emotion](https://github.com/emotion-js/emotion), [stitches](https://github.com/stitchesjs/stitches), [vanilla-extract](https://github.com/vanilla-extract-css/vanilla-extract), [linaria](https://github.com/callstack/linaria), [compiled](https://github.com/atlassian-labs/compiled) and the others.
-  - Supports [Next.js](https://github.com/vercel/next.js) and server-side rendering (SSR).
+- Easy integration with a few lines of code. Works with any UI component libraries or CSS-in-JS libraries.
 - HTML, SVG, Canvas and anything can be animated.
-- [Tiny bundle size (currently about 2kB gzipped)](https://bundlephobia.com/package/react-animatable) and has zero dependencies. Of course treeshakeable
+- Tiny. Each hooks are ~1kB gzipped and [the total is ~2kB gzipped](https://bundlephobia.com/package/react-animatable).
 - Fully typed with [TypeScript](https://www.typescriptlang.org/), which is stricter than TypeScript's [lib.dom.d.ts](https://github.com/microsoft/TypeScript/blob/main/lib/lib.dom.d.ts).
 - Composable and declarative APIs based on React hook.
 

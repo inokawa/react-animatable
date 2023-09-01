@@ -3,24 +3,24 @@
     "name": "useAnimation",
     "path": "lib/index.mjs",
     "import": "{ useAnimation }",
-    "limit": "1.5 kB"
+    "limit": "1.0 kB"
   },
   {
     "name": "useAnimationFunction",
     "path": "lib/index.mjs",
     "import": "{ useAnimationFunction }",
-    "limit": "1.5 kB"
+    "limit": "1.0 kB"
   },
   {
     "name": "useTransitionAnimation",
     "path": "lib/index.mjs",
     "import": "{ useTransitionAnimation }",
-    "limit": "1.5 kB"
+    "limit": "1.2 kB"
   },
   {
     "name": "TransitionGroup",
     "path": "lib/index.mjs",
     "import": "{ TransitionGroup }",
-    "limit": "1.5 kB"
+    "limit": "0.5 kB"
   }
 ]
