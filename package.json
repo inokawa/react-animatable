@@ -31,7 +31,7 @@
   "devDependencies": {
     "@babel/core": "7.22.11",
     "@babel/plugin-transform-react-pure-annotations": "7.22.5",
-    "@chakra-ui/react": "2.4.6",
+    "@chakra-ui/react": "2.8.0",
     "@compiled/react": "0.14.0",
     "@compiled/webpack-loader": "0.9.6",
     "@emotion/css": "11.10.5",
