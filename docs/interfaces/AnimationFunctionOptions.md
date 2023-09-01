@@ -37,7 +37,7 @@ Extended [options of KeyframeEffect](https://developer.mozilla.org/en-US/docs/We
 
 #### Defined in
 
-[src/core/waapi.ts:40](https://github.com/inokawa/react-animatable/blob/90fdc5a/src/core/waapi.ts#L40)
+[src/core/waapi.ts:40](https://github.com/inokawa/react-animatable/blob/23c2c4a/src/core/waapi.ts#L40)
 
 ___
 
@@ -51,7 +51,7 @@ ___
 
 #### Defined in
 
-node_modules/typescript/lib/lib.dom.d.ts:430
+node_modules/typescript/lib/lib.dom.d.ts:449
 
 ___
 
@@ -65,7 +65,7 @@ ___
 
 #### Defined in
 
-node_modules/typescript/lib/lib.dom.d.ts:426
+node_modules/typescript/lib/lib.dom.d.ts:445
 
 ___
 
@@ -79,7 +79,7 @@ ___
 
 #### Defined in
 
-node_modules/typescript/lib/lib.dom.d.ts:715
+node_modules/typescript/lib/lib.dom.d.ts:757
 
 ___
 
@@ -93,7 +93,7 @@ ___
 
 #### Defined in
 
-node_modules/typescript/lib/lib.dom.d.ts:716
+node_modules/typescript/lib/lib.dom.d.ts:758
 
 ___
 
@@ -107,7 +107,7 @@ ___
 
 #### Defined in
 
-node_modules/typescript/lib/lib.dom.d.ts:717
+node_modules/typescript/lib/lib.dom.d.ts:759
 
 ___
 
@@ -121,13 +121,13 @@ ___
 
 #### Defined in
 
-node_modules/typescript/lib/lib.dom.d.ts:425
+node_modules/typescript/lib/lib.dom.d.ts:444
 
 ___
 
 ### duration
 
-• `Optional` **duration**: `string` \| `number`
+• `Optional` **duration**: `string` \| `number` \| `CSSNumericValue`
 
 #### Inherited from
 
@@ -135,7 +135,7 @@ ___
 
 #### Defined in
 
-node_modules/typescript/lib/lib.dom.d.ts:427
+node_modules/typescript/lib/lib.dom.d.ts:446
 
 ___
 
@@ -149,7 +149,7 @@ ___
 
 #### Defined in
 
-node_modules/typescript/lib/lib.dom.d.ts:429
+node_modules/typescript/lib/lib.dom.d.ts:448
 
 ___
 
@@ -163,7 +163,7 @@ ___
 
 #### Defined in
 
-node_modules/typescript/lib/lib.dom.d.ts:431
+node_modules/typescript/lib/lib.dom.d.ts:450
 
 ___
 
@@ -177,7 +177,7 @@ ___
 
 #### Defined in
 
-node_modules/typescript/lib/lib.dom.d.ts:432
+node_modules/typescript/lib/lib.dom.d.ts:451
 
 ___
 
@@ -191,4 +191,4 @@ ___
 
 #### Defined in
 
-node_modules/typescript/lib/lib.dom.d.ts:433
+node_modules/typescript/lib/lib.dom.d.ts:452

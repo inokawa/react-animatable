@@ -39,7 +39,7 @@ Extended [options of KeyframeEffect](https://developer.mozilla.org/en-US/docs/We
 
 #### Defined in
 
-[src/core/waapi.ts:40](https://github.com/inokawa/react-animatable/blob/90fdc5a/src/core/waapi.ts#L40)
+[src/core/waapi.ts:40](https://github.com/inokawa/react-animatable/blob/23c2c4a/src/core/waapi.ts#L40)
 
 ___
 
@@ -53,7 +53,7 @@ Omit.fill
 
 #### Defined in
 
-node_modules/typescript/lib/lib.dom.d.ts:430
+node_modules/typescript/lib/lib.dom.d.ts:449
 
 ___
 
@@ -67,7 +67,7 @@ Omit.direction
 
 #### Defined in
 
-node_modules/typescript/lib/lib.dom.d.ts:426
+node_modules/typescript/lib/lib.dom.d.ts:445
 
 ___
 
@@ -81,7 +81,7 @@ Omit.composite
 
 #### Defined in
 
-node_modules/typescript/lib/lib.dom.d.ts:715
+node_modules/typescript/lib/lib.dom.d.ts:757
 
 ___
 
@@ -95,7 +95,7 @@ Omit.iterationComposite
 
 #### Defined in
 
-node_modules/typescript/lib/lib.dom.d.ts:716
+node_modules/typescript/lib/lib.dom.d.ts:758
 
 ___
 
@@ -109,7 +109,7 @@ Omit.pseudoElement
 
 #### Defined in
 
-node_modules/typescript/lib/lib.dom.d.ts:717
+node_modules/typescript/lib/lib.dom.d.ts:759
 
 ___
 
@@ -123,13 +123,13 @@ Omit.delay
 
 #### Defined in
 
-node_modules/typescript/lib/lib.dom.d.ts:425
+node_modules/typescript/lib/lib.dom.d.ts:444
 
 ___
 
 ### duration
 
-• `Optional` **duration**: `string` \| `number`
+• `Optional` **duration**: `string` \| `number` \| `CSSNumericValue`
 
 #### Inherited from
 
@@ -137,7 +137,7 @@ Omit.duration
 
 #### Defined in
 
-node_modules/typescript/lib/lib.dom.d.ts:427
+node_modules/typescript/lib/lib.dom.d.ts:446
 
 ___
 
@@ -151,7 +151,7 @@ Omit.endDelay
 
 #### Defined in
 
-node_modules/typescript/lib/lib.dom.d.ts:429
+node_modules/typescript/lib/lib.dom.d.ts:448
 
 ___
 
@@ -165,7 +165,7 @@ Omit.iterationStart
 
 #### Defined in
 
-node_modules/typescript/lib/lib.dom.d.ts:431
+node_modules/typescript/lib/lib.dom.d.ts:450
 
 ___
 
@@ -179,7 +179,7 @@ Omit.iterations
 
 #### Defined in
 
-node_modules/typescript/lib/lib.dom.d.ts:432
+node_modules/typescript/lib/lib.dom.d.ts:451
 
 ___
 
@@ -193,4 +193,4 @@ Omit.playbackRate
 
 #### Defined in
 
-node_modules/typescript/lib/lib.dom.d.ts:433
+node_modules/typescript/lib/lib.dom.d.ts:452
