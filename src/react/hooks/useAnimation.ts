@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import {
   assign,
   getStyle,
@@ -24,6 +24,7 @@ import {
 } from "../../core/waapi";
 import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
 import { useStatic } from "./useStatic";
+import { useLatestRef } from "./useLatestRef";
 
 export type PlayOptionsWithArgs<Args = void> = PlayOptions & { args: Args };
 
@@ -163,8 +164,8 @@ export const useAnimation = <Args = void>(
   keyframe: TypedKeyframe | TypedKeyframe[] | GetKeyframeFunction<Args>,
   options?: AnimationOptions
 ): AnimationHandle<Args> => {
-  const keyframeRef = useRef(keyframe);
-  const optionsRef = useRef(options);
+  const keyframeRef = useLatestRef(keyframe);
+  const optionsRef = useLatestRef(options);
 
   const [handle, s] = useStatic((): [AnimationHandle<Args>, AnimationState] => {
     let target: Element | null = null;
@@ -233,8 +234,6 @@ export const useAnimation = <Args = void>(
   });
 
   useIsomorphicLayoutEffect(() => {
-    keyframeRef.current = keyframe;
-    optionsRef.current = options;
     if (
       options?.autoPlay &&
       // Keyframe function may have arguments, so don't handle it for now.

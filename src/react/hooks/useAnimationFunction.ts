@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { isSameObject } from "../../core/utils";
 import {
   TypedKeyframeEffectOptions,
@@ -14,8 +14,8 @@ import {
   WaitingAnimationEventName,
 } from "../../core/waapi";
 import type { BaseAnimationHandle } from "./useAnimation";
-import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
 import { useStatic } from "./useStatic";
+import { useLatestRef } from "./useLatestRef";
 
 /**
  * Handle of {@link useAnimationFunction}.
@@ -70,8 +70,8 @@ export const useAnimationFunction = <Args = void>(
   onUpdate: AnimationFunction<Args>,
   options?: AnimationFunctionOptions
 ): AnimationFunctionHandle<Args> => {
-  const onUpdateRef = useRef(onUpdate);
-  const optionsRef = useRef(options);
+  const onUpdateRef = useLatestRef(onUpdate);
+  const optionsRef = useLatestRef(options);
 
   const [handle, cleanup] = useStatic(
     (): [AnimationFunctionHandle<Args>, () => void] => {
@@ -133,11 +133,6 @@ export const useAnimationFunction = <Args = void>(
       return [externalHandle, externalHandle.cancel];
     }
   );
-
-  useIsomorphicLayoutEffect(() => {
-    onUpdateRef.current = onUpdate;
-    optionsRef.current = options;
-  });
 
   useEffect(() => cleanup, []);
 

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect } from "react";
 import {
   EXITED,
   EXITING,
@@ -16,6 +16,7 @@ import type {
   TypedKeyframe,
 } from "../../core";
 import { useStatic } from "./useStatic";
+import { useLatestRef } from "./useLatestRef";
 
 export interface TransitionAnimationHandle {
   (ref: Element | null): void;
@@ -47,7 +48,7 @@ export const useTransitionAnimation = (keyframes: {
     return acc;
   }, {} as { [key in TransitionState]: AnimationHandle | undefined });
 
-  const animationsRef = useRef(animations);
+  const animationsRef = useLatestRef(animations);
 
   const [animation, cleanup] = useStatic(
     (): [TransitionAnimationHandle, () => void] => {
@@ -74,10 +75,6 @@ export const useTransitionAnimation = (keyframes: {
       ];
     }
   );
-
-  useIsomorphicLayoutEffect(() => {
-    animationsRef.current = animations;
-  });
 
   useEffect(() => cleanup, []);
 
