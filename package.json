@@ -1,7 +1,7 @@
 {
   "name": "react-animatable",
   "version": "0.14.1",
-  "description": "A tiny(~1kB) animation hooks for React, built on Web Animations API.",
+  "description": "Tiny(~1kB) animation hooks for React, built on Web Animations API.",
   "main": "lib/index.js",
   "module": "lib/index.mjs",
   "types": "lib/index.d.ts",
