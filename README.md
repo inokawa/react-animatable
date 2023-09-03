@@ -33,6 +33,8 @@ If you use ESM and webpack 5, use react >= 18 to avoid [Can't resolve `react/jsx
 
 And in some legacy browsers that does not support Web Animations API, [you may need to use polyfill](#use-polyfill).
 
+If you use [ScrollTimeline](https://caniuse.com/?search=scrolltimeline) or [ViewTimeline](https://caniuse.com/?search=viewtimeline), check browser support.
+
 ## Usage
 
 1. Define your animation with `useAnimation` hook.

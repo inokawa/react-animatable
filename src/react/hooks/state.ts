@@ -4,6 +4,7 @@ import { createAnimation } from "../../core/waapi";
 export interface AnimationObject {
   readonly _keyframes: Keyframe[];
   readonly _options: KeyframeEffectOptions | undefined;
+  readonly _timeline: AnimationTimeline | undefined;
 }
 
 const animations = new WeakMap<AnimationObject, Animation>();
@@ -38,7 +39,13 @@ export const initAnimation = (
     }
     animation.cancel();
   }
-  const newAnimation = createAnimation(el, target._keyframes, target._options);
+
+  const newAnimation = createAnimation(
+    el,
+    target._keyframes,
+    target._options,
+    target._timeline
+  );
   animations.set(target, newAnimation);
   return newAnimation;
 };

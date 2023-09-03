@@ -58,14 +58,18 @@ export const getKeyframeKeys = (keyframes: TypedKeyframe[]): string[] =>
 export const createAnimation = (
   el: Element | null,
   keyframes: Keyframe[] | null,
-  options: KeyframeEffectOptions | undefined
+  options: KeyframeEffectOptions | undefined,
+  timeline?: AnimationTimeline
 ): Animation => {
   const modifiedOptions: KeyframeEffectOptions = {
     fill: "both",
     ...options,
   };
   try {
-    return new Animation(new KeyframeEffect(el, keyframes, modifiedOptions));
+    return new Animation(
+      new KeyframeEffect(el, keyframes, modifiedOptions),
+      timeline
+    );
   } catch (e) {
     // Fallback to Element.animate()
     return el!.animate(keyframes, modifiedOptions);

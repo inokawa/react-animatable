@@ -12,6 +12,18 @@
     "limit": "1.0 kB"
   },
   {
+    "name": "useScrollTimeline",
+    "path": "lib/index.mjs",
+    "import": "{ useScrollTimeline }",
+    "limit": "0.3 kB"
+  },
+  {
+    "name": "useViewTimeline",
+    "path": "lib/index.mjs",
+    "import": "{ useViewTimeline }",
+    "limit": "0.3 kB"
+  },
+  {
     "name": "useTransitionAnimation",
     "path": "lib/index.mjs",
     "import": "{ useTransitionAnimation }",

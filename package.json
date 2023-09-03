@@ -98,13 +98,15 @@
     "animation",
     "tween",
     "transition",
+    "timeline",
+    "scroll",
+    "view",
     "visualization",
     "svg",
     "css",
     "canvas",
     "d3",
-    "web-animations",
-    "nextjs"
+    "web-animations"
   ],
   "author": "inokawa <stratoooo-taster@yahoo.co.jp> (https://github.com/inokawa/)",
   "license": "MIT",
