@@ -4,12 +4,7 @@ import {
   TypedKeyframeEffectOptions,
 } from "../../core";
 
-export interface AnimationOptions extends TypedKeyframeEffectOptions {
-  /**
-   * If true, run animation automatically when keyframe or options changes.
-   */
-  autoPlay?: boolean;
-}
+export interface AnimationOptions extends TypedKeyframeEffectOptions {}
 
 export type AnimationDefinition<Args> = [
   keyframe: TypedKeyframe | TypedKeyframe[] | GetKeyframeFunction<Args>,

@@ -14,14 +14,12 @@ import {
   TypedKeyframe,
   GetKeyframeFunction,
 } from "../../core/waapi";
-import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
 import { useStatic } from "./useStatic";
 import { useLatestRef } from "./useLatestRef";
 import { AnimationDefinition } from "../types";
 import {
   deleteAnimation,
   getAnimation,
-  isEqual,
   AnimationObject,
   initAnimation,
 } from "./state";
@@ -108,8 +106,8 @@ export const useAnimation = <Args = void>(
 ): AnimationHandle<Args> => {
   const argsRef = useLatestRef(args);
 
-  const [handle, effect, mount] = useStatic(
-    (): [AnimationHandle<Args>, () => void, () => () => void] => {
+  const [handle, mount] = useStatic(
+    (): [AnimationHandle<Args>, () => () => void] => {
       let _target: Element | null = null;
       let _active: AnimationObject | undefined;
 
@@ -200,33 +198,9 @@ export const useAnimation = <Args = void>(
         }
       );
 
-      return [
-        externalHandle,
-        () => {
-          const [keyframe, options] = argsRef.current;
-          if (
-            options?.autoPlay &&
-            // Keyframe function may have arguments, so don't handle it for now.
-            typeof keyframe !== "function" &&
-            !(
-              _active &&
-              isEqual(
-                toArray(keyframe),
-                options,
-                _active._keyframes,
-                _active._options
-              )
-            )
-          ) {
-            (externalHandle as AnimationHandle<void>).play();
-          }
-        },
-        () => clean,
-      ];
+      return [externalHandle, () => clean];
     }
   );
-
-  useIsomorphicLayoutEffect(effect);
 
   useEffect(mount, []);
 
