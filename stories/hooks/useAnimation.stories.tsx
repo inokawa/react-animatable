@@ -1,11 +1,5 @@
 import { StoryObj } from "@storybook/react";
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   AnimationOptions,
   TypedEasing,
@@ -425,7 +419,7 @@ export const Mouse: StoryObj = {
 
       const onPointerMove = debounce((e: PointerEvent) => {
         move.play({ args: { x: e.clientX, y: e.clientY } });
-      }, 200);
+      }, 100);
       window.addEventListener("pointermove", onPointerMove);
       return () => {
         window.removeEventListener("pointermove", onPointerMove);
