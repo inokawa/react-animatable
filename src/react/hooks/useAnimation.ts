@@ -113,7 +113,9 @@ export const useAnimation = <Args = void>(
 
       const init = (args: Args) => {
         if (!_target) return;
-        const [keyframe, options] = argsRef.current;
+        const [keyframe, _options = {}] = argsRef.current;
+        const { timeline, ...options } = _options;
+
         const prevActive = _active;
 
         return initAnimation(
@@ -121,6 +123,7 @@ export const useAnimation = <Args = void>(
           (_active = {
             _keyframes: normalizeKeyframe(_target, keyframe, args),
             _options: options,
+            _timeline: timeline?._get(),
           }),
           prevActive
         );
