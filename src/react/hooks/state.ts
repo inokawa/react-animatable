@@ -1,4 +1,3 @@
-import { AnimationOptions } from "../..";
 import { isSameObject, isSameObjectArray } from "../../core/utils";
 import { createAnimation } from "../../core/waapi";
 
@@ -15,15 +14,10 @@ export const deleteAnimation = (target: AnimationObject) => {
   animations.delete(target);
 };
 
-export const isEqual = (
-  targetKeyframes: Keyframe[],
-  targetOptions: AnimationOptions | undefined,
-  keyframes: Keyframe[],
-  options: AnimationOptions | undefined
-): boolean => {
+const isEqual = (a: AnimationObject, b: AnimationObject): boolean => {
   return (
-    isSameObjectArray(keyframes, targetKeyframes) &&
-    isSameObject(options, targetOptions)
+    isSameObjectArray(a._keyframes, b._keyframes) &&
+    isSameObject(a._options, b._options)
   );
 };
 
@@ -38,14 +32,7 @@ export const initAnimation = (
     animations.delete(prevTarget);
 
     // Reuse animation if possible
-    if (
-      isEqual(
-        target._keyframes,
-        target._options,
-        prevTarget._keyframes,
-        prevTarget._options
-      )
-    ) {
+    if (isEqual(target, prevTarget)) {
       animations.set(target, animation);
       return animation;
     }
