@@ -15,7 +15,7 @@
     "name": "useTransitionAnimation",
     "path": "lib/index.mjs",
     "import": "{ useTransitionAnimation }",
-    "limit": "1.2 kB"
+    "limit": "1.3 kB"
   },
   {
     "name": "TransitionGroup",

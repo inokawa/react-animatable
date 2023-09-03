@@ -1,17 +1,7 @@
 import { useEffect } from "react";
+import { assign, getStyle, toArray } from "../../core/utils";
 import {
-  assign,
-  getStyle,
-  isSameObject,
-  isSameObjectArray,
-  toArray,
-} from "../../core/utils";
-import {
-  TypedKeyframeEffectOptions,
-  createAnimation,
-  GetKeyframeFunction,
   PlayOptions,
-  TypedKeyframe,
   _cancel,
   _waitFor,
   _finish,
@@ -21,10 +11,31 @@ import {
   _setRate,
   _setTime,
   WaitingAnimationEventName,
+  TypedKeyframe,
+  GetKeyframeFunction,
 } from "../../core/waapi";
 import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
 import { useStatic } from "./useStatic";
 import { useLatestRef } from "./useLatestRef";
+import { AnimationDefinition } from "../types";
+import {
+  deleteAnimation,
+  getAnimation,
+  isEqual,
+  AnimationObject,
+  initAnimation,
+} from "./state";
+
+const normalizeKeyframe = <Args>(
+  el: Element,
+  keyframe: TypedKeyframe | TypedKeyframe[] | GetKeyframeFunction<Args>,
+  args: Args
+): TypedKeyframe[] => {
+  if (typeof keyframe === "function") {
+    return keyframe(getStyle(el), args);
+  }
+  return toArray(keyframe);
+};
 
 export type PlayOptionsWithArgs<Args = void> = PlayOptions & { args: Args };
 
@@ -88,168 +99,136 @@ export interface AnimationHandle<Args = void>
   (ref: Element | null): void;
 }
 
-export interface AnimationOptions extends TypedKeyframeEffectOptions {
-  /**
-   * If true, run animation automatically when keyframe or options changes.
-   */
-  autoPlay?: boolean;
-}
-
-const normalizeKeyframe = <Args>(
-  el: Element,
-  keyframe: TypedKeyframe | TypedKeyframe[] | GetKeyframeFunction<Args>,
-  args: Args
-): TypedKeyframe[] => {
-  if (typeof keyframe === "function") {
-    return keyframe(getStyle(el), args);
-  }
-  return toArray(keyframe);
-};
-
-class AnimationState {
-  private _active:
-    | {
-        _animation: Animation;
-        _keyframes: TypedKeyframe[];
-        _options: AnimationOptions | undefined;
-      }
-    | undefined;
-
-  _init(
-    el: Element,
-    keyframes: TypedKeyframe[],
-    options: AnimationOptions | undefined
-  ): Animation {
-    if (this._active) {
-      // Reuse animation if possible
-      if (this._isConditionSame(keyframes, options)) {
-        return this._active._animation;
-      }
-      this._active._animation.cancel();
-    }
-    return (this._active = {
-      _animation: createAnimation(el, keyframes as Keyframe[], options),
-      _keyframes: keyframes,
-      _options: options,
-    })._animation;
-  }
-
-  _isConditionSame(
-    keyframes: TypedKeyframe[],
-    options: AnimationOptions | undefined
-  ): boolean {
-    if (!this._active) return false;
-    return (
-      isSameObjectArray(keyframes, this._active._keyframes) &&
-      isSameObject(options, this._active._options)
-    );
-  }
-
-  _get() {
-    return this._active?._animation;
-  }
-
-  _clear() {
-    if (!this._active) return;
-    this._active._animation.cancel();
-    this._active = undefined;
-  }
-}
-
 /**
  * A basic hook to use Web Animations API. See {@link AnimationHandle}.
  * @typeParam Args - argument type
  */
 export const useAnimation = <Args = void>(
-  keyframe: TypedKeyframe | TypedKeyframe[] | GetKeyframeFunction<Args>,
-  options?: AnimationOptions
+  ...args: AnimationDefinition<Args>
 ): AnimationHandle<Args> => {
-  const keyframeRef = useLatestRef(keyframe);
-  const optionsRef = useLatestRef(options);
+  const argsRef = useLatestRef(args);
 
-  const [handle, s] = useStatic((): [AnimationHandle<Args>, AnimationState] => {
-    let target: Element | null = null;
-    const state = new AnimationState();
+  const [handle, effect, mount] = useStatic(
+    (): [AnimationHandle<Args>, () => void, () => () => void] => {
+      let _target: Element | null = null;
+      let _active: AnimationObject | undefined;
 
-    const externalHandle: AnimationHandle<Args> = assign(
-      (ref: Element | null) => {
-        if (!(target = ref)) {
-          state._clear();
+      const init = (args: Args) => {
+        if (!_target) return;
+        const [keyframe, options] = argsRef.current;
+        const prevActive = _active;
+
+        return initAnimation(
+          _target,
+          (_active = {
+            _keyframes: normalizeKeyframe(_target, keyframe, args),
+            _options: options,
+          }),
+          prevActive
+        );
+      };
+      const clean = () => {
+        if (_active) {
+          deleteAnimation(_active);
         }
-      },
-      <BaseAnimationHandle<Args>>{
-        play: (...opts) => {
-          if (!target) return externalHandle;
-          const keyframes = normalizeKeyframe(
-            target,
-            keyframeRef.current,
-            ((opts[0] || {}) as { args?: Args }).args!
-          );
-          _play(state._init(target, keyframes, optionsRef.current), opts[0]);
-          return externalHandle;
-        },
-        reverse: () => {
-          _reverse(state._get());
-          return externalHandle;
-        },
-        cancel: () => {
-          _cancel(state._get());
-          return externalHandle;
-        },
-        finish: () => {
-          _finish(state._get());
-          return externalHandle;
-        },
-        pause: () => {
-          _pause(state._get());
-          return externalHandle;
-        },
-        setTime: (time) => {
-          let animation = state._get();
-          if (!animation) {
-            if (!target || typeof keyframeRef.current === "function") {
-              return externalHandle;
-            }
-            // Init animation in setTime to start animation without calling play
-            const keyframes = normalizeKeyframe(
-              target,
-              keyframeRef.current,
-              undefined
-            );
-            animation = state._init(target, keyframes, optionsRef.current);
+      };
+
+      const externalHandle: AnimationHandle<Args> = assign(
+        (ref: Element | null) => {
+          if (!(_target = ref)) {
+            clean();
           }
-          _setTime(animation, time);
-          return externalHandle;
         },
-        setPlaybackRate: (rate) => {
-          _setRate(state._get(), rate);
-          return externalHandle;
+        <BaseAnimationHandle<Args>>{
+          play: (...opts) => {
+            const animation = init(((opts[0] || {}) as { args?: Args }).args!);
+            if (animation) {
+              _play(animation);
+            }
+            return externalHandle;
+          },
+          reverse: () => {
+            if (_active) {
+              _reverse(getAnimation(_active));
+            }
+            return externalHandle;
+          },
+          cancel: () => {
+            if (_active) {
+              _cancel(getAnimation(_active));
+            }
+            return externalHandle;
+          },
+          finish: () => {
+            if (_active) {
+              _finish(getAnimation(_active));
+            }
+            return externalHandle;
+          },
+          pause: () => {
+            if (_active) {
+              _pause(getAnimation(_active));
+            }
+            return externalHandle;
+          },
+          setTime: (time) => {
+            if (_active) {
+              let animation = getAnimation(_active);
+              if (!animation) {
+                const [keyframe] = argsRef.current;
+                if (typeof keyframe === "function") {
+                  return externalHandle;
+                }
+                // Init animation in setTime to start animation without calling play
+                animation = init(undefined!);
+              }
+              _setTime(animation, time);
+            }
+            return externalHandle;
+          },
+          setPlaybackRate: (rate) => {
+            if (_active) {
+              _setRate(getAnimation(_active), rate);
+            }
+            return externalHandle;
+          },
+          waitFor: (event) => {
+            return _waitFor(_active && getAnimation(_active), event).then(
+              () => externalHandle
+            );
+          },
+        }
+      );
+
+      return [
+        externalHandle,
+        () => {
+          const [keyframe, options] = argsRef.current;
+          if (
+            options?.autoPlay &&
+            // Keyframe function may have arguments, so don't handle it for now.
+            typeof keyframe !== "function" &&
+            !(
+              _active &&
+              isEqual(
+                toArray(keyframe),
+                options,
+                _active._keyframes,
+                _active._options
+              )
+            )
+          ) {
+            (externalHandle as AnimationHandle<void>).play();
+          }
         },
-        waitFor: (event) =>
-          _waitFor(state._get(), event).then(() => externalHandle),
-      }
-    );
-
-    return [externalHandle, state];
-  });
-
-  useIsomorphicLayoutEffect(() => {
-    if (
-      options?.autoPlay &&
-      // Keyframe function may have arguments, so don't handle it for now.
-      typeof keyframe !== "function" &&
-      !s._isConditionSame(toArray(keyframe), options)
-    ) {
-      (handle as AnimationHandle<void>).play();
+        () => clean,
+      ];
     }
-  });
-
-  useEffect(
-    () => () => {
-      s._clear();
-    },
-    []
   );
+
+  useIsomorphicLayoutEffect(effect);
+
+  useEffect(mount, []);
 
   return handle;
 };
