@@ -29,7 +29,7 @@ Extended [options of KeyframeEffect](https://developer.mozilla.org/en-US/docs/We
 
 ### easing
 
-• `Optional` **easing**: `string`
+• `Optional` **easing**: [`TypedEasing`](../API.md#typedeasing)
 
 #### Inherited from
 
@@ -37,7 +37,7 @@ Extended [options of KeyframeEffect](https://developer.mozilla.org/en-US/docs/We
 
 #### Defined in
 
-[src/core/waapi.ts:40](https://github.com/inokawa/react-animatable/blob/23c2c4a/src/core/waapi.ts#L40)
+[src/core/waapi.ts:41](https://github.com/inokawa/react-animatable/blob/f732265/src/core/waapi.ts#L41)
 
 ___
 

@@ -12,7 +12,7 @@ Extended [options of KeyframeEffect](https://developer.mozilla.org/en-US/docs/We
 
 ### Properties
 
-- [autoPlay](AnimationOptions.md#autoplay)
+- [timeline](AnimationOptions.md#timeline)
 - [easing](AnimationOptions.md#easing)
 - [fill](AnimationOptions.md#fill)
 - [direction](AnimationOptions.md#direction)
@@ -28,21 +28,19 @@ Extended [options of KeyframeEffect](https://developer.mozilla.org/en-US/docs/We
 
 ## Properties
 
-### autoPlay
+### timeline
 
-• `Optional` **autoPlay**: `boolean`
-
-If true, run animation automatically when keyframe or options changes.
+• `Optional` **timeline**: [`TimelineDefinition`](TimelineDefinition.md)
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:95](https://github.com/inokawa/react-animatable/blob/23c2c4a/src/react/hooks/useAnimation.ts#L95)
+[src/react/types/index.ts:9](https://github.com/inokawa/react-animatable/blob/f732265/src/react/types/index.ts#L9)
 
 ___
 
 ### easing
 
-• `Optional` **easing**: `string`
+• `Optional` **easing**: [`TypedEasing`](../API.md#typedeasing)
 
 #### Inherited from
 
@@ -50,7 +48,7 @@ ___
 
 #### Defined in
 
-[src/core/waapi.ts:40](https://github.com/inokawa/react-animatable/blob/23c2c4a/src/core/waapi.ts#L40)
+[src/core/waapi.ts:41](https://github.com/inokawa/react-animatable/blob/f732265/src/core/waapi.ts#L41)
 
 ___
 
