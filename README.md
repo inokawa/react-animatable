@@ -4,16 +4,21 @@
 
 Tiny(~1kB) animation hooks for [React](https://github.com/facebook/react), built on [Web Animations API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API).
 
-<img src="./images/demo-chart.gif" width="350px" /><img src="./images/demo-mouse.gif" width="350px" />
+<img src="./images/demo-chart.gif" width="350px" /><img src="./images/demo-scroll.gif" width="350px" />
 
 ## Features
 
-- Performant animation driven by native [Web Animations API (WAAPI)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API).
 - Easy integration with a few lines of code. Works with any UI component libraries or CSS-in-JS libraries.
-- HTML, SVG, Canvas and anything can be animated.
-- Tiny. Each hooks are ~1kB gzipped and [the total is ~2kB gzipped](https://bundlephobia.com/package/react-animatable).
+- Performant animation driven by native [Web Animations API (WAAPI)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API). Also supporting [ScrollTimeline](https://developer.mozilla.org/en-US/docs/Web/API/ScrollTimeline) and [ViewTimeline](https://developer.mozilla.org/en-US/docs/Web/API/ViewTimeline).
 - Fully typed with [TypeScript](https://www.typescriptlang.org/), which is stricter than TypeScript's [lib.dom.d.ts](https://github.com/microsoft/TypeScript/blob/main/lib/lib.dom.d.ts).
-- Composable and declarative APIs based on React hook.
+- Tiny. Each hooks are ~1kB gzipped and [the total is ~2kB gzipped](https://bundlephobia.com/package/react-animatable).
+- HTML, SVG, Canvas and anything can be animated.
+
+## Motivation
+
+Animating something in React can be complicated than we expected, even with today's popular libraries. [In my previous works](#my-previous-experiments-deprecated), I tried finding out proper way to define animation in React but they didn't succeed.
+
+[Web Animations API (WAAPI)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API) looks like a promising way, because it's performant, it doesn't need JS runtime, it doesn't mutate style of DOM so it will not conflict with React's state, and it will become more convenient in the future ([ScrollTimeline](https://developer.mozilla.org/en-US/docs/Web/API/ScrollTimeline) and [ViewTimeline](https://developer.mozilla.org/en-US/docs/Web/API/ViewTimeline) is an example). However using raw WAAPI with React is bit tricky and having risks of memory leak. This library is what to solve the problem.
 
 ## Demo
 
