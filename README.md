@@ -16,9 +16,7 @@ Tiny(~1kB) animation hooks for [React](https://github.com/facebook/react), built
 
 ## Motivation
 
-Animating something in React can be complicated than we expected, even with today's popular libraries. [In my previous works](#my-previous-experiments-deprecated), I tried finding out proper way to define animation in React but they didn't succeed.
-
-[Web Animations API (WAAPI)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API) looks like a promising way, because it's performant, it doesn't need JS runtime, it doesn't mutate style of DOM so it will not conflict with React's state, and it will become more convenient in the future ([ScrollTimeline](https://developer.mozilla.org/en-US/docs/Web/API/ScrollTimeline) and [ViewTimeline](https://developer.mozilla.org/en-US/docs/Web/API/ViewTimeline) is an example). However using raw WAAPI with React is bit tricky and having risks of memory leak. This library is what to solve the problem.
+Animating something in React can be complicated than we expected, even with today's popular libraries. [Web Animations API (WAAPI)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API) looks like a brand-new promising way, because it's performant, it doesn't need JS runtime, it doesn't mutate style of DOM so it will not conflict with React's state, and it will become more convenient in the future ([ScrollTimeline](https://developer.mozilla.org/en-US/docs/Web/API/ScrollTimeline) and [ViewTimeline](https://developer.mozilla.org/en-US/docs/Web/API/ViewTimeline) is an example). However using raw WAAPI with React is bit tricky and having risks of memory leak. This library is what to solve the problem.
 
 ## Demo
 
