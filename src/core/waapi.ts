@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import { getKeys, uniqBy } from "./utils";
+import { getKeys, uniq } from "./utils";
 
 export type AnimatableCSSProperties = Omit<
   CSSProperties,
@@ -42,7 +42,7 @@ export interface TypedKeyframeEffectOptions
 }
 
 export const getKeyframeKeys = (keyframes: TypedKeyframe[]): string[] =>
-  uniqBy(keyframes.flatMap(getKeys)).reduce((acc, k) => {
+  uniq(keyframes.flatMap(getKeys)).reduce((acc, k) => {
     if (["offset", "easing", "composite"].includes(k)) {
       // Ignore
     } else if (k === "cssFloat") {

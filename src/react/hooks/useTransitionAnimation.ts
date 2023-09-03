@@ -8,7 +8,7 @@ import {
   TransitionStateContext,
 } from "../components/TransitionGroup";
 import { AnimationHandle, useAnimation } from "./useAnimation";
-import { getKeys } from "../../core/utils";
+import { getKeys, noop } from "../../core/utils";
 import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
 import type {
   TypedKeyframeEffectOptions,
@@ -108,9 +108,9 @@ export const useTransitionAnimation = (keyframes: {
           notify(EXITED);
         }
       })
-      .catch(() => {
-        // ignore uncaught promise error
-      });
+      .catch(
+        noop // ignore uncaught promise error
+      );
   }, [currentState]);
 
   return animation;

@@ -26,26 +26,26 @@ export const initAnimation = (
   el: Element,
   target: AnimationObject,
   prevTarget: AnimationObject | undefined
-) => {
-  const animation = prevTarget && getAnimation(prevTarget);
+): Animation => {
+  const prevAnimation = prevTarget && getAnimation(prevTarget);
 
-  if (animation) {
+  if (prevAnimation) {
     animations.delete(prevTarget);
 
     // Reuse animation if possible
     if (isEqual(target, prevTarget)) {
-      animations.set(target, animation);
-      return animation;
+      animations.set(target, prevAnimation);
+      return prevAnimation;
     }
-    animation.cancel();
+    prevAnimation.cancel();
   }
 
-  const newAnimation = createAnimation(
+  const animation = createAnimation(
     el,
     target._keyframes,
     target._options,
     target._timeline
   );
-  animations.set(target, newAnimation);
-  return newAnimation;
+  animations.set(target, animation);
+  return animation;
 };

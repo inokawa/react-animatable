@@ -6,7 +6,6 @@ export default { component: useViewTimeline };
 
 export const Document: StoryObj = {
   render: () => {
-    const timeline = useViewTimeline();
     const animate = useAnimation(
       [
         { opacity: 0, transform: "scaleX(0)" },
@@ -14,7 +13,7 @@ export const Document: StoryObj = {
       ],
       {
         duration: 200,
-        timeline,
+        timeline: useViewTimeline(),
       }
     );
     useEffect(() => {

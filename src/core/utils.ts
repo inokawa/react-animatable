@@ -24,6 +24,6 @@ export const isSameObjectArray = (
 export const toArray = <T>(items: T | T[]): T[] =>
   isArray(items) ? items : [items];
 
-export const uniqBy = <T extends string | number>(items: T[]): T[] => {
+export const uniq = <T extends string | number>(items: T[]): T[] => {
   return Array.from(new Set(items));
 };
