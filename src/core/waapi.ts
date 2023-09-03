@@ -19,8 +19,9 @@ export type TypedKeyframe = Pick<
   "composite" | "easing" | "offset"
 > & { [key: `--${string}`]: string | number } & AnimatableCSSProperties;
 
-export type TypedEasing = NonNullable<
-  Exclude<CSSProperties["animationTimingFunction"], CSSProperties["all"]>
+export type TypedEasing = Exclude<
+  CSSProperties["animationTimingFunction"],
+  CSSProperties["all"] | undefined
 >;
 
 /**
