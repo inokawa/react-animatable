@@ -17,11 +17,11 @@ export type AnimationDefinition<Args> = [
 export interface TimelineDefinition {
   (el: Element | null): void;
   /**
-   * @private
+   * @internal
    */
   _type: typeof SCROLL_TIMELINE | typeof VIEW_TIMELINE;
   /**
-   * @private
+   * @internal
    */
   _get: () => AnimationTimeline;
 }
