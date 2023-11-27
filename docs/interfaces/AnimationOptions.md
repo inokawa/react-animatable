@@ -34,7 +34,7 @@ Extended [options of KeyframeEffect](https://developer.mozilla.org/en-US/docs/We
 
 #### Defined in
 
-[src/react/types/index.ts:9](https://github.com/inokawa/react-animatable/blob/f732265/src/react/types/index.ts#L9)
+[src/react/types/index.ts:9](https://github.com/inokawa/react-animatable/blob/b843664/src/react/types/index.ts#L9)
 
 ___
 
@@ -48,7 +48,7 @@ ___
 
 #### Defined in
 
-[src/core/waapi.ts:41](https://github.com/inokawa/react-animatable/blob/f732265/src/core/waapi.ts#L41)
+[src/core/waapi.ts:41](https://github.com/inokawa/react-animatable/blob/b843664/src/core/waapi.ts#L41)
 
 ___
 
