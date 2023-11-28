@@ -16,16 +16,23 @@ const toMap = (elements: ReactElement[]) =>
     return acc;
   }, {} as { [key: string]: ReactElement });
 
+/** @internal */
 export type TransitionState = "update" | "enter" | "exit";
+/** @internal */
 export const TransitionStateContext = createContext<TransitionState>("update");
 
+/** @internal */
 export const NOT_EXIT = 0;
+/** @internal */
 export const EXITING = 1;
+/** @internal */
 export const EXITED = 2;
+/** @internal */
 export type TransitionExitState =
   | typeof NOT_EXIT
   | typeof EXITING
   | typeof EXITED;
+/** @internal */
 export const TransitionNotifierContext =
   createContext<(state: TransitionExitState) => void>(noop);
 

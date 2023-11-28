@@ -41,6 +41,9 @@ export interface TypedKeyframeEffectOptions
   easing?: TypedEasing;
 }
 
+/**
+ * @internal
+ */
 export const getKeyframeKeys = (keyframes: TypedKeyframe[]): string[] =>
   uniq(keyframes.flatMap(getKeys)).reduce((acc, k) => {
     if (["offset", "easing", "composite"].includes(k)) {
@@ -55,6 +58,9 @@ export const getKeyframeKeys = (keyframes: TypedKeyframe[]): string[] =>
     return acc;
   }, [] as string[]);
 
+/**
+ * @internal
+ */
 export const createAnimation = (
   el: Element | null,
   keyframes: Keyframe[] | null,
@@ -83,6 +89,9 @@ export type PlayOptions = {
   restart?: boolean;
 };
 
+/**
+ * @internal
+ */
 export const _play = (animation: Animation, opts: PlayOptions = {}) => {
   // Reset reversed playback direction if completed
   if (animation.playbackRate < 0 && animation.playState === "finished") {
@@ -93,22 +102,41 @@ export const _play = (animation: Animation, opts: PlayOptions = {}) => {
   }
   animation.play();
 };
+
+/**
+ * @internal
+ */
 export const _reverse = (animation: Animation | undefined) => {
   if (!animation) return;
   animation.reverse();
 };
+
+/**
+ * @internal
+ */
 export const _cancel = (animation: Animation | undefined) => {
   if (!animation) return;
   animation.cancel();
 };
+
+/**
+ * @internal
+ */
 export const _finish = (animation: Animation | undefined) => {
   if (!animation) return;
   animation.finish();
 };
+
+/**
+ * @internal
+ */
 export const _pause = (animation: Animation | undefined) => {
   if (!animation) return;
   animation.pause();
 };
+// /**
+//  * @internal
+//  */
 // export const _persist = (
 //   animation: Animation | undefined,
 //   el: Element,
@@ -127,6 +155,9 @@ export const _pause = (animation: Animation | undefined) => {
 //   }
 //   animation.cancel();
 // };
+/**
+ * @internal
+ */
 export const _setTime = (
   animation: Animation | undefined,
   arg: number | ((endTime: number) => number)
@@ -137,6 +168,10 @@ export const _setTime = (
       ? arg(animation.effect!.getComputedTiming().endTime! as number)
       : arg;
 };
+
+/**
+ * @internal
+ */
 export const _setRate = (
   animation: Animation | undefined,
   arg: number | ((prevRate: number) => number)
@@ -148,6 +183,10 @@ export const _setRate = (
 };
 
 export type WaitingAnimationEventName = "finish" | "reverseFinish";
+
+/**
+ * @internal
+ */
 export const _waitFor = (
   animation: Animation | undefined,
   name: WaitingAnimationEventName
