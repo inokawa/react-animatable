@@ -1,6 +1,9 @@
 import { isSameObject, isSameObjectArray } from "../../core/utils";
 import { createAnimation } from "../../core/waapi";
 
+/**
+ * @internal
+ */
 export interface AnimationObject {
   readonly _keyframes: Keyframe[];
   readonly _options: KeyframeEffectOptions | undefined;
@@ -9,7 +12,14 @@ export interface AnimationObject {
 
 const animations = new WeakMap<AnimationObject, Animation>();
 
+/**
+ * @internal
+ */
 export const getAnimation = (target: AnimationObject) => animations.get(target);
+
+/**
+ * @internal
+ */
 export const deleteAnimation = (target: AnimationObject) => {
   getAnimation(target)?.cancel();
   animations.delete(target);
@@ -22,6 +32,9 @@ const isEqual = (a: AnimationObject, b: AnimationObject): boolean => {
   );
 };
 
+/**
+ * @internal
+ */
 export const initAnimation = (
   el: Element,
   target: AnimationObject,
