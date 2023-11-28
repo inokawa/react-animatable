@@ -62,7 +62,7 @@ A component to manage enter/update/exit of its children by key, that works simil
 
 #### Defined in
 
-[src/react/components/TransitionGroup.tsx:74](https://github.com/inokawa/react-animatable/blob/b843664/src/react/components/TransitionGroup.tsx#L74)
+[src/react/components/TransitionGroup.tsx:81](https://github.com/inokawa/react-animatable/blob/3ce964a/src/react/components/TransitionGroup.tsx#L81)
 
 ___
 
@@ -90,7 +90,7 @@ A basic hook to use Web Animations API. See [AnimationHandle](interfaces/Animati
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:104](https://github.com/inokawa/react-animatable/blob/b843664/src/react/hooks/useAnimation.ts#L104)
+[src/react/hooks/useAnimation.ts:104](https://github.com/inokawa/react-animatable/blob/3ce964a/src/react/hooks/useAnimation.ts#L104)
 
 ___
 
@@ -119,7 +119,7 @@ Same as [useAnimation](API.md#useanimation), but it drives function not React el
 
 #### Defined in
 
-[src/react/hooks/useAnimationFunction.ts:69](https://github.com/inokawa/react-animatable/blob/b843664/src/react/hooks/useAnimationFunction.ts#L69)
+[src/react/hooks/useAnimationFunction.ts:69](https://github.com/inokawa/react-animatable/blob/3ce964a/src/react/hooks/useAnimationFunction.ts#L69)
 
 ___
 
@@ -145,7 +145,7 @@ This hook must be used under [TransitionGroup](API.md#transitiongroup) component
 
 #### Defined in
 
-[src/react/hooks/useTransitionAnimation.ts:38](https://github.com/inokawa/react-animatable/blob/b843664/src/react/hooks/useTransitionAnimation.ts#L38)
+[src/react/hooks/useTransitionAnimation.ts:38](https://github.com/inokawa/react-animatable/blob/3ce964a/src/react/hooks/useTransitionAnimation.ts#L38)
 
 ___
 
@@ -165,7 +165,7 @@ ___
 
 #### Defined in
 
-[src/react/hooks/useScrollTimeline.ts:11](https://github.com/inokawa/react-animatable/blob/b843664/src/react/hooks/useScrollTimeline.ts#L11)
+[src/react/hooks/useScrollTimeline.ts:11](https://github.com/inokawa/react-animatable/blob/3ce964a/src/react/hooks/useScrollTimeline.ts#L11)
 
 ___
 
@@ -185,7 +185,7 @@ ___
 
 #### Defined in
 
-[src/react/hooks/useViewTimeline.ts:16](https://github.com/inokawa/react-animatable/blob/b843664/src/react/hooks/useViewTimeline.ts#L16)
+[src/react/hooks/useViewTimeline.ts:16](https://github.com/inokawa/react-animatable/blob/3ce964a/src/react/hooks/useViewTimeline.ts#L16)
 
 ## Type Aliases
 
@@ -197,7 +197,7 @@ Strictly typed [Keyframe](https://developer.mozilla.org/en-US/docs/Web/API/Web_A
 
 #### Defined in
 
-[src/core/waapi.ts:17](https://github.com/inokawa/react-animatable/blob/b843664/src/core/waapi.ts#L17)
+[src/core/waapi.ts:17](https://github.com/inokawa/react-animatable/blob/3ce964a/src/core/waapi.ts#L17)
 
 ___
 
@@ -207,7 +207,7 @@ ___
 
 #### Defined in
 
-[src/core/waapi.ts:22](https://github.com/inokawa/react-animatable/blob/b843664/src/core/waapi.ts#L22)
+[src/core/waapi.ts:22](https://github.com/inokawa/react-animatable/blob/3ce964a/src/core/waapi.ts#L22)
 
 ___
 
@@ -227,7 +227,7 @@ A function to define keyframe dynamically
 
 #### Defined in
 
-[src/core/waapi.ts:32](https://github.com/inokawa/react-animatable/blob/b843664/src/core/waapi.ts#L32)
+[src/core/waapi.ts:32](https://github.com/inokawa/react-animatable/blob/3ce964a/src/core/waapi.ts#L32)
 
 ___
 
@@ -237,7 +237,7 @@ ___
 
 #### Defined in
 
-[src/core/waapi.ts:4](https://github.com/inokawa/react-animatable/blob/b843664/src/core/waapi.ts#L4)
+[src/core/waapi.ts:4](https://github.com/inokawa/react-animatable/blob/3ce964a/src/core/waapi.ts#L4)
 
 ___
 
@@ -253,7 +253,7 @@ ___
 
 #### Defined in
 
-[src/core/waapi.ts:79](https://github.com/inokawa/react-animatable/blob/b843664/src/core/waapi.ts#L79)
+[src/core/waapi.ts:85](https://github.com/inokawa/react-animatable/blob/3ce964a/src/core/waapi.ts#L85)
 
 ___
 
@@ -263,7 +263,7 @@ ___
 
 #### Defined in
 
-[src/core/waapi.ts:150](https://github.com/inokawa/react-animatable/blob/b843664/src/core/waapi.ts#L150)
+[src/core/waapi.ts:185](https://github.com/inokawa/react-animatable/blob/3ce964a/src/core/waapi.ts#L185)
 
 ___
 
@@ -279,7 +279,7 @@ ___
 
 #### Defined in
 
-[src/react/hooks/useAnimation.ts:38](https://github.com/inokawa/react-animatable/blob/b843664/src/react/hooks/useAnimation.ts#L38)
+[src/react/hooks/useAnimation.ts:38](https://github.com/inokawa/react-animatable/blob/3ce964a/src/react/hooks/useAnimation.ts#L38)
 
 ___
 
@@ -291,7 +291,7 @@ Non nullable [ComputedEffectTiming](https://developer.mozilla.org/en-US/docs/Web
 
 #### Defined in
 
-[src/react/hooks/useAnimationFunction.ts:32](https://github.com/inokawa/react-animatable/blob/b843664/src/react/hooks/useAnimationFunction.ts#L32)
+[src/react/hooks/useAnimationFunction.ts:32](https://github.com/inokawa/react-animatable/blob/3ce964a/src/react/hooks/useAnimationFunction.ts#L32)
 
 ___
 
@@ -312,7 +312,7 @@ In this callback you can update any state or ref in JS.
 
 #### Defined in
 
-[src/react/hooks/useAnimationFunction.ts:42](https://github.com/inokawa/react-animatable/blob/b843664/src/react/hooks/useAnimationFunction.ts#L42)
+[src/react/hooks/useAnimationFunction.ts:42](https://github.com/inokawa/react-animatable/blob/3ce964a/src/react/hooks/useAnimationFunction.ts#L42)
 
 ___
 
@@ -322,7 +322,7 @@ ___
 
 #### Defined in
 
-[src/react/hooks/useTransitionAnimation.ts:28](https://github.com/inokawa/react-animatable/blob/b843664/src/react/hooks/useTransitionAnimation.ts#L28)
+[src/react/hooks/useTransitionAnimation.ts:28](https://github.com/inokawa/react-animatable/blob/3ce964a/src/react/hooks/useTransitionAnimation.ts#L28)
 
 ___
 
@@ -338,7 +338,7 @@ ___
 
 #### Defined in
 
-[src/react/types/index.ts:12](https://github.com/inokawa/react-animatable/blob/b843664/src/react/types/index.ts#L12)
+[src/react/types/index.ts:12](https://github.com/inokawa/react-animatable/blob/3ce964a/src/react/types/index.ts#L12)
 
 ___
 
@@ -348,7 +348,7 @@ ___
 
 #### Defined in
 
-[src/react/types/index.ts:29](https://github.com/inokawa/react-animatable/blob/b843664/src/react/types/index.ts#L29)
+[src/react/types/index.ts:29](https://github.com/inokawa/react-animatable/blob/3ce964a/src/react/types/index.ts#L29)
 
 ___
 
@@ -358,4 +358,4 @@ ___
 
 #### Defined in
 
-[src/react/types/index.ts:31](https://github.com/inokawa/react-animatable/blob/b843664/src/react/types/index.ts#L31)
+[src/react/types/index.ts:31](https://github.com/inokawa/react-animatable/blob/3ce964a/src/react/types/index.ts#L31)
