@@ -8,7 +8,7 @@ module.exports = {
   addons: ["@storybook/addon-storysource"],
   framework: {
     name: "@storybook/react-webpack5",
-    options: {},
+    options: { builder: { useSWC: true } },
   },
   refs: {
     "@chakra-ui/react": {
@@ -16,21 +16,6 @@ module.exports = {
     },
   },
   webpackFinal: async (config) => {
-    config.module.rules = config.module.rules.filter(
-      (r) => !r.use?.[0]?.loader?.includes("babel-loader")
-    );
-    config.module.rules.unshift({
-      test: /\.(mjs|tsx?|jsx?)$/,
-      use: [
-        {
-          loader: "esbuild-loader",
-          options: {
-            target: 'es2020',
-            implementation: require("esbuild"),
-          },
-        },
-      ],
-    });
     // for vanilla-extract
     config.plugins.push(new VanillaExtractPlugin(), new MiniCssExtractPlugin());
     config.module.rules.push({
@@ -78,5 +63,17 @@ module.exports = {
       ],
     });
     return config;
+  },
+  swc: (config) => {
+    return {
+      ...config,
+      jsc: {
+        ...config.jsc,
+        transform: {
+          ...config.jsc?.tranform,
+          react: { ...config.jsc?.tranform?.react, runtime: "automatic" },
+        },
+      },
+    };
   },
 };
