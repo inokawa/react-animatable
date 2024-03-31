@@ -70,7 +70,7 @@
     "react-merge-refs": "2.0.2",
     "rimraf": "5.0.5",
     "rollup": "3.28.1",
-    "rollup-plugin-banner2": "1.2.2",
+    "rollup-plugin-banner2": "1.2.3",
     "size-limit": "8.2.6",
     "storybook": "7.6.6",
     "styled-components": "6.0.7",
