@@ -3,14 +3,11 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 /** @type { import('@storybook/react-webpack5').StorybookConfig } */
 export default {
-  stories: [
-    "../stories/**/*.stories.mdx",
-    "../stories/**/*.stories.@(js|jsx|ts|tsx)",
-  ],
-  addons: ["@storybook/addon-storysource"],
+  stories: ["../stories/**/*.mdx", "../stories/**/*.stories.@(js|jsx|ts|tsx)"],
+  addons: ["@storybook/addon-storysource", "@storybook/addon-webpack5-compiler-swc"],
   framework: {
     name: "@storybook/react-webpack5",
-    options: { builder: { useSWC: true } },
+    options: { builder: {} },
   },
   refs: {
     "@chakra-ui/react": {
