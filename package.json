@@ -54,7 +54,7 @@
     "@storybook/react": "^8.0.9",
     "@storybook/react-webpack5": "^8.0.9",
     "@storybook/source-loader": "^8.0.9",
-    "@storybook/test-runner": "^0.17.0",
+    "@storybook/test-runner": "^0.18.0",
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.0",
     "@vanilla-extract/css": "^1.9.2",
