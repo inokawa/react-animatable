@@ -29,19 +29,6 @@ export default {
         },
       ],
     });
-    // for compiled
-    config.module.rules.push({
-      test: /\/compiled\.stories.tsx$/,
-      use: [
-        {
-          loader: "@compiled/webpack-loader",
-          options: {
-            parserBabelPlugins: ["jsx", "typescript"],
-            importReact: false,
-          },
-        },
-      ],
-    });
     // for linaria
     config.module.rules.push({
       test: /\/linaria\.stories.tsx$/,
