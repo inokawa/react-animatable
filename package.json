@@ -74,7 +74,7 @@
     "storybook": "^8.0.9",
     "styled-components": "^6.0.7",
     "ts-jest": "^29.0.3",
-    "typedoc": "^0.25.12",
+    "typedoc": "^0.26.0",
     "typedoc-plugin-markdown": "^3.16.0",
     "typescript": "^5.4.5",
     "wait-on": "^7.0.1",
