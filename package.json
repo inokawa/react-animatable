@@ -42,7 +42,7 @@
     "@linaria/webpack-loader": "^4.1.15",
     "@mantine/core": "^5.8.4",
     "@mantine/hooks": "^5.8.4",
-    "@mui/material": "^5.10.16",
+    "@mui/material": "^6.0.0",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.6",
