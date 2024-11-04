@@ -1,7 +1,7 @@
 /**
- * @jest-environment node
+ * @vitest-environment node
  */
-import { it, describe, expect } from "@jest/globals";
+import { it, describe, expect } from "vitest";
 import { useEffect, useState } from "react";
 import { renderToString, renderToStaticMarkup } from "react-dom/server";
 import {
