@@ -39,7 +39,7 @@
     "@linaria/babel-preset": "^4.3.0",
     "@linaria/core": "^4.2.8",
     "@linaria/react": "^4.3.6",
-    "@linaria/webpack-loader": "^4.1.15",
+    "@linaria/webpack-loader": "^5.0.0",
     "@mantine/core": "^5.8.4",
     "@mantine/hooks": "^5.8.4",
     "@mui/material": "^5.10.16",
