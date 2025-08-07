@@ -108,20 +108,20 @@ export const useAnimation = <Args = void>(
 
   const [handle, mount] = useStatic(
     (): [AnimationHandle<Args>, () => () => void] => {
-      let _target: Element | null = null;
-      let _active: AnimationObject | undefined;
+      let element: Element | null = null;
+      let active: AnimationObject | undefined;
 
       const init = (args: Args) => {
-        if (!_target) return;
+        if (!element) return;
         const [keyframe, _options = {}] = argsRef.current;
         const { timeline, ...options } = _options;
 
-        const prevActive = _active;
+        const prevActive = active;
 
         return initAnimation(
-          _target,
-          (_active = {
-            _keyframes: normalizeKeyframe(_target, keyframe, args),
+          element,
+          (active = {
+            _keyframes: normalizeKeyframe(element, keyframe, args),
             _options: options,
             _timeline: timeline?._get(),
           }),
@@ -129,14 +129,14 @@ export const useAnimation = <Args = void>(
         );
       };
       const clean = () => {
-        if (_active) {
-          deleteAnimation(_active);
+        if (active) {
+          deleteAnimation(active);
         }
       };
 
       const externalHandle: AnimationHandle<Args> = assign(
         (ref: Element | null) => {
-          if (!(_target = ref)) {
+          if (!(element = ref)) {
             clean();
           }
         },
@@ -149,31 +149,31 @@ export const useAnimation = <Args = void>(
             return externalHandle;
           },
           reverse: () => {
-            if (_active) {
-              _reverse(getAnimation(_active));
+            if (active) {
+              _reverse(getAnimation(active));
             }
             return externalHandle;
           },
           cancel: () => {
-            if (_active) {
-              _cancel(getAnimation(_active));
+            if (active) {
+              _cancel(getAnimation(active));
             }
             return externalHandle;
           },
           finish: () => {
-            if (_active) {
-              _finish(getAnimation(_active));
+            if (active) {
+              _finish(getAnimation(active));
             }
             return externalHandle;
           },
           pause: () => {
-            if (_active) {
-              _pause(getAnimation(_active));
+            if (active) {
+              _pause(getAnimation(active));
             }
             return externalHandle;
           },
           setTime: (time) => {
-            let animation = _active && getAnimation(_active);
+            let animation = active && getAnimation(active);
             if (!animation) {
               const [keyframe] = argsRef.current;
               if (typeof keyframe === "function") {
@@ -187,13 +187,13 @@ export const useAnimation = <Args = void>(
             return externalHandle;
           },
           setPlaybackRate: (rate) => {
-            if (_active) {
-              _setRate(getAnimation(_active), rate);
+            if (active) {
+              _setRate(getAnimation(active), rate);
             }
             return externalHandle;
           },
           waitFor: (event) => {
-            return _waitFor(_active && getAnimation(_active), event).then(
+            return _waitFor(active && getAnimation(active), event).then(
               () => externalHandle
             );
           },
