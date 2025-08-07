@@ -140,7 +140,7 @@ export const useAnimation = <Args = void>(
             clean();
           }
         },
-        <BaseAnimationHandle<Args>>{
+        {
           play: (...opts) => {
             const animation = init(((opts[0] || {}) as { args?: Args }).args!);
             if (animation) {
@@ -197,7 +197,7 @@ export const useAnimation = <Args = void>(
               () => externalHandle
             );
           },
-        }
+        } satisfies BaseAnimationHandle<Args>
       );
 
       return [externalHandle, () => clean];
