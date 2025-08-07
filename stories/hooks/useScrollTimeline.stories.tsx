@@ -1,4 +1,4 @@
-import { StoryObj } from "@storybook/react-webpack5";
+import { StoryObj } from "@storybook/react-vite";
 import React, { useEffect } from "react";
 import { useAnimation, useScrollTimeline } from "../../src";
 

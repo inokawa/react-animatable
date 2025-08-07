@@ -1,4 +1,4 @@
-import { StoryObj } from "@storybook/react-webpack5";
+import { StoryObj } from "@storybook/react-vite";
 import React from "react";
 import Button from "@mui/material/Button";
 import { useAnimation } from "../../../src";

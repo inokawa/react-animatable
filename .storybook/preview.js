@@ -4,7 +4,7 @@
 // Element.prototype.animate = undefined;
 // import("web-animations-js");
 
-/** @type { import('@storybook/react-webpack5').Preview } */
+/** @type { import('@storybook/react-vite').Preview } */
 export default {
   parameters: {
     actions: { argTypesRegex: "^on[A-Z].*" },
