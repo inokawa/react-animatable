@@ -1,37 +1,37 @@
 [
   {
     "name": "useAnimation",
-    "path": "lib/index.mjs",
+    "path": "lib/index.js",
     "import": "{ useAnimation }",
     "limit": "1.0 kB"
   },
   {
     "name": "useAnimationFunction",
-    "path": "lib/index.mjs",
+    "path": "lib/index.js",
     "import": "{ useAnimationFunction }",
     "limit": "1.0 kB"
   },
   {
     "name": "useScrollTimeline",
-    "path": "lib/index.mjs",
+    "path": "lib/index.js",
     "import": "{ useScrollTimeline }",
     "limit": "0.3 kB"
   },
   {
     "name": "useViewTimeline",
-    "path": "lib/index.mjs",
+    "path": "lib/index.js",
     "import": "{ useViewTimeline }",
     "limit": "0.3 kB"
   },
   {
     "name": "useTransitionAnimation",
-    "path": "lib/index.mjs",
+    "path": "lib/index.js",
     "import": "{ useTransitionAnimation }",
     "limit": "1.3 kB"
   },
   {
     "name": "TransitionGroup",
-    "path": "lib/index.mjs",
+    "path": "lib/index.js",
     "import": "{ TransitionGroup }",
     "limit": "0.5 kB"
   }
