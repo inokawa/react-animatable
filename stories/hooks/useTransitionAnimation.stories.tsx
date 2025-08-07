@@ -1,4 +1,4 @@
-import { StoryObj } from "@storybook/react";
+import { StoryObj } from "@storybook/react-webpack5";
 import React, { useEffect, useRef, useState } from "react";
 import {
   TransitionGroup,

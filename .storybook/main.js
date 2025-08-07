@@ -1,10 +1,10 @@
-const { VanillaExtractPlugin } = require("@vanilla-extract/webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+import { VanillaExtractPlugin } from "@vanilla-extract/webpack-plugin";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
 
 /** @type { import('@storybook/react-webpack5').StorybookConfig } */
 export default {
   stories: ["../stories/**/*.mdx", "../stories/**/*.stories.@(js|jsx|ts|tsx)"],
-  addons: ["@storybook/addon-storysource", "@storybook/addon-webpack5-compiler-swc"],
+  addons: ["@storybook/addon-webpack5-compiler-swc", "@storybook/addon-docs"],
   framework: {
     name: "@storybook/react-webpack5",
     options: { builder: {} },

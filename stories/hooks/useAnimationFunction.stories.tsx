@@ -1,4 +1,4 @@
-import { StoryObj } from "@storybook/react";
+import { StoryObj } from "@storybook/react-webpack5";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useAnimationFunction } from "../../src";
 

@@ -1,4 +1,4 @@
-import { StoryObj } from "@storybook/react";
+import { StoryObj } from "@storybook/react-webpack5";
 import React from "react";
 import { MantineProvider, Button } from "@mantine/core";
 import { useAnimation } from "../../../src";
