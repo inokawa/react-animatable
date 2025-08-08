@@ -27,7 +27,7 @@ export const Playground: StoryObj = {
   render: () => {
     const [duration, setDuration] = useState(1000);
     const [iteration, setIteration] = useState(2);
-    const [direction, setDirection] = useState<PlaybackDirection>("alternate");
+    const [direction, setDirection] = useState<PlaybackDirection>("normal");
     const [easing, setEasing] = useState<TypedEasing>("cubic-bezier");
     const [cubicBezierValues, setCubicBezierValues] = useState<
       [number, number, number, number]
