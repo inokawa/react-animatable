@@ -88,6 +88,7 @@ export const Playground: StoryObj = {
           <button onClick={animate.pause}>pause</button>
           <button onClick={animate.reverse}>reverse</button>
           <button onClick={animate.finish}>finish</button>
+          <button onClick={animate.cancel}>cancel</button>
         </div>
         <div>
           <label>
