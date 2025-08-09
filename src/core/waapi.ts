@@ -106,32 +106,28 @@ export const _play = (animation: Animation, opts: PlayOptions = {}) => {
 /**
  * @internal
  */
-export const _reverse = (animation: Animation | undefined) => {
-  if (!animation) return;
+export const _reverse = (animation: Animation) => {
   animation.reverse();
 };
 
 /**
  * @internal
  */
-export const _cancel = (animation: Animation | undefined) => {
-  if (!animation) return;
+export const _cancel = (animation: Animation) => {
   animation.cancel();
 };
 
 /**
  * @internal
  */
-export const _finish = (animation: Animation | undefined) => {
-  if (!animation) return;
+export const _finish = (animation: Animation) => {
   animation.finish();
 };
 
 /**
  * @internal
  */
-export const _pause = (animation: Animation | undefined) => {
-  if (!animation) return;
+export const _pause = (animation: Animation) => {
   animation.pause();
 };
 // /**
@@ -159,10 +155,9 @@ export const _pause = (animation: Animation | undefined) => {
  * @internal
  */
 export const _setTime = (
-  animation: Animation | undefined,
+  animation: Animation,
   arg: number | ((endTime: number) => number)
 ) => {
-  if (!animation) return;
   animation.currentTime =
     typeof arg === "function"
       ? arg(animation.effect!.getComputedTiming().endTime! as number)
@@ -173,10 +168,9 @@ export const _setTime = (
  * @internal
  */
 export const _setRate = (
-  animation: Animation | undefined,
+  animation: Animation,
   arg: number | ((prevRate: number) => number)
 ) => {
-  if (!animation) return;
   animation.updatePlaybackRate(
     typeof arg === "function" ? arg(animation.playbackRate) : arg
   );

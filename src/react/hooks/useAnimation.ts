@@ -111,6 +111,7 @@ export const useAnimation = <Args = void>(
       let element: Element | null = null;
       let active: AnimationObject | undefined;
 
+      const currentAnimation = () => active && getAnimation(active);
       const init = (args: Args) => {
         if (!element) return;
         const [keyframe, _options = {}] = argsRef.current;
@@ -149,31 +150,35 @@ export const useAnimation = <Args = void>(
             return externalHandle;
           },
           reverse: () => {
-            if (active) {
-              _reverse(getAnimation(active));
+            const animation = currentAnimation();
+            if (animation) {
+              _reverse(animation);
             }
             return externalHandle;
           },
           cancel: () => {
-            if (active) {
-              _cancel(getAnimation(active));
+            const animation = currentAnimation();
+            if (animation) {
+              _cancel(animation);
             }
             return externalHandle;
           },
           finish: () => {
-            if (active) {
-              _finish(getAnimation(active));
+            const animation = currentAnimation();
+            if (animation) {
+              _finish(animation);
             }
             return externalHandle;
           },
           pause: () => {
-            if (active) {
-              _pause(getAnimation(active));
+            const animation = currentAnimation();
+            if (animation) {
+              _pause(animation);
             }
             return externalHandle;
           },
           setTime: (time) => {
-            let animation = active && getAnimation(active);
+            let animation = currentAnimation();
             if (!animation) {
               const [keyframe] = argsRef.current;
               if (typeof keyframe === "function") {
@@ -182,20 +187,22 @@ export const useAnimation = <Args = void>(
               // Init animation in setTime to start animation without calling play
               animation = init(undefined!);
             }
-            _setTime(animation, time);
+            if (animation) {
+              _setTime(animation, time);
+            }
 
             return externalHandle;
           },
           setPlaybackRate: (rate) => {
-            if (active) {
-              _setRate(getAnimation(active), rate);
+            const animation = currentAnimation();
+            if (animation) {
+              _setRate(animation, rate);
             }
             return externalHandle;
           },
           waitFor: (event) => {
-            return _waitFor(active && getAnimation(active), event).then(
-              () => externalHandle
-            );
+            const animation = currentAnimation();
+            return _waitFor(animation, event).then(() => externalHandle);
           },
         } satisfies BaseAnimationHandle<Args>
       );

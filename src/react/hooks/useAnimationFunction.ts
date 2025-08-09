@@ -108,23 +108,38 @@ export const useAnimationFunction = <Args = void>(
           return externalHandle;
         },
         cancel: () => {
-          _cancel(getAnimation());
+          const animation = getAnimation();
+          if (animation) {
+            _cancel(animation);
+          }
           return externalHandle;
         },
         finish: () => {
-          _finish(getAnimation());
+          const animation = getAnimation();
+          if (animation) {
+            _finish(animation);
+          }
           return externalHandle;
         },
         pause: () => {
-          _pause(getAnimation());
+          const animation = getAnimation();
+          if (animation) {
+            _pause(animation);
+          }
           return externalHandle;
         },
         setTime: (time) => {
-          _setTime(getAnimation(), time);
+          const animation = getAnimation();
+          if (animation) {
+            _setTime(animation, time);
+          }
           return externalHandle;
         },
         setPlaybackRate: (rate) => {
-          _setRate(getAnimation(), rate);
+          const animation = getAnimation();
+          if (animation) {
+            _setRate(animation, rate);
+          }
           return externalHandle;
         },
         waitFor: (event: WaitingAnimationEventName) =>
