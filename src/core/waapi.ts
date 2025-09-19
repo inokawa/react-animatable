@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import { getKeys, uniq } from "./utils";
+import { getKeys, uniq } from "./utils.js";
 
 export type AnimatableCSSProperties = Omit<
   CSSProperties,

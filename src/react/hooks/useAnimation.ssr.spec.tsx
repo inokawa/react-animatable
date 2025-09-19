@@ -4,7 +4,7 @@
 import { it, describe, expect } from "vitest";
 import { useEffect } from "react";
 import { renderToString, renderToStaticMarkup } from "react-dom/server";
-import { useAnimation } from "./useAnimation";
+import { useAnimation } from "./useAnimation.js";
 
 describe("SSR", () => {
   const Comp = () => {

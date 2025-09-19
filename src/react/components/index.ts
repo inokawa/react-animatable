@@ -1,2 +1,2 @@
-export { TransitionGroup } from "./TransitionGroup";
-export type { TransitionGroupProps } from "./TransitionGroup";
+export { TransitionGroup } from "./TransitionGroup.js";
+export type { TransitionGroupProps } from "./TransitionGroup.js";

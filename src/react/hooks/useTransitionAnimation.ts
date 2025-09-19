@@ -6,17 +6,17 @@ import {
   TransitionNotifierContext,
   TransitionState,
   TransitionStateContext,
-} from "../components/TransitionGroup";
-import { AnimationHandle, useAnimation } from "./useAnimation";
-import { getKeys, noop } from "../../core/utils";
-import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
+} from "../components/TransitionGroup.js";
+import { AnimationHandle, useAnimation } from "./useAnimation.js";
+import { getKeys, noop } from "../../core/utils.js";
+import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect.js";
 import type {
   TypedKeyframeEffectOptions,
   GetKeyframeFunction,
   TypedKeyframe,
-} from "../../core";
-import { useStatic } from "./useStatic";
-import { useLatestRef } from "./useLatestRef";
+} from "../../core/index.js";
+import { useStatic } from "./useStatic.js";
+import { useLatestRef } from "./useLatestRef.js";
 
 export interface TransitionAnimationHandle {
   (ref: Element | null): void;

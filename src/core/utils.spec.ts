@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { isSameObject, isSameObjectArray } from "./utils";
+import { isSameObject, isSameObjectArray } from "./utils.js";
 
 describe("isSameObject", () => {
   it("should return true if the objects are same", () => {

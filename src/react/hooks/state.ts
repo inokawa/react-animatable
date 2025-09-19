@@ -1,5 +1,5 @@
-import { isSameObject, isSameObjectArray } from "../../core/utils";
-import { createAnimation } from "../../core/waapi";
+import { isSameObject, isSameObjectArray } from "../../core/utils.js";
+import { createAnimation } from "../../core/waapi.js";
 
 /**
  * @internal

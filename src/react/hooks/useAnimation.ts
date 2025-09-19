@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { assign, getStyle, toArray } from "../../core/utils";
+import { assign, getStyle, toArray } from "../../core/utils.js";
 import {
   PlayOptions,
   _cancel,
@@ -13,16 +13,16 @@ import {
   WaitingAnimationEventName,
   TypedKeyframe,
   GetKeyframeFunction,
-} from "../../core/waapi";
-import { useStatic } from "./useStatic";
-import { useLatestRef } from "./useLatestRef";
-import { AnimationDefinition } from "../types";
+} from "../../core/waapi.js";
+import { useStatic } from "./useStatic.js";
+import { useLatestRef } from "./useLatestRef.js";
+import { AnimationDefinition } from "../types/index.js";
 import {
   deleteAnimation,
   getAnimation,
   AnimationObject,
   initAnimation,
-} from "./state";
+} from "./state.js";
 
 const normalizeKeyframe = <Args>(
   el: Element,
