@@ -7,7 +7,7 @@ import { renderToString, renderToStaticMarkup } from "react-dom/server";
 import {
   useAnimationFunction,
   ComputedTimingContext,
-} from "./useAnimationFunction";
+} from "./useAnimationFunction.js";
 
 describe("SSR", () => {
   const Comp = () => {

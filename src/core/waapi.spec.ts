@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { getKeyframeKeys } from "./waapi";
+import { getKeyframeKeys } from "./waapi.js";
 
 describe("getKeyframeKeys", () => {
   it("normal", () => {

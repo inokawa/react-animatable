@@ -1,8 +1,8 @@
-import { assign } from "../../core/utils";
-import { ScrollTimelineAxis, TimelineDefinition } from "../types";
-import { SCROLL_TIMELINE } from "../types/internal";
-import { useLatestRef } from "./useLatestRef";
-import { useStatic } from "./useStatic";
+import { assign } from "../../core/utils.js";
+import { ScrollTimelineAxis, TimelineDefinition } from "../types/index.js";
+import { SCROLL_TIMELINE } from "../types/internal.js";
+import { useLatestRef } from "./useLatestRef.js";
+import { useStatic } from "./useStatic.js";
 
 export interface ScrollTimelineOpts {
   axis?: ScrollTimelineAxis;

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { isSameObject } from "../../core/utils";
+import { isSameObject } from "../../core/utils.js";
 import {
   TypedKeyframeEffectOptions,
   createAnimation,
@@ -12,10 +12,10 @@ import {
   _setRate,
   _setTime,
   WaitingAnimationEventName,
-} from "../../core/waapi";
-import type { BaseAnimationHandle } from "./useAnimation";
-import { useStatic } from "./useStatic";
-import { useLatestRef } from "./useLatestRef";
+} from "../../core/waapi.js";
+import type { BaseAnimationHandle } from "./useAnimation.js";
+import { useStatic } from "./useStatic.js";
+import { useLatestRef } from "./useLatestRef.js";
 
 /**
  * Handle of {@link useAnimationFunction}.

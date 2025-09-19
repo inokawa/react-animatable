@@ -8,7 +8,7 @@ import {
   ReactElement,
   useCallback,
 } from "react";
-import { noop } from "../../core/utils";
+import { noop } from "../../core/utils.js";
 
 const toMap = (elements: ReactElement[]) =>
   elements.reduce((acc, e, i) => {

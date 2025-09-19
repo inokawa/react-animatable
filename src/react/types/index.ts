@@ -2,8 +2,8 @@ import {
   GetKeyframeFunction,
   TypedKeyframe,
   TypedKeyframeEffectOptions,
-} from "../../core";
-import { SCROLL_TIMELINE, VIEW_TIMELINE } from "./internal";
+} from "../../core/index.js";
+import { SCROLL_TIMELINE, VIEW_TIMELINE } from "./internal.js";
 
 export interface AnimationOptions extends TypedKeyframeEffectOptions {
   timeline?: TimelineDefinition;
