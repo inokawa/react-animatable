@@ -1,5 +1,5 @@
 import { assign } from "../../core/utils.js";
-import {
+import type {
   ScrollTimelineAxis,
   TimelineDefinition,
   ViewTimelineInset,

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { assign, getStyle, toArray } from "../../core/utils.js";
 import {
-  PlayOptions,
+  type PlayOptions,
   _cancel,
   _waitFor,
   _finish,
@@ -10,17 +10,17 @@ import {
   _reverse,
   _setRate,
   _setTime,
-  WaitingAnimationEventName,
-  TypedKeyframe,
-  GetKeyframeFunction,
+  type WaitingAnimationEventName,
+  type TypedKeyframe,
+  type GetKeyframeFunction,
 } from "../../core/waapi.js";
 import { useStatic } from "./useStatic.js";
 import { useLatestRef } from "./useLatestRef.js";
-import { AnimationDefinition } from "../types/index.js";
+import type { AnimationDefinition } from "../types/index.js";
 import {
   deleteAnimation,
   getAnimation,
-  AnimationObject,
+  type AnimationObject,
   initAnimation,
 } from "./state.js";
 

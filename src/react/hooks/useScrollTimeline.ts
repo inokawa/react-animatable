@@ -1,5 +1,5 @@
 import { assign } from "../../core/utils.js";
-import { ScrollTimelineAxis, TimelineDefinition } from "../types/index.js";
+import type { ScrollTimelineAxis, TimelineDefinition } from "../types/index.js";
 import { SCROLL_TIMELINE } from "../types/internal.js";
 import { useLatestRef } from "./useLatestRef.js";
 import { useStatic } from "./useStatic.js";

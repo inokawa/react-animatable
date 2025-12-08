@@ -5,7 +5,7 @@ import {
   Children,
   useEffect,
   useState,
-  ReactElement,
+  type ReactElement,
   useCallback,
 } from "react";
 import { noop } from "../../core/utils.js";

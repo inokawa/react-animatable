@@ -4,10 +4,10 @@ import {
   EXITING,
   NOT_EXIT,
   TransitionNotifierContext,
-  TransitionState,
+  type TransitionState,
   TransitionStateContext,
 } from "../components/TransitionGroup.js";
-import { AnimationHandle, useAnimation } from "./useAnimation.js";
+import { type AnimationHandle, useAnimation } from "./useAnimation.js";
 import { getKeys, noop } from "../../core/utils.js";
 import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect.js";
 import type {

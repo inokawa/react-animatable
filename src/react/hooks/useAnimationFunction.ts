@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { isSameObject } from "../../core/utils.js";
 import {
-  TypedKeyframeEffectOptions,
+  type TypedKeyframeEffectOptions,
   createAnimation,
   _cancel,
   _waitFor,
@@ -11,7 +11,7 @@ import {
   _reverse,
   _setRate,
   _setTime,
-  WaitingAnimationEventName,
+  type WaitingAnimationEventName,
 } from "../../core/waapi.js";
 import type { BaseAnimationHandle } from "./useAnimation.js";
 import { useStatic } from "./useStatic.js";

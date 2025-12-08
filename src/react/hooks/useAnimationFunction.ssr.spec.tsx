@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { renderToString, renderToStaticMarkup } from "react-dom/server";
 import {
   useAnimationFunction,
-  ComputedTimingContext,
+  type ComputedTimingContext,
 } from "./useAnimationFunction.js";
 
 describe("SSR", () => {
