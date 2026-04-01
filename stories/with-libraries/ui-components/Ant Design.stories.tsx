@@ -1,4 +1,4 @@
-import { StoryObj } from "@storybook/react-vite";
+import type { StoryObj } from "@storybook/react-vite";
 import React from "react";
 import { Button } from "antd";
 import { useAnimation } from "../../../src";

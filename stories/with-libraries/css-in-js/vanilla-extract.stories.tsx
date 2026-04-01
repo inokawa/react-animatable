@@ -1,4 +1,4 @@
-import { StoryObj } from "@storybook/react-vite";
+import type { StoryObj } from "@storybook/react-vite";
 import React, { useEffect } from "react";
 import { useAnimation } from "../../../src";
 import { myStyle } from "./vanilla-extract.css";

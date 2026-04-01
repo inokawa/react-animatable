@@ -1,9 +1,9 @@
-import { StoryObj } from "@storybook/react-vite";
+import type { StoryObj } from "@storybook/react-vite";
 import React, { useCallback, useEffect, useState } from "react";
 import {
-  AnimationOptions,
-  TypedEasing,
-  TypedKeyframe,
+  type AnimationOptions,
+  type TypedEasing,
+  type TypedKeyframe,
   useAnimation,
 } from "../../src";
 import { mergeRefs } from "react-merge-refs";
@@ -53,13 +53,13 @@ export const Playground: StoryObj = {
           easing === "cubic-bezier"
             ? `cubic-bezier(${cubicBezierValues.join(",")})`
             : easing === "steps"
-            ? `steps(${stepsValues.join(",")})`
-            : easing,
+              ? `steps(${stepsValues.join(",")})`
+              : easing,
         direction: direction,
         iterations: iteration,
         delay,
         endDelay,
-      }
+      },
     );
 
     useEffect(() => {
@@ -320,7 +320,7 @@ const Bar = ({
           target,
         ]
       : [target],
-    { duration: 150, easing: "ease-out", delay: i * 100 }
+    { duration: 150, easing: "ease-out", delay: i * 100 },
   );
 
   useEffect(() => {
@@ -402,7 +402,7 @@ export const Mouse: StoryObj = {
         duration: 1000,
         iterations: Infinity,
         easing: "ease-in-out",
-      }
+      },
     );
     const move = useAnimation<{ x: number; y: number }>(
       (prev, pos) => [
@@ -412,7 +412,7 @@ export const Mouse: StoryObj = {
       {
         duration: 400,
         easing: "ease-in-out",
-      }
+      },
     );
 
     useEffect(() => {
@@ -452,7 +452,7 @@ export const Toggle: StoryObj = {
   render: () => {
     const animate = useAnimation(
       { transform: "translate3d(400px, 0, 0)" },
-      { duration: 800, easing: "ease-in-out" }
+      { duration: 800, easing: "ease-in-out" },
     );
 
     useEffect(() => {
@@ -501,7 +501,7 @@ export const Path: StoryObj = {
         easing: "ease-in-out",
         iterations: Infinity,
         direction: "alternate",
-      }
+      },
     );
 
     useEffect(() => {
@@ -527,7 +527,7 @@ export const ThreeDimentional: StoryObj = {
       {
         duration: 1000,
         iterations: Infinity,
-      }
+      },
     );
 
     useEffect(() => {
@@ -611,7 +611,7 @@ export const Sequence: StoryObj = {
   render: () => {
     const animate = useAnimation<string>(
       (prev, color) => [{ fill: prev.fill }, { fill: color }],
-      { duration: 600, easing: "ease-out" }
+      { duration: 600, easing: "ease-out" },
     );
 
     const onClickAll = useCallback(async () => {
@@ -677,7 +677,7 @@ const WavedRect = ({ i }: { i: number }) => {
       { transform: "translateY(0) scaleX(.8)" },
       { transform: "translateY(95vh) scaleX(1)" },
     ],
-    { ...baseTiming, duration: 2500 }
+    { ...baseTiming, duration: 2500 },
   );
   const opacity = useAnimation([{ opacity: 1 }, { opacity: 0 }], {
     ...baseTiming,
@@ -685,7 +685,7 @@ const WavedRect = ({ i }: { i: number }) => {
   });
   const color = useAnimation(
     [{ backgroundColor: "rgb(239, 239, 255)" }, { backgroundColor: "#e4c349" }],
-    { ...baseTiming, duration: 3000 }
+    { ...baseTiming, duration: 3000 },
   );
 
   useEffect(() => {
@@ -743,7 +743,7 @@ export const Countdown: StoryObj = {
         delay: 0,
         iterations: 1000,
         direction: "alternate",
-      }
+      },
     );
     const boomAnimation = useAnimation(
       [
@@ -771,7 +771,7 @@ export const Countdown: StoryObj = {
         easing: "ease-out",
         delay: 0,
         iterations: 1,
-      }
+      },
     );
 
     useEffect(() => {

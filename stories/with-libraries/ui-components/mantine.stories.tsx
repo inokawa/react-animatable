@@ -1,4 +1,4 @@
-import { StoryObj } from "@storybook/react-vite";
+import type { StoryObj } from "@storybook/react-vite";
 import React from "react";
 import { MantineProvider, Button } from "@mantine/core";
 import { useAnimation } from "../../../src";

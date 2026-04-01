@@ -1,8 +1,8 @@
-import { StoryObj } from "@storybook/react-vite";
+import type { StoryObj } from "@storybook/react-vite";
 import React, { useEffect, useRef, useState } from "react";
 import {
   TransitionGroup,
-  AnimationOptions,
+  type AnimationOptions,
   useTransitionAnimation,
 } from "../../src";
 
