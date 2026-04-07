@@ -1,0 +1,1 @@
+import{n as e}from"./chunk-zsgVPwQN.js";function t(){return t=Object.assign?Object.assign.bind():function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var r in n)Object.prototype.hasOwnProperty.call(n,r)&&(e[r]=n[r])}return e},t.apply(this,arguments)}var n=e((()=>{}));export{n,t};
