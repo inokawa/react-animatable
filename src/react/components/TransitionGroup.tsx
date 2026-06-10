@@ -11,15 +11,19 @@ import {
 import { noop } from "../../core/utils.js";
 
 const toMap = (elements: ReactElement[]) =>
-  elements.reduce((acc, e, i) => {
-    acc[e.key || i] = e;
-    return acc;
-  }, {} as { [key: string]: ReactElement });
+  elements.reduce(
+    (acc, e, i) => {
+      acc[e.key || i] = e;
+      return acc;
+    },
+    {} as { [key: string]: ReactElement },
+  );
 
 /** @internal */
 export type TransitionState = "update" | "enter" | "exit";
 /** @internal */
-export const TransitionStateContext = createContext<TransitionState>("update");
+export const TransitionStateContext =
+  /*#__PURE__*/ createContext<TransitionState>("update");
 
 /** @internal */
 export const NOT_EXIT = 0;
@@ -34,7 +38,7 @@ export type TransitionExitState =
   | typeof EXITED;
 /** @internal */
 export const TransitionNotifierContext =
-  createContext<(state: TransitionExitState) => void>(noop);
+  /*#__PURE__*/ createContext<(state: TransitionExitState) => void>(noop);
 
 const Provider = ({
   _state: state,
@@ -98,7 +102,7 @@ export const TransitionGroup = ({
     if (elemsByKey[key]) {
       // update
       res.push(
-        <Provider key={key} _state="update" _element={elemsByKey[key]!} />
+        <Provider key={key} _state="update" _element={elemsByKey[key]!} />,
       );
     } else {
       // exit
